@@ -1,0 +1,125 @@
+unit uLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TfmLogin = class(TForm)
+    pnFundo: TPanel;
+    Label1: TLabel;
+    PassWord: TLabel;
+    sbOK: TSpeedButton;
+    sbClose: TSpeedButton;
+    edPassword: TEdit;
+    edUser: TEdit;
+    Image1: TImage;
+    Label2: TLabel;
+    Panel1: TPanel;
+    sbClick: TSpeedButton;
+    qUSer: TFDQuery;
+    qUSerID: TIntegerField;
+    qUSerUSER_NAME: TStringField;
+    qUSerPASSWORD: TStringField;
+    qUSerUSER_TYPE: TStringField;
+    procedure sbCloseClick(Sender: TObject);
+    procedure sbOKClick(Sender: TObject);
+    procedure GoMenu;
+    procedure sbClickClick(Sender: TObject);
+  private
+    procedure GoPasswordUser;
+  public
+  end;
+
+var
+  fmLogin: TfmLogin;
+
+implementation
+
+{$R *.dfm}
+
+uses uUser, uPassword, uTables, uMenu;
+
+procedure TfmLogin.sbClickClick(Sender: TObject);
+begin
+ GoPasswordUser;
+end;
+
+procedure TfmLogin.sbCloseClick(Sender: TObject);
+begin
+ Application.Terminate;
+end;
+
+procedure TfmLogin.sbOKClick(Sender: TObject);
+begin
+  if (Trim(edUser.Text) = '') then
+  begin
+    MessageDlg('The user is empty!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  if (Trim(edPassword.Text) = '')then
+  begin
+    MessageDlg('The password is empty!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  qUSer.Close;
+  qUSer.SQL.Clear;
+  with qUSer.SQL do
+  begin
+    Add(' SELECT ID, ' +
+        '        USER_NAME, ' +
+        '        PASSWORD, ' +
+        '        USER_TYPE ' +
+        ' FROM USERS ' +
+        ' WHERE USER_NAME = :USER ' +
+        ' AND PASSWORD = :PASS ');
+  end;
+  qUSer.ParamByName('USER').AsString := edUser.Text;
+  qUSer.ParamByName('PASS').AsString := edPassword.Text;
+  qUSer.Open;
+
+  if qUSer.IsEmpty then
+  begin
+    MessageDlg('Access denied!', mtError, [mbClose], 0);
+    Exit;
+  end else begin
+    ables.sUser := qUSerUSER_TYPE.AsString;
+    GoMenu;
+  end;
+end;
+
+procedure TfmLogin.GoPasswordUser;
+begin
+  Application.CreateForm(TfmPassword,fmPassword);
+  try
+    fmPassword.ShowModal;
+    if fmPassword.ModalResult = mrOk then
+    begin
+      Application.CreateForm(TfmUser,fmUser);
+      try
+        fmUser.ShowModal;
+      finally
+        FreeAndNil(fmUser);
+      end;
+    end;
+  finally
+    FreeAndNil(fmPassword);
+  end;
+end;
+
+procedure TfmLogin.GoMenu;
+begin
+  Application.CreateForm(TfmMenu,fmMenu);
+  try
+    fmMenu.ShowModal;
+  finally
+    FreeAndNil(fmMenu);
+  end;
+end;
+
+end.

@@ -1,0 +1,39 @@
+unit uTables;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Comp.DataSet;
+
+type
+  TTables = class(TDataModule)
+    FDConnection: TFDConnection;
+    qUSer: TFDQuery;
+    qUSerID: TIntegerField;
+    qUSerUSER_NAME: TStringField;
+    qUSerPASSWORD: TStringField;
+    qUSerUSER_TYPE: TStringField;
+  private
+    { Private declarations }
+  public
+    sUser: String;
+  end;
+
+var
+  Tables: TTables;
+
+implementation
+
+{$R *.dfm}
+
+{ TYPES OF USER
+   SUPORT   - S
+   ADM      - A
+   USER     - U
+   GUEST    - G
+   CUSTOMER - C
+   SELLER   - SE }
+
+end.
