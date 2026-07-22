@@ -29,6 +29,7 @@ type
     procedure sbOKClick(Sender: TObject);
     procedure GoMenu;
     procedure sbClickClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     procedure GoPasswordUser;
   public
@@ -45,12 +46,12 @@ uses uUser, uPassword, uTables, uMenu;
 
 procedure TfmLogin.sbClickClick(Sender: TObject);
 begin
- GoPasswordUser;
+  GoPasswordUser;
 end;
 
 procedure TfmLogin.sbCloseClick(Sender: TObject);
 begin
- Application.Terminate;
+  Application.Terminate;
 end;
 
 procedure TfmLogin.sbOKClick(Sender: TObject);
@@ -109,6 +110,21 @@ begin
     end;
   finally
     FreeAndNil(fmPassword);
+  end;
+end;
+
+procedure TfmLogin.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    Key := 0;
+    sbOKClick(Sender);
+  end;
+
+  if Key = VK_ESCAPE then
+  begin
+    Key := 0;
+    sbCloseClick(Sender);
   end;
 end;
 

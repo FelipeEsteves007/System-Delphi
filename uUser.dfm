@@ -3,8 +3,8 @@ object fmUser: TfmUser
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  ClientHeight = 322
-  ClientWidth = 545
+  ClientHeight = 170
+  ClientWidth = 425
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,21 +13,21 @@ object fmUser: TfmUser
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 545
+    Width = 425
     Height = 49
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -367
-    ExplicitWidth = 1008
+    ExplicitLeft = -4
     object Label1: TLabel
-      Left = 64
-      Top = 5
+      Left = 57
+      Top = 3
       Width = 31
       Height = 15
       Caption = 'USER'
@@ -39,8 +39,8 @@ object fmUser: TfmUser
       ParentFont = False
     end
     object Label3: TLabel
-      Left = 183
-      Top = 5
+      Left = 246
+      Top = 3
       Width = 68
       Height = 15
       Caption = 'PASSWORD'
@@ -52,10 +52,10 @@ object fmUser: TfmUser
       ParentFont = False
     end
     object Label4: TLabel
-      Left = 8
-      Top = 5
+      Left = 5
+      Top = 3
       Width = 32
-      Height = 15
+      Height = 16
       Caption = 'CODE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
@@ -64,28 +64,32 @@ object fmUser: TfmUser
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object dbeUSUARIO: TDBEdit
-      Left = 62
-      Top = 20
-      Width = 110
+    object dbeCODE: TDBEdit
+      Left = 5
+      Top = 22
+      Width = 46
       Height = 21
+      TabStop = False
       CharCase = ecUpperCase
-      DataField = 'USUARIO'
+      DataField = 'ID'
+      DataSource = dsUser
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      ReadOnly = True
       TabOrder = 0
     end
-    object dbeSENHA: TDBEdit
-      Left = 181
-      Top = 20
-      Width = 110
+    object dbePASS: TDBEdit
+      Left = 246
+      Top = 22
+      Width = 169
       Height = 21
       CharCase = ecUpperCase
-      DataField = 'SENHA'
+      DataField = 'PASSWORD'
+      DataSource = dsUser
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -95,44 +99,42 @@ object fmUser: TfmUser
       PasswordChar = '*'
       TabOrder = 1
     end
-    object dbeCODIGO: TDBEdit
-      Left = 8
-      Top = 20
-      Width = 45
+    object dbeUSER: TDBEdit
+      Left = 57
+      Top = 22
+      Width = 183
       Height = 21
-      TabStop = False
       CharCase = ecUpperCase
-      DataField = 'CODIGO'
+      DataField = 'USER_NAME'
+      DataSource = dsUser
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      ReadOnly = True
       TabOrder = 2
     end
   end
   object pnRodape: TPanel
     Left = 0
-    Top = 280
-    Width = 545
+    Top = 128
+    Width = 425
     Height = 42
     Align = alBottom
     BevelWidth = 2
     Color = clGradientInactiveCaption
     ParentBackground = False
     TabOrder = 1
-    ExplicitLeft = -367
-    ExplicitTop = 448
-    ExplicitWidth = 1008
+    ExplicitTop = 280
+    ExplicitWidth = 545
     object sbNew: TSpeedButton
       AlignWithMargins = True
       Left = 7
       Top = 2
-      Width = 90
+      Width = 63
       Height = 38
-      Hint = 'Novo Registro'
+      Hint = 'New user'
       Margins.Left = 5
       Margins.Top = 0
       Margins.Right = 0
@@ -149,15 +151,15 @@ object fmUser: TfmUser
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      ExplicitHeight = 44
+      OnClick = sbNewClick
     end
     object sbRecord: TSpeedButton
       AlignWithMargins = True
-      Left = 102
+      Left = 75
       Top = 2
-      Width = 90
+      Width = 63
       Height = 38
-      Hint = 'Gravar Registro'
+      Hint = 'Salve user'
       Margins.Left = 5
       Margins.Top = 0
       Margins.Right = 0
@@ -174,15 +176,15 @@ object fmUser: TfmUser
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      ExplicitHeight = 44
+      OnClick = sbRecordClick
     end
-    object sbCReg: TSpeedButton
+    object sbCancel: TSpeedButton
       AlignWithMargins = True
-      Left = 197
+      Left = 143
       Top = 2
-      Width = 97
+      Width = 63
       Height = 38
-      Hint = 'Cancelar Edi'#231#227'o'
+      Hint = 'Cancel edit'
       Margins.Left = 5
       Margins.Top = 0
       Margins.Right = 0
@@ -198,14 +200,16 @@ object fmUser: TfmUser
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
+      OnClick = sbCancelClick
+      ExplicitTop = 3
     end
     object sbDelete: TSpeedButton
       AlignWithMargins = True
-      Left = 299
+      Left = 211
       Top = 2
-      Width = 90
+      Width = 63
       Height = 38
-      Hint = 'Exluir Registro'
+      Hint = 'Delete user'
       Margins.Left = 5
       Margins.Top = 0
       Margins.Right = 0
@@ -222,15 +226,15 @@ object fmUser: TfmUser
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      ExplicitLeft = 292
-      ExplicitHeight = 44
+      OnClick = sbDeleteClick
     end
     object sbLeft: TSpeedButton
       AlignWithMargins = True
-      Left = 392
+      Left = 277
       Top = 2
       Width = 36
       Height = 38
+      Hint = 'Prior'
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -246,14 +250,15 @@ object fmUser: TfmUser
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
+      OnClick = sbLeftClick
       ExplicitLeft = 438
       ExplicitTop = 1
     end
     object sbClose: TSpeedButton
       AlignWithMargins = True
-      Left = 466
+      Left = 352
       Top = 2
-      Width = 69
+      Width = 63
       Height = 38
       Margins.Left = 0
       Margins.Top = 0
@@ -269,14 +274,15 @@ object fmUser: TfmUser
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = sbCloseClick
-      ExplicitLeft = 460
+      ExplicitLeft = 346
     end
     object sbRight: TSpeedButton
       AlignWithMargins = True
-      Left = 431
+      Left = 316
       Top = 2
       Width = 36
       Height = 38
+      Hint = 'Next'
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -292,6 +298,7 @@ object fmUser: TfmUser
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
+      OnClick = sbRightClick
       ExplicitLeft = 438
       ExplicitTop = 1
     end
@@ -299,69 +306,78 @@ object fmUser: TfmUser
   object Panel2: TPanel
     Left = 0
     Top = 49
-    Width = 545
-    Height = 231
+    Width = 425
+    Height = 79
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 48
-    ExplicitWidth = 563
-    object cbADM: TDBCheckBox
-      Left = 6
-      Top = -1
-      Width = 123
-      Height = 17
-      Caption = 'ADM'
-      DataField = 'ADMINISTRADOR'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = False
-      TabOrder = 0
-      ValueChecked = 'S'
-      ValueUnchecked = 'N'
+    ExplicitLeft = -4
+    ExplicitHeight = 36
+  end
+  object DBRadioGroup1: TDBRadioGroup
+    Left = 11
+    Top = 49
+    Width = 404
+    Height = 78
+    Caption = 'USERS'
+    DataField = 'USER_TYPE'
+    DataSource = dsUser
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Items.Strings = (
+      'ADM'
+      'USER'
+      'GUEST')
+    ParentFont = False
+    TabOrder = 3
+    Values.Strings = (
+      'A'
+      'U'
+      'G')
+  end
+  object qUSer: TFDQuery
+    Active = True
+    Connection = Tables.FDConnection
+    SQL.Strings = (
+      'SELECT ID,'
+      '       USER_NAME,'
+      '       PASSWORD,'
+      '       USER_TYPE'
+      'FROM USERS')
+    Left = 359
+    Top = 72
+    object qUSerID: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
     end
-    object cbUSER: TDBCheckBox
-      Left = 6
-      Top = 19
-      Width = 100
-      Height = 17
-      Caption = 'USER'
-      DataField = 'SUPERVISOR'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = False
-      TabOrder = 1
-      ValueChecked = 'S'
-      ValueUnchecked = 'N'
+    object qUSerUSER_NAME: TStringField
+      FieldName = 'USER_NAME'
+      Origin = 'USER_NAME'
+      Required = True
+      Size = 100
     end
-    object cbGUEST: TDBCheckBox
-      Left = 6
-      Top = 40
-      Width = 79
-      Height = 17
-      Caption = 'GUEST'
-      DataField = 'CLIENTE'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = False
-      TabOrder = 2
-      ValueChecked = 'S'
-      ValueUnchecked = 'N'
+    object qUSerPASSWORD: TStringField
+      FieldName = 'PASSWORD'
+      Origin = '"PASSWORD"'
+      Required = True
+      Size = 100
     end
+    object qUSerUSER_TYPE: TStringField
+      FieldName = 'USER_TYPE'
+      Origin = 'USER_TYPE'
+      Required = True
+      Size = 10
+    end
+  end
+  object dsUser: TDataSource
+    DataSet = qUSer
+    OnStateChange = dsUserStateChange
+    Left = 320
+    Top = 49
   end
 end

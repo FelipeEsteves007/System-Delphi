@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TfmUser = class(TForm)
@@ -12,22 +13,34 @@ type
     Label1: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    dbeUSUARIO: TDBEdit;
-    dbeSENHA: TDBEdit;
-    dbeCODIGO: TDBEdit;
+    dbeUSER: TDBEdit;
+    dbePASS: TDBEdit;
+    dbeCODE: TDBEdit;
     pnRodape: TPanel;
     sbNew: TSpeedButton;
     sbRecord: TSpeedButton;
-    sbCReg: TSpeedButton;
+    sbCancel: TSpeedButton;
     sbDelete: TSpeedButton;
     sbLeft: TSpeedButton;
     sbClose: TSpeedButton;
     sbRight: TSpeedButton;
     Panel2: TPanel;
-    cbADM: TDBCheckBox;
-    cbUSER: TDBCheckBox;
-    cbGUEST: TDBCheckBox;
+    qUSer: TFDQuery;
+    qUSerID: TIntegerField;
+    qUSerUSER_NAME: TStringField;
+    qUSerPASSWORD: TStringField;
+    qUSerUSER_TYPE: TStringField;
+    dsUser: TDataSource;
+    DBRadioGroup1: TDBRadioGroup;
     procedure sbCloseClick(Sender: TObject);
+    procedure sbLeftClick(Sender: TObject);
+    procedure sbDeleteClick(Sender: TObject);
+    procedure sbNewClick(Sender: TObject);
+    procedure sbCancelClick(Sender: TObject);
+    procedure sbRecordClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure dsUserStateChange(Sender: TObject);
+    procedure sbRightClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,9 +54,87 @@ implementation
 
 {$R *.dfm}
 
+procedure TfmUser.dsUserStateChange(Sender: TObject);
+var bEdit: Boolean;
+begin
+  if not qUSer.Active then Exit;
+
+  bEdit := qUSer.State in [dsEdit,dsInsert];
+
+  sbNew.Enabled    := not bEdit;
+  sbDelete.Enabled := sbNew.Enabled;
+  sbLeft.Enabled   := sbNew.Enabled;
+  sbRight.Enabled  := sbNew.Enabled;
+
+  sbRecord.Enabled := bEdit;
+  sbCancel.Enabled := sbRecord.Enabled;
+end;
+
+procedure TfmUser.FormShow(Sender: TObject);
+begin
+  if not qUSer.Active then qUSer.Open;
+  dbeUSER.SetFocus;
+end;
+
+procedure TfmUser.sbCancelClick(Sender: TObject);
+begin
+  qUSer.Cancel;
+end;
+
 procedure TfmUser.sbCloseClick(Sender: TObject);
 begin
+  if qUSer.State in [dsInsert,dsEdit] then qUSer.Cancel;
   Close;
+end;
+
+procedure TfmUser.sbDeleteClick(Sender: TObject);
+begin
+  if MessageDlg('Do you really want to delete this user?', mtConfirmation,[mbNo,mbYes], 0) = mrYes then
+  begin
+    qUSer.Delete;
+  end;
+end;
+
+procedure TfmUser.sbLeftClick(Sender: TObject);
+begin
+  qUSer.Prior;
+end;
+
+procedure TfmUser.sbNewClick(Sender: TObject);
+begin
+  qUSer.Append;
+  dbeUSER.SetFocus;
+end;
+
+procedure TfmUser.sbRecordClick(Sender: TObject);
+begin
+  if not (qUSer.State in [dsEdit, dsInsert]) then
+  begin
+    MessageDlg('No edit to record!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  if Trim(dbeUSER.Text) = '' then
+  begin
+    MessageDlg('The user is empty!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  if Trim(dbePASS.Text) = '' then
+  begin
+    MessageDlg('The password is empty!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  qUSer.Post;
+
+  ShowMessage('The new user has been saved!');
+  Exit
+end;
+
+procedure TfmUser.sbRightClick(Sender: TObject);
+begin
+  qUSer.Next;
 end;
 
 end.

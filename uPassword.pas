@@ -24,6 +24,8 @@ type
     procedure sbCloseClick(Sender: TObject);
     procedure sbOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
   private
     var i: integer;
     { Private declarations }
@@ -100,6 +102,26 @@ end;
 procedure TfmPassword.FormCreate(Sender: TObject);
 begin
   i := 4;
+end;
+
+procedure TfmPassword.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    Key := 0;
+    sbOKClick(Sender);
+  end;
+
+  if Key = VK_ESCAPE then
+  begin
+    Key := 0;
+    sbCloseClick(Sender);
+  end;
+end;
+
+procedure TfmPassword.FormShow(Sender: TObject);
+begin
+  edUser.SetFocus;
 end;
 
 procedure TfmPassword.sbCloseClick(Sender: TObject);

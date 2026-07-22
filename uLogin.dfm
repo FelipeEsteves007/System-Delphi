@@ -11,8 +11,10 @@ object fmLogin: TfmLogin
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object pnFundo: TPanel
@@ -259,8 +261,8 @@ object fmLogin: TfmLogin
       '       PASSWORD,'
       '       USER_TYPE'
       'FROM USERS')
-    Left = 320
-    Top = 32
+    Left = 272
+    Top = 16
     object qUSerID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
