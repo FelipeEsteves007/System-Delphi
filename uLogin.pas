@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.UITypes;
 
 type
   TfmLogin = class(TForm)
@@ -30,6 +30,7 @@ type
     procedure GoMenu;
     procedure sbClickClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
   private
     procedure GoPasswordUser;
   public
@@ -126,6 +127,11 @@ begin
     Key := 0;
     sbCloseClick(Sender);
   end;
+end;
+
+procedure TfmLogin.FormShow(Sender: TObject);
+begin
+  edUser.SetFocus;
 end;
 
 procedure TfmLogin.GoMenu;

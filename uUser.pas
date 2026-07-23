@@ -21,9 +21,7 @@ type
     sbRecord: TSpeedButton;
     sbCancel: TSpeedButton;
     sbDelete: TSpeedButton;
-    sbLeft: TSpeedButton;
     sbClose: TSpeedButton;
-    sbRight: TSpeedButton;
     Panel2: TPanel;
     qUSer: TFDQuery;
     qUSerID: TIntegerField;
@@ -32,6 +30,8 @@ type
     qUSerUSER_TYPE: TStringField;
     dsUser: TDataSource;
     DBRadioGroup1: TDBRadioGroup;
+    sbLeft: TSpeedButton;
+    sbRight: TSpeedButton;
     procedure sbCloseClick(Sender: TObject);
     procedure sbLeftClick(Sender: TObject);
     procedure sbDeleteClick(Sender: TObject);

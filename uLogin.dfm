@@ -15,6 +15,7 @@ object fmLogin: TfmLogin
   OldCreateOrder = False
   Position = poDesktopCenter
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object pnFundo: TPanel
@@ -261,7 +262,7 @@ object fmLogin: TfmLogin
       '       PASSWORD,'
       '       USER_TYPE'
       'FROM USERS')
-    Left = 272
+    Left = 216
     Top = 16
     object qUSerID: TIntegerField
       FieldName = 'ID'
