@@ -17,14 +17,14 @@ type
     edPassword: TEdit;
     edUser: TEdit;
     Image1: TImage;
-    Label2: TLabel;
-    Panel1: TPanel;
-    sbClick: TSpeedButton;
     qUSer: TFDQuery;
     qUSerID: TIntegerField;
     qUSerUSER_NAME: TStringField;
     qUSerPASSWORD: TStringField;
     qUSerUSER_TYPE: TStringField;
+    pnRodape: TPanel;
+    Label3: TLabel;
+    SpeedButton1: TSpeedButton;
     procedure sbCloseClick(Sender: TObject);
     procedure sbOKClick(Sender: TObject);
     procedure GoMenu;
@@ -69,21 +69,7 @@ begin
     Exit;
   end;
 
-  qUSer.Close;
-  qUSer.SQL.Clear;
-  with qUSer.SQL do
-  begin
-    Add(' SELECT ID, ' +
-        '        USER_NAME, ' +
-        '        PASSWORD, ' +
-        '        USER_TYPE ' +
-        ' FROM USERS ' +
-        ' WHERE USER_NAME = :USER ' +
-        ' AND PASSWORD = :PASS ');
-  end;
-  qUSer.ParamByName('USER').AsString := edUser.Text;
-  qUSer.ParamByName('PASS').AsString := edPassword.Text;
-  qUSer.Open;
+  Tables.CheckUser(qUser,edUser.Text,edPassword.Text);
 
   if qUSer.IsEmpty then
   begin

@@ -4,18 +4,36 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Vcl.Buttons, System.ImageList, Vcl.ImgList;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Vcl.Buttons, System.ImageList, Vcl.ImgList, Vcl.ComCtrls, Vcl.ToolWin, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
 
 type
   TfmMenu = class(TForm)
-    Panel2: TPanel;
-    Panel3: TPanel;
-    Panel4: TPanel;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
+    pnBase: TPanel;
+    pnBottom: TPanel;
+    pnClient: TPanel;
+    pnTop: TPanel;
+    pnButton: TPanel;
+    sbClose: TSpeedButton;
+    sCustomer: TSpeedButton;
+    sbSale: TSpeedButton;
+    sbReport: TSpeedButton;
+    sbFin: TSpeedButton;
+    sbSet: TSpeedButton;
+    sbProducts: TSpeedButton;
+    sbStock: TSpeedButton;
+    qUSer: TFDQuery;
+    qUSerID: TIntegerField;
+    qUSerUSER_NAME: TStringField;
+    qUSerPASSWORD: TStringField;
+    qUSerUSER_TYPE: TStringField;
+    lbTitleUse: TLabel;
+    lbUSer: TLabel;
+    lbPositonTitle: TLabel;
+    lbPositon: TLabel;
     procedure sbCloseClick(Sender: TObject);
-    procedure sbCRegClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -29,19 +47,26 @@ implementation
 
 {$R *.dfm}
 
-uses uTables;
+uses uTables, uLogin;
+
+procedure TfmMenu.FormShow(Sender: TObject);
+var sPassword: String;
+begin
+  lbUSer.Caption := fmLogin.edUser.Text;
+  sPassword := fmLogin.edPassword.Text;
+
+  Tables.CheckUser(qUser,fmLogin.edUser.Text,sPassword);
+
+  if not qUSer.IsEmpty then
+  begin
+    if qUSerUSER_TYPE.AsString = 'A' then lbPositon.Caption := 'ADM'
+    else if qUSerUSER_TYPE.AsString = 'G' then lbPositon.Caption := 'GUEST'
+    else if qUSerUSER_TYPE.AsString = 'S' then lbPositon.Caption := 'SUPORT'
+    else lbPositon.Caption := 'USER'
+  end;
+end;
 
 procedure TfmMenu.sbCloseClick(Sender: TObject);
-begin
-  Application.Terminate;
-end;
-
-procedure TfmMenu.sbCRegClick(Sender: TObject);
-begin
-  Application.Terminate;
-end;
-
-procedure TfmMenu.SpeedButton1Click(Sender: TObject);
 begin
   Application.Terminate;
 end;

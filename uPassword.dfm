@@ -3,7 +3,7 @@ object fmPassword: TfmPassword
   Top = 0
   BorderIcons = []
   BorderStyle = bsSingle
-  ClientHeight = 154
+  ClientHeight = 149
   ClientWidth = 243
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object fmPassword: TfmPassword
     Left = 0
     Top = 0
     Width = 243
-    Height = 154
+    Height = 149
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clRed
@@ -44,36 +44,6 @@ object fmPassword: TfmPassword
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-    end
-    object sbOk: TSpeedButton
-      Left = 63
-      Top = 116
-      Width = 57
-      Height = 22
-      Cursor = crHandPoint
-      Caption = '&Ok'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-      OnClick = sbOkClick
-    end
-    object sbClose: TSpeedButton
-      Left = 126
-      Top = 116
-      Width = 57
-      Height = 22
-      Cursor = crHandPoint
-      Caption = '&Close'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-      OnClick = sbCloseClick
     end
     object Label1: TLabel
       Left = 46
@@ -118,6 +88,47 @@ object fmPassword: TfmPassword
       MaxLength = 15
       ParentFont = False
       TabOrder = 1
+    end
+    object pnRodape: TPanel
+      Left = 1
+      Top = 115
+      Width = 241
+      Height = 33
+      Align = alBottom
+      BevelWidth = 2
+      Color = clGradientInactiveCaption
+      ParentBackground = False
+      TabOrder = 2
+      object SpeedButton1: TSpeedButton
+        Left = 55
+        Top = 6
+        Width = 57
+        Height = 22
+        Cursor = crHandPoint
+        Caption = '&Ok'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = sbOkClick
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 118
+        Top = 6
+        Width = 57
+        Height = 22
+        Cursor = crHandPoint
+        Caption = '&Close'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = sbCloseClick
+      end
     end
   end
   object qUSer: TFDQuery

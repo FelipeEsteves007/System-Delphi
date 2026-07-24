@@ -6,7 +6,8 @@ uses
   uTables in 'uTables.pas' {Tables: TDataModule},
   uUser in 'uUser.pas' {fmUser},
   uPassword in 'uPassword.pas' {fmPassword},
-  uMenu in 'uMenu.pas' {fmMenu};
+  uMenu in 'uMenu.pas' {fmMenu},
+  uUseful in 'uUseful.pas';
 
 {$R *.res}
 

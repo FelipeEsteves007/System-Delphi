@@ -3,7 +3,7 @@ object fmLogin: TfmLogin
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  ClientHeight = 102
+  ClientHeight = 114
   ClientWidth = 396
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object fmLogin: TfmLogin
     Left = 0
     Top = 0
     Width = 396
-    Height = 102
+    Height = 114
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clRed
@@ -216,29 +216,32 @@ object fmLogin: TfmLogin
       ParentFont = False
       TabOrder = 1
     end
-    object Panel1: TPanel
+    object pnRodape: TPanel
       Left = 1
-      Top = 78
+      Top = 80
       Width = 394
-      Height = 23
+      Height = 33
       Align = alBottom
+      BevelWidth = 2
+      Color = clGradientInactiveCaption
+      ParentBackground = False
       TabOrder = 2
-      object Label2: TLabel
-        Left = 2
-        Top = 4
-        Width = 95
+      object Label3: TLabel
+        Left = 11
+        Top = 12
+        Width = 108
         Height = 13
         Caption = 'Create a user here!'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
         Font.Height = -11
         Font.Name = 'Tahoma'
-        Font.Style = []
+        Font.Style = [fsBold]
         ParentFont = False
       end
-      object sbClick: TSpeedButton
-        Left = 99
-        Top = 2
+      object SpeedButton1: TSpeedButton
+        Left = 126
+        Top = 10
         Width = 37
         Height = 19
         Cursor = crHandPoint

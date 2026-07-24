@@ -113,6 +113,7 @@
             <Form>fmMenu</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uUseful.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

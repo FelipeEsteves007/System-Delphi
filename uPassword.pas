@@ -11,9 +11,7 @@ type
   TfmPassword = class(TForm)
     pnFundo: TPanel;
     PassWord: TLabel;
-    sbOk: TSpeedButton;
     edPassword: TEdit;
-    sbClose: TSpeedButton;
     Label1: TLabel;
     edUser: TEdit;
     qUSer: TFDQuery;
@@ -21,6 +19,9 @@ type
     qUSerUSER_NAME: TStringField;
     qUSerPASSWORD: TStringField;
     qUSerUSER_TYPE: TStringField;
+    pnRodape: TPanel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
     procedure sbCloseClick(Sender: TObject);
     procedure sbOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -56,21 +57,7 @@ begin
     Exit;
   end;
 
-  qUSer.Close;
-  qUSer.SQL.Clear;
-  with qUSer.SQL do
-  begin
-    Add(' SELECT ID, ' +
-        '        USER_NAME, ' +
-        '        PASSWORD, ' +
-        '        USER_TYPE ' +
-        ' FROM USERS ' +
-        ' WHERE USER_NAME = :USER ' +
-        ' AND PASSWORD = :PASS ');
-  end;
-  qUSer.ParamByName('USER').AsString := edUser.Text;
-  qUSer.ParamByName('PASS').AsString := edPassword.Text;
-  qUSer.Open;
+  Tables.CheckUser(qUser,edUser.Text,edPassword.Text);
 
   if not qUSer.IsEmpty  then
   begin

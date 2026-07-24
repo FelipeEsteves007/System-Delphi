@@ -5,9 +5,7 @@ interface
    SUPORT   - S
    ADM      - A
    USER     - U
-   GUEST    - G
-   CUSTOMER - C
-   SELLER   - SE }
+   GUEST    - G }
 
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
@@ -17,6 +15,7 @@ uses
 type
   TTables = class(TDataModule)
     FDConnection: TFDConnection;
+    procedure CheckUser(query: TFDQuery; const user, sPassword: String);
   private
     { Private declarations }
   public
@@ -30,6 +29,25 @@ implementation
 
 {$R *.dfm}
 
+{ TTables }
 
+procedure TTables.CheckUser(query: TFDQuery; const user, sPassword: String);
+begin
+  query.Close;
+  query.SQL.Clear;
+  with query.SQL do
+  begin
+    Add(' SELECT ID, ' +
+        '        USER_NAME, ' +
+        '        PASSWORD, ' +
+        '        USER_TYPE ' +
+        ' FROM USERS ' +
+        ' WHERE USER_NAME = :USER ' +
+        ' AND PASSWORD = :PASS ');
+  end;
+  query.ParamByName('USER').AsString := user;
+  query.ParamByName('PASS').AsString := sPassword;
+  query.Open;
+end;
 
 end.
