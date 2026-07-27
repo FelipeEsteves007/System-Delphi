@@ -114,6 +114,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uUseful.pas"/>
+        <DCCReference Include="uCustomer.pas">
+            <Form>fmCustomer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

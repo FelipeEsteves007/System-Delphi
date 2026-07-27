@@ -384,6 +384,7 @@ object fmMenu: TfmMenu
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
+        OnClick = sCustomerClick
         ExplicitWidth = 129
       end
       object sbSale: TSpeedButton
@@ -1119,8 +1120,8 @@ object fmMenu: TfmMenu
       '       PASSWORD,'
       '       USER_TYPE'
       'FROM USERS')
-    Left = 1087
-    Top = 320
+    Left = 1095
+    Top = 112
     object qUSerID: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'ID'

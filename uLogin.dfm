@@ -24,11 +24,13 @@ object fmLogin: TfmLogin
     Width = 396
     Height = 114
     Align = alClient
+    Color = clWhite
     Font.Charset = ANSI_CHARSET
     Font.Color = clRed
     Font.Height = -64
     Font.Name = 'Arial Narrow'
     Font.Style = [fsBold]
+    ParentBackground = False
     ParentFont = False
     TabOrder = 0
     object Label1: TLabel

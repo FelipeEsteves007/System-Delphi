@@ -34,6 +34,7 @@ type
     lbPositon: TLabel;
     procedure sbCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure sCustomerClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -47,7 +48,7 @@ implementation
 
 {$R *.dfm}
 
-uses uTables, uLogin;
+uses uTables, uLogin, uCustomer;
 
 procedure TfmMenu.FormShow(Sender: TObject);
 var sPassword: String;
@@ -64,11 +65,34 @@ begin
     else if qUSerUSER_TYPE.AsString = 'S' then lbPositon.Caption := 'SUPORT'
     else lbPositon.Caption := 'USER'
   end;
+
+  if qUSerUSER_TYPE.AsString = 'U' then
+  begin
+    sbFin.Enabled := False;
+  end;
+
+  if qUSerUSER_TYPE.AsString = 'G' then
+  begin
+    sbFin.Enabled := False;
+    sbSale.Enabled := False;
+    sbStock.Enabled := False;
+  end;
+
 end;
 
 procedure TfmMenu.sbCloseClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TfmMenu.sCustomerClick(Sender: TObject);
+begin
+  Application.CreateForm(TfmCustomer,fmCustomer);
+  try
+    fmCustomer.ShowModal;
+  finally
+    FreeAndNil(fmCustomer);
+  end;
 end;
 
 end.

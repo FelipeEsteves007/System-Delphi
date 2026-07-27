@@ -16,12 +16,6 @@ type
     dbeUSER: TDBEdit;
     dbePASS: TDBEdit;
     dbeCODE: TDBEdit;
-    pnRodape: TPanel;
-    sbNew: TSpeedButton;
-    sbRecord: TSpeedButton;
-    sbCancel: TSpeedButton;
-    sbDelete: TSpeedButton;
-    sbClose: TSpeedButton;
     Panel2: TPanel;
     qUSer: TFDQuery;
     qUSerID: TIntegerField;
@@ -30,8 +24,16 @@ type
     qUSerUSER_TYPE: TStringField;
     dsUser: TDataSource;
     DBRadioGroup1: TDBRadioGroup;
+    pnRodape: TPanel;
+    sbClose: TSpeedButton;
     sbLeft: TSpeedButton;
     sbRight: TSpeedButton;
+    sbFirst: TSpeedButton;
+    sbLast: TSpeedButton;
+    sbNew: TSpeedButton;
+    sbDelete: TSpeedButton;
+    sbRecord: TSpeedButton;
+    sbCancel: TSpeedButton;
     procedure sbCloseClick(Sender: TObject);
     procedure sbLeftClick(Sender: TObject);
     procedure sbDeleteClick(Sender: TObject);
@@ -41,6 +43,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure dsUserStateChange(Sender: TObject);
     procedure sbRightClick(Sender: TObject);
+    procedure sbFirstClick(Sender: TObject);
+    procedure sbLastClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -65,6 +69,8 @@ begin
   sbDelete.Enabled := sbNew.Enabled;
   sbLeft.Enabled   := sbNew.Enabled;
   sbRight.Enabled  := sbNew.Enabled;
+  sbFirst.Enabled  := sbNew.Enabled;
+  sbLast.Enabled   := sbNew.Enabled;
 
   sbRecord.Enabled := bEdit;
   sbCancel.Enabled := sbRecord.Enabled;
@@ -93,6 +99,16 @@ begin
   begin
     qUSer.Delete;
   end;
+end;
+
+procedure TfmUser.sbFirstClick(Sender: TObject);
+begin
+  qUSer.First;
+end;
+
+procedure TfmUser.sbLastClick(Sender: TObject);
+begin
+  qUSer.Last;
 end;
 
 procedure TfmUser.sbLeftClick(Sender: TObject);

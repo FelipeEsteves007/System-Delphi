@@ -25,11 +25,13 @@ object fmPassword: TfmPassword
     Width = 243
     Height = 149
     Align = alClient
+    Color = clWhite
     Font.Charset = ANSI_CHARSET
     Font.Color = clRed
     Font.Height = -64
     Font.Name = 'Arial Narrow'
     Font.Style = [fsBold]
+    ParentBackground = False
     ParentFont = False
     TabOrder = 0
     object PassWord: TLabel
