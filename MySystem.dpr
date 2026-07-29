@@ -17,7 +17,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TTables, Tables);
   Application.CreateForm(TfmLogin, fmLogin);
-  Application.CreateForm(TfmMenu, fmMenu);
-  Application.CreateForm(TfmCustomer, fmCustomer);
   Application.Run;
 end.

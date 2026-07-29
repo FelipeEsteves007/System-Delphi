@@ -3,9 +3,10 @@ unit uCustomer;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Mask, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.DBCtrls,
+  Vcl.Mask, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Classes, SysUtils;
 
 type
   TfmCustomer = class(TForm)
@@ -46,7 +47,7 @@ type
     lbCity: TLabel;
     dbeCity: TDBEdit;
     lbState: TLabel;
-    dbCbState: TDBComboBox;
+    cbeState: TDBComboBox;
     dbeRdActive: TDBRadioGroup;
     qEntityID: TIntegerField;
     qEntityNAME: TStringField;
@@ -68,11 +69,22 @@ type
     dsEntity: TDataSource;
     sbFirst: TSpeedButton;
     sbLast: TSpeedButton;
-    sbNovoReg: TSpeedButton;
-    sbCReg: TSpeedButton;
-    sbGReg: TSpeedButton;
-    sbEReg: TSpeedButton;
+    sbNew: TSpeedButton;
+    sbDelete: TSpeedButton;
+    sbRecord: TSpeedButton;
+    sbCancel: TSpeedButton;
     procedure sbCloseClick(Sender: TObject);
+    procedure sbLastClick(Sender: TObject);
+    procedure sbRightClick(Sender: TObject);
+    procedure sbLeftClick(Sender: TObject);
+    procedure sbFirstClick(Sender: TObject);
+    procedure dsEntityStateChange(Sender: TObject);
+    procedure sbNewClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure sbCancelClick(Sender: TObject);
+    procedure sbDeleteClick(Sender: TObject);
+    procedure sbRecordClick(Sender: TObject);
+    procedure dbeDocumentExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -86,11 +98,144 @@ implementation
 
 {$R *.dfm}
 
-uses uTables;
+uses uTables, uUseful;
+
+procedure TfmCustomer.dbeDocumentExit(Sender: TObject);
+begin
+  if dbeDocument.Text <> '' then
+  begin
+    if (Length(dbeDocument.Text) < 11) or not CPF(JustNumbers(dbeDocument.Text)) then
+    begin
+      ShowMessage('CPF inválido!');
+      dbeDocument.SetFocus;
+    end;
+  end;
+end;
+
+procedure TfmCustomer.dsEntityStateChange(Sender: TObject);
+var bEdit: Boolean;
+begin
+  Tables.EnableButtons(qEntity,bEdit,fmCustomer);
+end;
+
+procedure TfmCustomer.FormShow(Sender: TObject);
+begin
+  if not qEntity.Active then qEntity.Open;
+  dbeRdActive.ItemIndex := 0;
+  dbeName.SetFocus;
+end;
+
+procedure TfmCustomer.sbCancelClick(Sender: TObject);
+begin
+  qEntity.Cancel;
+end;
 
 procedure TfmCustomer.sbCloseClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfmCustomer.sbDeleteClick(Sender: TObject);
+begin
+  if MessageDlg('Do you really want to delete this user?', mtConfirmation,[mbNo,mbYes], 0) = mrYes then
+  begin
+    qEntity.Delete;
+  end;
+end;
+
+procedure TfmCustomer.sbFirstClick(Sender: TObject);
+begin
+  qEntity.First;
+end;
+
+procedure TfmCustomer.sbLastClick(Sender: TObject);
+begin
+  qEntity.Last;
+end;
+
+procedure TfmCustomer.sbLeftClick(Sender: TObject);
+begin
+  qEntity.Prior;
+end;
+
+procedure TfmCustomer.sbNewClick(Sender: TObject);
+begin
+  qEntity.Append;
+end;
+
+procedure TfmCustomer.sbRecordClick(Sender: TObject);
+begin
+  if not (qEntity.State in [dsEdit, dsInsert]) then
+  begin
+    MessageDlg('No edit to record!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  if Trim(dbeName.Text) = '' then
+  begin
+    ShowMessage('The name is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeTrade.Text) = '' then
+  begin
+    ShowMessage('The trade name is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeDocument.Text) = '' then
+  begin
+    ShowMessage('The document name is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeStateR.Text) = '' then
+  begin
+    ShowMessage('The state registration is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeCell.Text) = '' then
+  begin
+    ShowMessage('The cellphone is empty!');
+    Exit;
+  end;
+
+  if Trim(dbePostal.Text) = '' then
+  begin
+    ShowMessage('The postal code is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeAddress.Text) = '' then
+  begin
+    ShowMessage('The address is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeNumber.Text) = '' then
+  begin
+    ShowMessage('The number address is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeNeight.Text) = '' then
+  begin
+    ShowMessage('The neightborhood is empty!');
+    Exit;
+  end;
+
+  if Trim(dbeCity.Text) = '' then
+  begin
+    ShowMessage('The city is empty!');
+    Exit;
+  end;
+  //qEntity.Post;
+end;
+
+procedure TfmCustomer.sbRightClick(Sender: TObject);
+begin
+  qEntity.Next;
 end;
 
 end.

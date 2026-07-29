@@ -3,7 +3,7 @@ unit uUser;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.UITypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
@@ -58,22 +58,12 @@ implementation
 
 {$R *.dfm}
 
+uses uTables;
+
 procedure TfmUser.dsUserStateChange(Sender: TObject);
 var bEdit: Boolean;
 begin
-  if not qUSer.Active then Exit;
-
-  bEdit := qUSer.State in [dsEdit,dsInsert];
-
-  sbNew.Enabled    := not bEdit;
-  sbDelete.Enabled := sbNew.Enabled;
-  sbLeft.Enabled   := sbNew.Enabled;
-  sbRight.Enabled  := sbNew.Enabled;
-  sbFirst.Enabled  := sbNew.Enabled;
-  sbLast.Enabled   := sbNew.Enabled;
-
-  sbRecord.Enabled := bEdit;
-  sbCancel.Enabled := sbRecord.Enabled;
+  Tables.EnableButtons(qUSer,bEdit,fmUser);
 end;
 
 procedure TfmUser.FormShow(Sender: TObject);

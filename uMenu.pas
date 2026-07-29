@@ -53,7 +53,7 @@ uses uTables, uLogin, uCustomer;
 procedure TfmMenu.FormShow(Sender: TObject);
 var sPassword: String;
 begin
-  lbUSer.Caption := fmLogin.edUser.Text;
+  lbUSer.Caption := tables.sUser;
   sPassword := fmLogin.edPassword.Text;
 
   Tables.CheckUser(qUser,fmLogin.edUser.Text,sPassword);

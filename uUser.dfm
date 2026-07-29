@@ -26,7 +26,6 @@ object fmUser: TfmUser
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 425
     object Label1: TLabel
       Left = 77
       Top = 1
@@ -128,8 +127,6 @@ object fmUser: TfmUser
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 425
-    ExplicitHeight = 79
     object pnRodape: TPanel
       Left = 0
       Top = 80
@@ -140,8 +137,6 @@ object fmUser: TfmUser
       Color = clGradientInactiveCaption
       ParentBackground = False
       TabOrder = 0
-      ExplicitTop = 299
-      ExplicitWidth = 821
       object sbClose: TSpeedButton
         AlignWithMargins = True
         Left = 461

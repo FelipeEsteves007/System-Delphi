@@ -12,6 +12,7 @@ object fmCustomer: TfmCustomer
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object pnRodape: TPanel
@@ -24,8 +25,6 @@ object fmCustomer: TfmCustomer
     Color = clGradientInactiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 696
-    ExplicitWidth = 1037
     object sbClose: TSpeedButton
       AlignWithMargins = True
       Left = 741
@@ -174,6 +173,7 @@ object fmCustomer: TfmCustomer
       Layout = blGlyphRight
       NumGlyphs = 2
       ParentFont = False
+      OnClick = sbLeftClick
       ExplicitLeft = 591
     end
     object sbRight: TSpeedButton
@@ -301,7 +301,9 @@ object fmCustomer: TfmCustomer
         9E9E9E9E9EA4A4A4B8B8B8DADADAF0F0F0F0F0F0F0F0F0F0F0F0}
       NumGlyphs = 2
       ParentFont = False
-      ExplicitLeft = 641
+      OnClick = sbRightClick
+      ExplicitLeft = 657
+      ExplicitTop = 6
     end
     object sbFirst: TSpeedButton
       Left = 561
@@ -430,6 +432,7 @@ object fmCustomer: TfmCustomer
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbFirstClick
       ExplicitLeft = 541
     end
     object sbLast: TSpeedButton
@@ -559,9 +562,10 @@ object fmCustomer: TfmCustomer
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbLastClick
       ExplicitLeft = 691
     end
-    object sbNovoReg: TSpeedButton
+    object sbNew: TSpeedButton
       Left = 2
       Top = 2
       Width = 80
@@ -689,8 +693,11 @@ object fmCustomer: TfmCustomer
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbNewClick
+      ExplicitLeft = 0
+      ExplicitTop = 6
     end
-    object sbCReg: TSpeedButton
+    object sbDelete: TSpeedButton
       Left = 242
       Top = 2
       Width = 80
@@ -818,8 +825,9 @@ object fmCustomer: TfmCustomer
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbDeleteClick
     end
-    object sbGReg: TSpeedButton
+    object sbRecord: TSpeedButton
       Left = 82
       Top = 2
       Width = 80
@@ -945,8 +953,9 @@ object fmCustomer: TfmCustomer
         BBBBBBBBBBBDBDBDC7C7C7D7D7D7E2E2E2E2E2E2E2E2E2E2E2E2}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = sbRecordClick
     end
-    object sbEReg: TSpeedButton
+    object sbCancel: TSpeedButton
       Left = 162
       Top = 2
       Width = 80
@@ -1074,6 +1083,7 @@ object fmCustomer: TfmCustomer
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbCancelClick
     end
   end
   object pnClient: TPanel
@@ -1086,8 +1096,6 @@ object fmCustomer: TfmCustomer
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 40
-    ExplicitHeight = 456
     object lbCode: TLabel
       Left = 17
       Top = 12
@@ -1303,6 +1311,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'ID'
       DataSource = dsEntity
+      ReadOnly = True
       TabOrder = 0
     end
     object dbeName: TDBEdit
@@ -1327,9 +1336,13 @@ object fmCustomer: TfmCustomer
       Left = 697
       Top = 29
       Width = 104
-      Height = 21
+      Height = 22
+      Style = csOwnerDrawFixed
       DataField = 'ENTITY_TYPE'
       DataSource = dsEntity
+      Items.Strings = (
+        'Masculine'
+        'Feminine')
       TabOrder = 3
     end
     object dbeDocument: TDBEdit
@@ -1340,6 +1353,7 @@ object fmCustomer: TfmCustomer
       DataField = 'DOCUMENT_NUMBER'
       DataSource = dsEntity
       TabOrder = 4
+      OnExit = dbeDocumentExit
     end
     object dbeStateR: TDBEdit
       Left = 225
@@ -1432,7 +1446,7 @@ object fmCustomer: TfmCustomer
       DataSource = dsEntity
       TabOrder = 14
     end
-    object dbCbState: TDBComboBox
+    object cbeState: TDBComboBox
       Left = 750
       Top = 192
       Width = 53
@@ -1486,6 +1500,7 @@ object fmCustomer: TfmCustomer
     Left = 728
     Top = 64
     object qEntityID: TIntegerField
+      AutoGenerateValue = arAutoInc
       FieldName = 'ID'
       Origin = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1511,6 +1526,7 @@ object fmCustomer: TfmCustomer
     object qEntityDOCUMENT_NUMBER: TStringField
       FieldName = 'DOCUMENT_NUMBER'
       Origin = 'DOCUMENT_NUMBER'
+      EditMask = '999.999.999-99;0;_'
     end
     object qEntitySTATE_REGISTRATION: TStringField
       FieldName = 'STATE_REGISTRATION'
@@ -1575,6 +1591,7 @@ object fmCustomer: TfmCustomer
   end
   object dsEntity: TDataSource
     DataSet = qEntity
+    OnStateChange = dsEntityStateChange
     Left = 776
     Top = 64
   end

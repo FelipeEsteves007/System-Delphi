@@ -76,7 +76,7 @@ begin
     MessageDlg('Access denied!', mtError, [mbClose], 0);
     Exit;
   end else begin
-    Tables.sUser := qUSerUSER_TYPE.AsString;
+    Tables.sUser := qUSerUSER_NAME.AsString;
     GoMenu;
   end;
 end;
