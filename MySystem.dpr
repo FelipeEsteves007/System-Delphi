@@ -2,6 +2,7 @@ program MySystem;
 
 uses
   Vcl.Forms,
+  Controls,
   uLogin in 'uLogin.pas' {fmLogin},
   uTables in 'uTables.pas' {Tables: TDataModule},
   uUser in 'uUser.pas' {fmUser},
@@ -15,7 +16,17 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+
   Application.CreateForm(TTables, Tables);
-  Application.CreateForm(TfmLogin, fmLogin);
-  Application.Run;
+
+  fmLogin := TfmLogin.Create(nil);
+  try
+    if fmLogin.ShowModal = mrOk then
+    begin
+      Application.CreateForm(TfmMenu, fmMenu);
+      Application.Run;
+    end;
+  finally
+    fmLogin.Free;
+  end;
 end.

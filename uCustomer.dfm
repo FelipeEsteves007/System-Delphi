@@ -1322,6 +1322,7 @@ object fmCustomer: TfmCustomer
       DataField = 'NAME'
       DataSource = dsEntity
       TabOrder = 1
+      OnKeyPress = dbeNameKeyPress
     end
     object dbeTrade: TDBEdit
       Left = 409
@@ -1331,6 +1332,7 @@ object fmCustomer: TfmCustomer
       DataField = 'TRADE_NAME'
       DataSource = dsEntity
       TabOrder = 2
+      OnKeyPress = dbeTradeKeyPress
     end
     object cbeType: TDBComboBox
       Left = 697
@@ -1354,6 +1356,7 @@ object fmCustomer: TfmCustomer
       DataSource = dsEntity
       TabOrder = 4
       OnExit = dbeDocumentExit
+      OnKeyPress = dbeDocumentKeyPress
     end
     object dbeStateR: TDBEdit
       Left = 225
@@ -1363,6 +1366,7 @@ object fmCustomer: TfmCustomer
       DataField = 'STATE_REGISTRATION'
       DataSource = dsEntity
       TabOrder = 5
+      OnKeyPress = dbeStateRKeyPress
     end
     object dbePhone: TDBEdit
       Left = 433
@@ -1372,6 +1376,7 @@ object fmCustomer: TfmCustomer
       DataField = 'PHONE'
       DataSource = dsEntity
       TabOrder = 6
+      OnKeyPress = dbePhoneKeyPress
     end
     object dbeCell: TDBEdit
       Left = 585
@@ -1382,6 +1387,7 @@ object fmCustomer: TfmCustomer
       DataField = 'CELLPHONE'
       DataSource = dsEntity
       TabOrder = 7
+      OnKeyPress = dbeCellKeyPress
     end
     object dbeEmail: TDBEdit
       Left = 17
@@ -1418,6 +1424,7 @@ object fmCustomer: TfmCustomer
       DataField = 'ADDRESS_NUMBER'
       DataSource = dsEntity
       TabOrder = 11
+      OnKeyPress = dbeNumberKeyPress
     end
     object dbeComplement: TDBEdit
       Left = 17
@@ -1453,6 +1460,34 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'STATE_CODE'
       DataSource = dsEntity
+      Items.Strings = (
+        'AC'
+        'AL'
+        'AP'
+        'AM'
+        'BA'
+        'CE'
+        'DF'
+        'ES'
+        'GO'
+        'MA'
+        'MT'
+        'MS'
+        'MG'
+        'PA'
+        'PB'
+        'PR'
+        'PE'
+        'PI'
+        'RJ'
+        'RN'
+        'RS'
+        'RO'
+        'RR'
+        'SC'
+        'SP'
+        'SE'
+        'TO')
       TabOrder = 15
     end
     object dbeRdActive: TDBRadioGroup
@@ -1535,10 +1570,12 @@ object fmCustomer: TfmCustomer
     object qEntityPHONE: TStringField
       FieldName = 'PHONE'
       Origin = 'PHONE'
+      EditMask = '!\(99\)0000-0000;1;_'
     end
     object qEntityCELLPHONE: TStringField
       FieldName = 'CELLPHONE'
       Origin = 'CELLPHONE'
+      EditMask = '!\(99\)000-000000;1;_'
     end
     object qEntityEMAIL: TStringField
       FieldName = 'EMAIL'
@@ -1548,6 +1585,7 @@ object fmCustomer: TfmCustomer
     object qEntityPOSTAL_CODE: TStringField
       FieldName = 'POSTAL_CODE'
       Origin = 'POSTAL_CODE'
+      EditMask = '00000\-999;1;_'
       Size = 10
     end
     object qEntityADDRESS: TStringField

@@ -6,6 +6,8 @@ uses SysUtils;
 
 function JustNumbers(Texto: String): String;
 function Cpf(num: String): Boolean;
+procedure JustNumberEdit(var Key: Char);
+procedure JustCharEdit(var Key: Char);
 
 implementation
 
@@ -49,6 +51,21 @@ begin
       Result := True
    else
       Result := False;
+end;
+
+
+procedure JustNumberEdit(var Key: Char);
+begin
+   if (Key in ['a'..'z', 'A'..'Z', 'á', 'à', 'ã', 'â', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç',
+                  'Á', 'À', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Ô', 'Õ', 'Ú', 'Ç', #8]) then
+  Key := #0;
+end;
+
+
+procedure JustCharEdit(var Key: Char);
+begin
+   if (Key in ['1'..'9',#8]) then
+  Key := #0;
 end;
 
 end.

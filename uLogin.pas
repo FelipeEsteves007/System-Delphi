@@ -52,7 +52,7 @@ end;
 
 procedure TfmLogin.sbCloseClick(Sender: TObject);
 begin
-  Application.Terminate;
+  ModalResult := mrCancel;
 end;
 
 procedure TfmLogin.sbOKClick(Sender: TObject);
@@ -77,18 +77,19 @@ begin
     Exit;
   end else begin
     Tables.sUser := qUSerUSER_NAME.AsString;
-    GoMenu;
+    ModalResult := mrOk;
   end;
 end;
 
 procedure TfmLogin.GoPasswordUser;
 begin
-  Application.CreateForm(TfmPassword,fmPassword);
+  fmPassword := TfmPassword.Create(nil);
   try
     fmPassword.ShowModal;
+
     if fmPassword.ModalResult = mrOk then
     begin
-      Application.CreateForm(TfmUser,fmUser);
+      fmUser := TfmUser.Create(nil);
       try
         fmUser.ShowModal;
       finally

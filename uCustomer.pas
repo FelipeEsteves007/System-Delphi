@@ -85,6 +85,13 @@ type
     procedure sbDeleteClick(Sender: TObject);
     procedure sbRecordClick(Sender: TObject);
     procedure dbeDocumentExit(Sender: TObject);
+    procedure dbeNumberKeyPress(Sender: TObject; var Key: Char);
+    procedure dbePhoneKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeCellKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeDocumentKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeNameKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeTradeKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeStateRKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -100,6 +107,11 @@ implementation
 
 uses uTables, uUseful;
 
+procedure TfmCustomer.dbeCellKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustNumberEdit(Key);
+end;
+
 procedure TfmCustomer.dbeDocumentExit(Sender: TObject);
 begin
   if dbeDocument.Text <> '' then
@@ -110,6 +122,36 @@ begin
       dbeDocument.SetFocus;
     end;
   end;
+end;
+
+procedure TfmCustomer.dbeDocumentKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustNumberEdit(Key);
+end;
+
+procedure TfmCustomer.dbeNameKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustCharEdit(Key);
+end;
+
+procedure TfmCustomer.dbeNumberKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustNumberEdit(Key);
+end;
+
+procedure TfmCustomer.dbePhoneKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustNumberEdit(Key);
+end;
+
+procedure TfmCustomer.dbeStateRKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustNumbers(Key)
+end;
+
+procedure TfmCustomer.dbeTradeKeyPress(Sender: TObject; var Key: Char);
+begin
+  JustCharEdit(Key);
 end;
 
 procedure TfmCustomer.dsEntityStateChange(Sender: TObject);
@@ -185,7 +227,7 @@ begin
 
   if Trim(dbeDocument.Text) = '' then
   begin
-    ShowMessage('The document name is empty!');
+    ShowMessage('The document number is empty!');
     Exit;
   end;
 
@@ -230,7 +272,8 @@ begin
     ShowMessage('The city is empty!');
     Exit;
   end;
-  //qEntity.Post;
+
+  qEntity.Post;
 end;
 
 procedure TfmCustomer.sbRightClick(Sender: TObject);
