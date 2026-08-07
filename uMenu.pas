@@ -16,7 +16,7 @@ type
     pnTop: TPanel;
     pnButton: TPanel;
     sbClose: TSpeedButton;
-    sCustomer: TSpeedButton;
+    sbCustomer: TSpeedButton;
     sbSale: TSpeedButton;
     sbReport: TSpeedButton;
     sbFin: TSpeedButton;
@@ -34,7 +34,7 @@ type
     lbPositon: TLabel;
     procedure sbCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure sCustomerClick(Sender: TObject);
+    procedure sbCustomerClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -85,7 +85,7 @@ begin
   Application.Terminate;
 end;
 
-procedure TfmMenu.sCustomerClick(Sender: TObject);
+procedure TfmMenu.sbCustomerClick(Sender: TObject);
 begin
   Application.CreateForm(TfmCustomer,fmCustomer);
   try

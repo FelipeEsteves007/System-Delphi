@@ -9,7 +9,6 @@ object Tables: TTables
       'Port=3080'
       'Database=C:\system\data\FF.FDB'
       'DriverID=FB')
-    Connected = True
     LoginPrompt = False
     Left = 24
     Top = 8

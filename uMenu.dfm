@@ -90,15 +90,17 @@ object fmMenu: TfmMenu
       end
     end
     object pnClient: TPanel
-      Left = 169
+      Left = 225
       Top = 41
-      Width = 1008
+      Width = 952
       Height = 527
       Align = alClient
       BevelOuter = bvNone
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
+      ExplicitLeft = 552
+      ExplicitWidth = 625
     end
     object pnTop: TPanel
       Left = 0
@@ -115,7 +117,7 @@ object fmMenu: TfmMenu
     object pnButton: TPanel
       Left = 0
       Top = 41
-      Width = 169
+      Width = 225
       Height = 527
       Align = alLeft
       BevelOuter = bvNone
@@ -126,7 +128,7 @@ object fmMenu: TfmMenu
       object sbClose: TSpeedButton
         Left = 0
         Top = 420
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = '&Close'
@@ -253,10 +255,10 @@ object fmMenu: TfmMenu
         ExplicitTop = 180
         ExplicitWidth = 129
       end
-      object sCustomer: TSpeedButton
+      object sbCustomer: TSpeedButton
         Left = 0
         Top = 0
-        Width = 169
+        Width = 225
         Height = 60
         Hint = 'Definir esse cliente como empresa'
         Align = alTop
@@ -384,13 +386,15 @@ object fmMenu: TfmMenu
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
-        OnClick = sCustomerClick
-        ExplicitWidth = 129
+        OnClick = sbCustomerClick
+        ExplicitLeft = -6
+        ExplicitTop = -6
+        ExplicitWidth = 169
       end
       object sbSale: TSpeedButton
         Left = 0
         Top = 120
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = '&Sales   '
@@ -460,11 +464,12 @@ object fmMenu: TfmMenu
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         ParentFont = False
         ExplicitTop = 114
+        ExplicitWidth = 169
       end
       object sbReport: TSpeedButton
         Left = 0
         Top = 240
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = '&Reports'
@@ -588,11 +593,12 @@ object fmMenu: TfmMenu
         NumGlyphs = 2
         ParentFont = False
         ExplicitTop = 234
+        ExplicitWidth = 169
       end
       object sbFin: TSpeedButton
         Left = 0
         Top = 180
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = 'Financial'
@@ -717,11 +723,12 @@ object fmMenu: TfmMenu
         ParentFont = False
         Spacing = 0
         ExplicitTop = 108
+        ExplicitWidth = 169
       end
       object sbSet: TSpeedButton
         Left = 0
         Top = 360
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = '&Settings'
@@ -848,11 +855,12 @@ object fmMenu: TfmMenu
         ShowHint = False
         ExplicitLeft = -6
         ExplicitTop = 340
+        ExplicitWidth = 169
       end
       object sbProducts: TSpeedButton
         Left = 0
         Top = 60
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = '&Products'
@@ -979,11 +987,12 @@ object fmMenu: TfmMenu
         ShowHint = False
         ExplicitLeft = -16
         ExplicitTop = 36
+        ExplicitWidth = 169
       end
       object sbStock: TSpeedButton
         Left = 0
         Top = 300
-        Width = 169
+        Width = 225
         Height = 60
         Align = alTop
         Caption = '&Stock   '
@@ -1108,11 +1117,11 @@ object fmMenu: TfmMenu
         ParentFont = False
         ExplicitLeft = -6
         ExplicitTop = 220
+        ExplicitWidth = 169
       end
     end
   end
   object qUSer: TFDQuery
-    Active = True
     Connection = Tables.FDConnection
     SQL.Strings = (
       'SELECT ID,'

@@ -4,7 +4,7 @@ interface
 
 uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, System.UiTypes,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.DBCtrls,
   Vcl.Mask, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Classes, SysUtils;
 
@@ -92,8 +92,10 @@ type
     procedure dbeNameKeyPress(Sender: TObject; var Key: Char);
     procedure dbeTradeKeyPress(Sender: TObject; var Key: Char);
     procedure dbeStateRKeyPress(Sender: TObject; var Key: Char);
+    procedure qEntityAfterScroll(DataSet: TDataSet);
+    function  Validation: Boolean;
   private
-    { Private declarations }
+   { Private declarations }
   public
     { Public declarations }
   end;
@@ -167,6 +169,15 @@ begin
   dbeName.SetFocus;
 end;
 
+procedure TfmCustomer.qEntityAfterScroll(DataSet: TDataSet);
+begin
+  if (qEntityACTIVE.AsString = 'Y') then dbeRdActive.ItemIndex := 0
+    else dbeRdActive.ItemIndex := 1;
+
+  if (qEntityENTITY_TYPE.AsString = 'M') then cbeType.ItemIndex := 0
+    else cbeType.ItemIndex := 1;
+end;
+
 procedure TfmCustomer.sbCancelClick(Sender: TObject);
 begin
   qEntity.Cancel;
@@ -207,6 +218,23 @@ end;
 
 procedure TfmCustomer.sbRecordClick(Sender: TObject);
 begin
+  if Validation then
+  begin
+    qEntity.Post;
+    ShowMessage('Customer saved successfully!');
+  end;
+
+end;
+
+procedure TfmCustomer.sbRightClick(Sender: TObject);
+begin
+  qEntity.Next;
+end;
+
+function TfmCustomer.Validation: Boolean;
+begin
+  Result := false;
+
   if not (qEntity.State in [dsEdit, dsInsert]) then
   begin
     MessageDlg('No edit to record!', mtInformation, [mbOK], 0);
@@ -273,12 +301,21 @@ begin
     Exit;
   end;
 
-  qEntity.Post;
-end;
+  if (cbeType.ItemIndex = -1) or (Trim(cbeType.Text) = '') then
+  begin
+    ShowMessage('The type is empty!');
+    cbeType.Focused;
+    Exit;
+  end;
 
-procedure TfmCustomer.sbRightClick(Sender: TObject);
-begin
-  qEntity.Next;
+  if (cbeState.ItemIndex = -1) or (Trim(cbeState.Text) = '') then
+  begin
+    ShowMessage('The state is empty!');
+    cbeState.Focused;
+    Exit;
+  end;
+
+  Result := True;
 end;
 
 end.

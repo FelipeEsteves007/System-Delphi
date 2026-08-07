@@ -826,6 +826,8 @@ object fmCustomer: TfmCustomer
       ParentShowHint = False
       ShowHint = False
       OnClick = sbDeleteClick
+      ExplicitLeft = 248
+      ExplicitTop = 6
     end
     object sbRecord: TSpeedButton
       Left = 82
@@ -1457,7 +1459,8 @@ object fmCustomer: TfmCustomer
       Left = 750
       Top = 192
       Width = 53
-      Height = 21
+      Height = 22
+      Style = csOwnerDrawFixed
       DataField = 'STATE_CODE'
       DataSource = dsEntity
       Items.Strings = (
@@ -1512,6 +1515,7 @@ object fmCustomer: TfmCustomer
     end
   end
   object qEntity: TFDQuery
+    AfterScroll = qEntityAfterScroll
     Connection = Tables.FDConnection
     SQL.Strings = (
       'SELECT ID,'
