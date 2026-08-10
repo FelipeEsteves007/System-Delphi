@@ -73,6 +73,9 @@ type
     sbDelete: TSpeedButton;
     sbRecord: TSpeedButton;
     sbCancel: TSpeedButton;
+    lbPostalCode: TLabel;
+    sbVoltar: TSpeedButton;
+    Label1: TLabel;
     procedure sbCloseClick(Sender: TObject);
     procedure sbLastClick(Sender: TObject);
     procedure sbRightClick(Sender: TObject);
@@ -94,6 +97,7 @@ type
     procedure dbeStateRKeyPress(Sender: TObject; var Key: Char);
     procedure qEntityAfterScroll(DataSet: TDataSet);
     function  Validation: Boolean;
+    procedure sbVoltarClick(Sender: TObject);
   private
    { Private declarations }
   public
@@ -107,7 +111,7 @@ implementation
 
 {$R *.dfm}
 
-uses uTables, uUseful;
+uses uTables, uUseful, uPostalCode;
 
 procedure TfmCustomer.dbeCellKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -229,6 +233,17 @@ end;
 procedure TfmCustomer.sbRightClick(Sender: TObject);
 begin
   qEntity.Next;
+end;
+
+procedure TfmCustomer.sbVoltarClick(Sender: TObject);
+var pForm: TfmPostalCode;
+begin
+  pForm := TfmPostalCode.Create(Self);
+  try
+    pForm.ShowModal;
+  finally
+    FreeAndNil(pForm);
+  end;
 end;
 
 function TfmCustomer.Validation: Boolean;

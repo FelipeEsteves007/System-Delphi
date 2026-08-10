@@ -9,7 +9,8 @@ uses
   uPassword in 'uPassword.pas' {fmPassword},
   uMenu in 'uMenu.pas' {fmMenu},
   uUseful in 'uUseful.pas',
-  uCustomer in 'uCustomer.pas' {fmCustomer};
+  uCustomer in 'uCustomer.pas' {fmCustomer},
+  uPostalCode in 'uPostalCode.pas' {fmPostalCode};
 
 {$R *.res}
 
@@ -18,7 +19,6 @@ begin
   Application.MainFormOnTaskbar := True;
 
   Application.CreateForm(TTables, Tables);
-
   fmLogin := TfmLogin.Create(nil);
   try
     if fmLogin.ShowModal = mrOk then
