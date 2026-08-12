@@ -16,7 +16,7 @@ type
   TTables = class(TDataModule)
     FDConnection: TFDConnection;
     procedure CheckUser(query: TFDQuery; const user, sPassword: String);
-    procedure EnableButtons(query: TFDQuery; bEdit: Boolean; AForm: TCustomForm);
+    procedure EnableButtons(query: TFDQuery; AForm: TCustomForm);
   private
     { Private declarations }
   public
@@ -51,9 +51,11 @@ begin
   query.Open;
 end;
 
-procedure TTables.EnableButtons(query: TFDQuery; bEdit: Boolean; AForm: TCustomForm);
+procedure TTables.EnableButtons(query: TFDQuery; AForm: TCustomForm);
 var sbNew, sbDelete, sbLeft, sbRight, sbFirst, sbLast, sbRecord, sbCancel: TSpeedButton;
+    bEdit: Boolean;
 begin
+  bEdit := false;
   if not query.Active then exit;
   if not Assigned(AForm) then exit;
 

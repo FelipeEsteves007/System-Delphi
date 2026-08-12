@@ -6,7 +6,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, System.UiTypes,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.DBCtrls,
-  Vcl.Mask, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Classes, SysUtils;
+  Vcl.Mask, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Classes, SysUtils, Vcl.Graphics;
 
 type
   TfmCustomer = class(TForm)
@@ -23,7 +23,6 @@ type
     lbTrade: TLabel;
     dbeTrade: TDBEdit;
     lbType: TLabel;
-    cbeType: TDBComboBox;
     dbeDocument: TDBEdit;
     lbDocument: TLabel;
     lbStateR: TLabel;
@@ -47,7 +46,6 @@ type
     lbCity: TLabel;
     dbeCity: TDBEdit;
     lbState: TLabel;
-    cbeState: TDBComboBox;
     dbeRdActive: TDBRadioGroup;
     qEntityID: TIntegerField;
     qEntityNAME: TStringField;
@@ -74,8 +72,10 @@ type
     sbRecord: TSpeedButton;
     sbCancel: TSpeedButton;
     lbPostalCode: TLabel;
-    sbVoltar: TSpeedButton;
+    sbPostalCode: TSpeedButton;
     Label1: TLabel;
+    cbType: TComboBox;
+    cbState: TComboBox;
     procedure sbCloseClick(Sender: TObject);
     procedure sbLastClick(Sender: TObject);
     procedure sbRightClick(Sender: TObject);
@@ -95,9 +95,9 @@ type
     procedure dbeNameKeyPress(Sender: TObject; var Key: Char);
     procedure dbeTradeKeyPress(Sender: TObject; var Key: Char);
     procedure dbeStateRKeyPress(Sender: TObject; var Key: Char);
-    procedure qEntityAfterScroll(DataSet: TDataSet);
     function  Validation: Boolean;
-    procedure sbVoltarClick(Sender: TObject);
+    procedure sbPostalCodeClick(Sender: TObject);
+    procedure qEntityAfterScroll(DataSet: TDataSet);
   private
    { Private declarations }
   public
@@ -124,7 +124,7 @@ begin
   begin
     if (Length(dbeDocument.Text) < 11) or not CPF(JustNumbers(dbeDocument.Text)) then
     begin
-      ShowMessage('CPF inválido!');
+      ShowMessage('Invalid document!');
       dbeDocument.SetFocus;
     end;
   end;
@@ -152,7 +152,7 @@ end;
 
 procedure TfmCustomer.dbeStateRKeyPress(Sender: TObject; var Key: Char);
 begin
-  JustNumbers(Key)
+  JustNumberEdit(Key)
 end;
 
 procedure TfmCustomer.dbeTradeKeyPress(Sender: TObject; var Key: Char);
@@ -163,28 +163,41 @@ end;
 procedure TfmCustomer.dsEntityStateChange(Sender: TObject);
 var bEdit: Boolean;
 begin
-  Tables.EnableButtons(qEntity,bEdit,fmCustomer);
+  Tables.EnableButtons(qEntity,fmCustomer);
 end;
 
 procedure TfmCustomer.FormShow(Sender: TObject);
 begin
   if not qEntity.Active then qEntity.Open;
-  dbeRdActive.ItemIndex := 0;
   dbeName.SetFocus;
 end;
 
 procedure TfmCustomer.qEntityAfterScroll(DataSet: TDataSet);
 begin
-  if (qEntityACTIVE.AsString = 'Y') then dbeRdActive.ItemIndex := 0
-    else dbeRdActive.ItemIndex := 1;
+  if qEntityENTITY_TYPE.AsString = 'M' then
+     cbType.ItemIndex := 0
+  else if qEntityENTITY_TYPE.AsString = 'F' then
+    cbType.ItemIndex := 1;
 
-  if (qEntityENTITY_TYPE.AsString = 'M') then cbeType.ItemIndex := 0
-    else cbeType.ItemIndex := 1;
+  cbState.ItemIndex := cbState.Items.IndexOf(qEntitySTATE_CODE.AsString);
 end;
 
 procedure TfmCustomer.sbCancelClick(Sender: TObject);
+var
+  I: Integer;
 begin
   qEntity.Cancel;
+
+  for I := 0 to pnClient.ControlCount - 1 do
+  begin
+    if pnClient.Controls[I] is TLabel then
+    begin
+      if TLabel(pnClient.Controls[I]).Tag = 1 then
+      begin
+        TLabel(pnClient.Controls[I]).Font.Color := clWindowText;
+      end;
+    end;
+  end;
 end;
 
 procedure TfmCustomer.sbCloseClick(Sender: TObject);
@@ -224,10 +237,13 @@ procedure TfmCustomer.sbRecordClick(Sender: TObject);
 begin
   if Validation then
   begin
+    if cbType.ItemIndex = 0 then qEntityENTITY_TYPE.AsString := 'M'
+      else if cbType.ItemIndex = 1 then qEntityENTITY_TYPE.AsString := 'F';
+    qEntitySTATE_CODE.AsString := cbState.Text;
     qEntity.Post;
     ShowMessage('Customer saved successfully!');
+    Exit;
   end;
-
 end;
 
 procedure TfmCustomer.sbRightClick(Sender: TObject);
@@ -235,20 +251,31 @@ begin
   qEntity.Next;
 end;
 
-procedure TfmCustomer.sbVoltarClick(Sender: TObject);
-var pForm: TfmPostalCode;
+procedure TfmCustomer.sbPostalCodeClick(Sender: TObject);
+var pFormPostal: TfmPostalCode;
 begin
-  pForm := TfmPostalCode.Create(Self);
+  pFormPostal := TfmPostalCode.Create(Self);
   try
-    pForm.ShowModal;
+    if pFormPostal.ShowModal = mrOk then
+    begin
+      if not (qEntity.State in [dsEdit, dsInsert]) then qEntity.Edit;
+      dbeCity.Text      := pFormPostal.qPostalCodeCITY.AsString;
+      dbeAddress.Text   := pFormPostal.qPostalCodeADDRESS.AsString;
+      dbeNeight.Text    := pFormPostal.qPostalCodeNEIGHBORHOOD.AsString;
+      cbState.ItemIndex := cbState.Items.IndexOf(pFormPostal.qPostalCodeSTATE_CODE.AsString);
+      dbePostal.Text    := pFormPostal.qPostalCodePOSTAL_CODE.AsString;
+    end;
   finally
-    FreeAndNil(pForm);
+    FreeAndNil(pFormPostal);
   end;
 end;
 
 function TfmCustomer.Validation: Boolean;
+var I: Integer;
+    ed: TEdit;
+    lb: TLabel;
 begin
-  Result := false;
+  Result := False;
 
   if not (qEntity.State in [dsEdit, dsInsert]) then
   begin
@@ -256,77 +283,81 @@ begin
     Exit;
   end;
 
-  if Trim(dbeName.Text) = '' then
+  for I := 0 to pnClient.ControlCount - 1 do
   begin
-    ShowMessage('The name is empty!');
-    Exit;
+    if (pnClient.Controls[I] is TLabel) then
+    begin
+      if TLabel(pnClient.Controls[I]).Tag = 1 then
+      begin
+        TLabel(pnClient.Controls[I]).Font.Color := clWindowText;
+      end;
+    end;
   end;
 
-  if Trim(dbeTrade.Text) = '' then
+  for I := 0 to pnClient.ControlCount - 1 do
   begin
-    ShowMessage('The trade name is empty!');
-    Exit;
+    if pnClient.Controls[I] is TLabel then
+    begin
+      lb := TLabel(pnClient.Controls[I]);
+      if (lb.Tag = 1) and Assigned(lb.FocusControl) and (lb.FocusControl is TCustomEdit) then
+      begin
+        if (Trim(TCustomEdit(lb.FocusControl).Text) = '') then
+        begin
+          lb.Font.Color := clRed;
+          TCustomEdit(lb.FocusControl).SetFocus;
+          ShowMessage('The ' + StringReplace(lb.Caption, '&', '', [rfReplaceAll]) + ' is empty!');
+          Exit;
+        end;
+      end;
+    end;
   end;
 
-  if Trim(dbeDocument.Text) = '' then
-  begin
-    ShowMessage('The document number is empty!');
-    Exit;
-  end;
-
-  if Trim(dbeStateR.Text) = '' then
-  begin
-    ShowMessage('The state registration is empty!');
-    Exit;
-  end;
-
-  if Trim(dbeCell.Text) = '' then
-  begin
-    ShowMessage('The cellphone is empty!');
-    Exit;
-  end;
-
-  if Trim(dbePostal.Text) = '' then
-  begin
-    ShowMessage('The postal code is empty!');
-    Exit;
-  end;
-
-  if Trim(dbeAddress.Text) = '' then
-  begin
-    ShowMessage('The address is empty!');
-    Exit;
-  end;
-
-  if Trim(dbeNumber.Text) = '' then
-  begin
-    ShowMessage('The number address is empty!');
-    Exit;
-  end;
-
-  if Trim(dbeNeight.Text) = '' then
-  begin
-    ShowMessage('The neightborhood is empty!');
-    Exit;
-  end;
-
-  if Trim(dbeCity.Text) = '' then
-  begin
-    ShowMessage('The city is empty!');
-    Exit;
-  end;
-
-  if (cbeType.ItemIndex = -1) or (Trim(cbeType.Text) = '') then
+  if (cbType.ItemIndex = -1) or (Trim(cbType.Text) = '') then
   begin
     ShowMessage('The type is empty!');
-    cbeType.Focused;
+    cbType.SetFocus;
     Exit;
   end;
 
-  if (cbeState.ItemIndex = -1) or (Trim(cbeState.Text) = '') then
+  if (cbState.ItemIndex = -1) or (Trim(cbState.Text) = '') then
   begin
     ShowMessage('The state is empty!');
-    cbeState.Focused;
+    cbState.SetFocus;
+    Exit;
+  end;
+
+  if (Trim(JustNumbers(dbePhone.Text)) <> '') then
+  begin
+    if Length(JustNumbers(Trim(dbePhone.Text))) < 10 then
+    begin
+      ShowMessage('Invalid number!');
+      dbePhone.SetFocus;
+      Exit;
+    end;
+  end;
+
+  if Length(JustNumbers(Trim(dbeCell.Text))) < 11 then
+  begin
+    ShowMessage('Invalid number!');
+    dbeCell.SetFocus;
+    Exit;
+  end;
+
+if Trim(dbeEmail.Text) <> '' then
+  begin
+    if (Pos('@', dbeEmail.Text) = 0) then
+    begin
+      ShowMessage('Invalid email address!');
+      dbeEmail.SetFocus;
+      Exit;
+    end;
+  end;
+
+
+  if dbeRdActive.ItemIndex = -1 then
+  begin
+    ShowMessage('User should be active or inactive!');
+    dbeRdActive.SetFocus;
     Exit;
   end;
 

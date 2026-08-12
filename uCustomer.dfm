@@ -1101,7 +1101,7 @@ object fmCustomer: TfmCustomer
     ExplicitTop = -1
     object lbCode: TLabel
       Left = 17
-      Top = 12
+      Top = 9
       Width = 31
       Height = 14
       Caption = 'Code'
@@ -1113,11 +1113,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbName: TLabel
+      Tag = 1
       Left = 129
-      Top = 12
+      Top = 9
       Width = 33
       Height = 14
       Caption = 'Name'
+      FocusControl = dbeName
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1126,11 +1128,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbTrade: TLabel
+      Tag = 1
       Left = 409
-      Top = 12
+      Top = 9
       Width = 71
       Height = 14
       Caption = 'Trade Name'
+      FocusControl = dbeTrade
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1139,11 +1143,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbType: TLabel
-      Left = 697
-      Top = 12
+      Tag = 1
+      Left = 696
+      Top = 9
       Width = 29
       Height = 14
       Caption = 'Type'
+      FocusControl = cbType
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1152,11 +1158,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbDocument: TLabel
+      Tag = 1
       Left = 17
       Top = 60
       Width = 114
       Height = 14
       Caption = 'Document Number'
+      FocusControl = dbeDocument
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1165,11 +1173,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbStateR: TLabel
+      Tag = 1
       Left = 225
       Top = 60
       Width = 114
       Height = 14
       Caption = 'State Registration'
+      FocusControl = dbeStateR
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1191,11 +1201,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbCell: TLabel
+      Tag = 1
       Left = 585
       Top = 60
       Width = 60
       Height = 14
       Caption = 'Cellphone'
+      FocusControl = dbeCell
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1217,11 +1229,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbPostal: TLabel
+      Tag = 1
       Left = 321
       Top = 116
       Width = 73
       Height = 14
       Caption = 'Postal Code'
+      FocusControl = dbePostal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1230,11 +1244,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbAddress: TLabel
+      Tag = 1
       Left = 449
       Top = 116
       Width = 49
       Height = 14
       Caption = 'Address'
+      FocusControl = dbeAddress
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1243,11 +1259,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbNumber: TLabel
+      Tag = 1
       Left = 735
       Top = 116
       Width = 47
       Height = 14
       Caption = 'Number'
+      FocusControl = dbeNumber
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1269,11 +1287,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbNeight: TLabel
+      Tag = 1
       Left = 325
       Top = 172
       Width = 87
       Height = 14
       Caption = 'Neighborhood'
+      FocusControl = dbeNeight
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1282,11 +1302,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbCity: TLabel
+      Tag = 1
       Left = 539
       Top = 172
       Width = 24
       Height = 14
       Caption = 'City'
+      FocusControl = dbeCity
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1295,11 +1317,13 @@ object fmCustomer: TfmCustomer
       ParentFont = False
     end
     object lbState: TLabel
+      Tag = 1
       Left = 750
       Top = 172
       Width = 34
       Height = 14
       Caption = 'State'
+      FocusControl = cbState
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -1320,7 +1344,7 @@ object fmCustomer: TfmCustomer
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object sbVoltar: TSpeedButton
+    object sbPostalCode: TSpeedButton
       Left = 779
       Top = 260
       Width = 28
@@ -1389,7 +1413,7 @@ object fmCustomer: TfmCustomer
         34C14E6BEFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       Layout = blGlyphTop
       ParentFont = False
-      OnClick = sbVoltarClick
+      OnClick = sbPostalCodeClick
     end
     object Label1: TLabel
       Left = 591
@@ -1434,19 +1458,6 @@ object fmCustomer: TfmCustomer
       TabOrder = 2
       OnKeyPress = dbeTradeKeyPress
     end
-    object cbeType: TDBComboBox
-      Left = 697
-      Top = 29
-      Width = 104
-      Height = 22
-      Style = csOwnerDrawFixed
-      DataField = 'ENTITY_TYPE'
-      DataSource = dsEntity
-      Items.Strings = (
-        'Masculine'
-        'Feminine')
-      TabOrder = 3
-    end
     object dbeDocument: TDBEdit
       Left = 17
       Top = 80
@@ -1454,7 +1465,8 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'DOCUMENT_NUMBER'
       DataSource = dsEntity
-      TabOrder = 4
+      MaxLength = 14
+      TabOrder = 3
       OnExit = dbeDocumentExit
       OnKeyPress = dbeDocumentKeyPress
     end
@@ -1465,7 +1477,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'STATE_REGISTRATION'
       DataSource = dsEntity
-      TabOrder = 5
+      TabOrder = 4
       OnKeyPress = dbeStateRKeyPress
     end
     object dbePhone: TDBEdit
@@ -1475,7 +1487,8 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'PHONE'
       DataSource = dsEntity
-      TabOrder = 6
+      MaxLength = 13
+      TabOrder = 5
       OnKeyPress = dbePhoneKeyPress
     end
     object dbeCell: TDBEdit
@@ -1486,7 +1499,8 @@ object fmCustomer: TfmCustomer
       CharCase = ecUpperCase
       DataField = 'CELLPHONE'
       DataSource = dsEntity
-      TabOrder = 7
+      MaxLength = 14
+      TabOrder = 6
       OnKeyPress = dbeCellKeyPress
     end
     object dbeEmail: TDBEdit
@@ -1496,7 +1510,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'EMAIL'
       DataSource = dsEntity
-      TabOrder = 8
+      TabOrder = 7
     end
     object dbePostal: TDBEdit
       Left = 321
@@ -1505,7 +1519,8 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'POSTAL_CODE'
       DataSource = dsEntity
-      TabOrder = 9
+      MaxLength = 9
+      TabOrder = 8
     end
     object dbeAddress: TDBEdit
       Left = 449
@@ -1514,7 +1529,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'ADDRESS'
       DataSource = dsEntity
-      TabOrder = 10
+      TabOrder = 9
     end
     object dbeNumber: TDBEdit
       Left = 735
@@ -1523,7 +1538,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'ADDRESS_NUMBER'
       DataSource = dsEntity
-      TabOrder = 11
+      TabOrder = 10
       OnKeyPress = dbeNumberKeyPress
     end
     object dbeComplement: TDBEdit
@@ -1533,7 +1548,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'COMPLEMENT'
       DataSource = dsEntity
-      TabOrder = 12
+      TabOrder = 11
     end
     object dbeNeight: TDBEdit
       Left = 325
@@ -1542,7 +1557,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'NEIGHBORHOOD'
       DataSource = dsEntity
-      TabOrder = 13
+      TabOrder = 12
     end
     object dbeCity: TDBEdit
       Left = 539
@@ -1551,45 +1566,7 @@ object fmCustomer: TfmCustomer
       Height = 21
       DataField = 'CITY'
       DataSource = dsEntity
-      TabOrder = 14
-    end
-    object cbeState: TDBComboBox
-      Left = 750
-      Top = 192
-      Width = 53
-      Height = 22
-      Style = csOwnerDrawFixed
-      DataField = 'STATE_CODE'
-      DataSource = dsEntity
-      Items.Strings = (
-        'AC'
-        'AL'
-        'AP'
-        'AM'
-        'BA'
-        'CE'
-        'DF'
-        'ES'
-        'GO'
-        'MA'
-        'MT'
-        'MS'
-        'MG'
-        'PA'
-        'PB'
-        'PR'
-        'PE'
-        'PI'
-        'RJ'
-        'RN'
-        'RS'
-        'RO'
-        'RR'
-        'SC'
-        'SP'
-        'SE'
-        'TO')
-      TabOrder = 15
+      TabOrder = 13
     end
     object dbeRdActive: TDBRadioGroup
       Left = 17
@@ -1609,10 +1586,65 @@ object fmCustomer: TfmCustomer
         'Yes'
         'No')
       ParentFont = False
-      TabOrder = 16
+      TabOrder = 14
+      Values.Strings = (
+        'Y'
+        'N')
     end
   end
+  object cbType: TComboBox
+    Left = 696
+    Top = 29
+    Width = 117
+    Height = 22
+    Style = csOwnerDrawFixed
+    ItemIndex = 0
+    TabOrder = 2
+    Text = 'Marculine'
+    Items.Strings = (
+      'Marculine'
+      'Feminine')
+  end
+  object cbState: TComboBox
+    Left = 750
+    Top = 192
+    Width = 63
+    Height = 22
+    Style = csOwnerDrawFixed
+    ItemIndex = 0
+    TabOrder = 3
+    Text = 'AC'
+    Items.Strings = (
+      'AC'
+      'AL'
+      'AP'
+      'AM'
+      'BA'
+      'CE'
+      'DF'
+      'ES'
+      'GO'
+      'MA'
+      'MT'
+      'MS'
+      'MG'
+      'PA'
+      'PB'
+      'PR'
+      'PE'
+      'PI'
+      'RJ'
+      'RN'
+      'RS'
+      'RO'
+      'RR'
+      'SC'
+      'SP'
+      'SE'
+      'TO')
+  end
   object qEntity: TFDQuery
+    Active = True
     AfterScroll = qEntityAfterScroll
     Connection = Tables.FDConnection
     SQL.Strings = (
@@ -1672,12 +1704,12 @@ object fmCustomer: TfmCustomer
     object qEntityPHONE: TStringField
       FieldName = 'PHONE'
       Origin = 'PHONE'
-      EditMask = '!\(99\)0000-0000;1;_'
+      EditMask = '!\(99\)9999-9999;1;_'
     end
     object qEntityCELLPHONE: TStringField
       FieldName = 'CELLPHONE'
       Origin = 'CELLPHONE'
-      EditMask = '!\(99\)00000-0000;1;_'
+      EditMask = '!\(99\)99999-9999;1;_'
     end
     object qEntityEMAIL: TStringField
       FieldName = 'EMAIL'

@@ -32,6 +32,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure cbSearchChange(Sender: TObject);
     procedure sbLocClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -50,6 +51,15 @@ uses uTables;
 procedure TfmPostalCode.cbSearchChange(Sender: TObject);
 begin
   lbText.Caption := cbSearch.Text + ':';
+end;
+
+procedure TfmPostalCode.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    sbLocClick(Sender);
+  end;
 end;
 
 procedure TfmPostalCode.FormShow(Sender: TObject);

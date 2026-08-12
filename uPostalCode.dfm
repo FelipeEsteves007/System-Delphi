@@ -10,8 +10,10 @@ object fmPostalCode: TfmPostalCode
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,7 +25,6 @@ object fmPostalCode: TfmPostalCode
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 377
     object lbSearch: TLabel
       Left = 9
       Top = 8
@@ -194,10 +195,6 @@ object fmPostalCode: TfmPostalCode
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 1
-    ExplicitTop = 1
-    ExplicitWidth = 375
-    ExplicitHeight = 41
     object dbeCode: TDBGrid
       Left = 0
       Top = 0
@@ -205,6 +202,7 @@ object fmPostalCode: TfmPostalCode
       Height = 265
       Align = alClient
       DataSource = dsPostalCode
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText

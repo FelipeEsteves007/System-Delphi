@@ -63,7 +63,7 @@ uses uTables;
 procedure TfmUser.dsUserStateChange(Sender: TObject);
 var bEdit: Boolean;
 begin
-  Tables.EnableButtons(qUSer,bEdit,fmUser);
+  Tables.EnableButtons(qUSer,fmUser);
 end;
 
 procedure TfmUser.FormShow(Sender: TObject);
