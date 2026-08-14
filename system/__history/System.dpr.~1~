@@ -1,0 +1,20 @@
+program System;
+
+uses
+  Vcl.Forms,
+  uLogin in 'uLogin.pas' {fmLogin},
+  uTables in 'uTables.pas' {Tables: TDataModule},
+  uUser in 'uUser.pas' {fmUser},
+  uPassword in 'uPassword.pas' {fmPassword};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfmLogin, fmLogin);
+  Application.CreateForm(TTables, Tables);
+  Application.CreateForm(TfmUser, fmUser);
+  Application.CreateForm(TfmPassword, fmPassword);
+  Application.Run;
+end.
