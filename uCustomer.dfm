@@ -1414,7 +1414,7 @@ object fmCustomer: TfmCustomer
       ParentFont = False
       OnClick = sbPostalCodeClick
     end
-    object Label1: TLabel
+    object lbTitleP: TLabel
       Left = 591
       Top = 238
       Width = 221
@@ -1423,6 +1423,20 @@ object fmCustomer: TfmCustomer
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbActive: TLabel
+      Tag = 1
+      Left = 17
+      Top = 225
+      Width = 38
+      Height = 14
+      Caption = 'Active'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -1568,11 +1582,15 @@ object fmCustomer: TfmCustomer
       TabOrder = 13
     end
     object dbeRdActive: TDBRadioGroup
+      Tag = 1
       Left = 17
-      Top = 232
-      Width = 155
-      Height = 57
-      Caption = 'Active'
+      Top = 244
+      Width = 128
+      Height = 46
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Columns = 2
       DataField = 'ACTIVE'
       DataSource = dsEntity
@@ -1643,7 +1661,6 @@ object fmCustomer: TfmCustomer
       'TO')
   end
   object qEntity: TFDQuery
-    Active = True
     AfterScroll = qEntityAfterScroll
     Connection = Tables.FDConnection
     SQL.Strings = (
@@ -1663,8 +1680,10 @@ object fmCustomer: TfmCustomer
       '       NEIGHBORHOOD,'
       '       CITY,'
       '       STATE_CODE,'
-      '       ACTIVE'
-      'FROM ENTITY')
+      '       ACTIVE,'
+      '       ROLE_TYPE'
+      'FROM ENTITY'
+      'WHERE ROLE_TYPE = '#39'C'#39)
     Left = 728
     Top = 64
     object qEntityID: TIntegerField
@@ -1759,11 +1778,52 @@ object fmCustomer: TfmCustomer
       FixedChar = True
       Size = 1
     end
+    object qEntityROLE_TYPE: TStringField
+      FieldName = 'ROLE_TYPE'
+      Origin = 'ROLE_TYPE'
+      Required = True
+      Size = 1
+    end
   end
   object dsEntity: TDataSource
     DataSet = qEntity
     OnStateChange = dsEntityStateChange
     Left = 776
     Top = 64
+  end
+  object qUSer: TFDQuery
+    Connection = Tables.FDConnection
+    SQL.Strings = (
+      'SELECT ID,'
+      '       USER_NAME,'
+      '       PASSWORD,'
+      '       USER_TYPE'
+      'FROM USERS')
+    Left = 296
+    Top = 248
+    object qUSerID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qUSerUSER_NAME: TStringField
+      FieldName = 'USER_NAME'
+      Origin = 'USER_NAME'
+      Required = True
+      Size = 100
+    end
+    object qUSerPASSWORD: TStringField
+      FieldName = 'PASSWORD'
+      Origin = '"PASSWORD"'
+      Required = True
+      Size = 100
+    end
+    object qUSerUSER_TYPE: TStringField
+      FieldName = 'USER_TYPE'
+      Origin = 'USER_TYPE'
+      Required = True
+      Size = 10
+    end
   end
 end

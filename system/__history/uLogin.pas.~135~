@@ -1,0 +1,136 @@
+unit uLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.UITypes;
+
+type
+  TfmLogin = class(TForm)
+    pnFundo: TPanel;
+    Label1: TLabel;
+    PassWord: TLabel;
+    sbOK: TSpeedButton;
+    sbClose: TSpeedButton;
+    edPassword: TEdit;
+    edUser: TEdit;
+    Image1: TImage;
+    qUSer: TFDQuery;
+    qUSerID: TIntegerField;
+    qUSerUSER_NAME: TStringField;
+    qUSerPASSWORD: TStringField;
+    qUSerUSER_TYPE: TStringField;
+    pnRodape: TPanel;
+    Label3: TLabel;
+    SpeedButton1: TSpeedButton;
+    procedure sbCloseClick(Sender: TObject);
+    procedure sbOKClick(Sender: TObject);
+    procedure GoMenu;
+    procedure sbClickClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+  private
+    procedure GoPasswordUser;
+  public
+  end;
+
+var
+  fmLogin: TfmLogin;
+
+implementation
+
+{$R *.dfm}
+
+uses uUser, uPassword, uTables, uMenu;
+
+procedure TfmLogin.sbClickClick(Sender: TObject);
+begin
+  GoPasswordUser;
+end;
+
+procedure TfmLogin.sbCloseClick(Sender: TObject);
+begin
+  ModalResult := mrCancel;
+end;
+
+procedure TfmLogin.sbOKClick(Sender: TObject);
+begin
+  if (Trim(edUser.Text) = '') then
+  begin
+    MessageDlg('The user is empty!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  if (Trim(edPassword.Text) = '')then
+  begin
+    MessageDlg('The password is empty!', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  Tables.CheckUser(qUser,edUser.Text,edPassword.Text);
+
+  if qUSer.IsEmpty then
+  begin
+    MessageDlg('Access denied!', mtError, [mbClose], 0);
+    Exit;
+  end else begin
+    Tables.sUser := qUSerUSER_NAME.AsString;
+    ModalResult := mrOk;
+  end;
+end;
+
+procedure TfmLogin.GoPasswordUser;
+begin
+  // Em vez de Application.CreateForm, instanciamos a tela diretamente
+  fmPassword := TfmPassword.Create(nil);
+  try
+    fmPassword.ShowModal;
+
+    if fmPassword.ModalResult = mrOk then
+    begin
+      // Mesma coisa para o fmUser
+      fmUser := TfmUser.Create(nil);
+      try
+        fmUser.ShowModal;
+      finally
+        FreeAndNil(fmUser);
+      end;
+    end;
+  finally
+    FreeAndNil(fmPassword);
+  end;
+end;
+
+procedure TfmLogin.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    Key := 0;
+    sbOKClick(Sender);
+  end;
+
+  if Key = VK_ESCAPE then
+  begin
+    Key := 0;
+    sbCloseClick(Sender);
+  end;
+end;
+
+procedure TfmLogin.FormShow(Sender: TObject);
+begin
+  edUser.SetFocus;
+end;
+
+procedure TfmLogin.GoMenu;
+begin
+  Application.CreateForm(TfmMenu,fmMenu);
+  try
+    fmMenu.ShowModal;
+  finally
+    FreeAndNil(fmMenu);
+  end;
+end;
+
+end.

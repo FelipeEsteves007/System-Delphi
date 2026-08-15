@@ -77,6 +77,7 @@ begin
     Exit;
   end else begin
     Tables.sUser := qUSerUSER_NAME.AsString;
+    Tables.sTypeUser := qUSerUSER_TYPE.AsString;
     ModalResult := mrOk;
   end;
 end;

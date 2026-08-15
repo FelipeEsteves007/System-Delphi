@@ -1,0 +1,108 @@
+unit uPostalCode;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TfmPostalCode = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    dbeCode: TDBGrid;
+    cbSearch: TComboBox;
+    edSearch: TEdit;
+    lbSearch: TLabel;
+    lbText: TLabel;
+    qPostalCode: TFDQuery;
+    dsPostalCode: TDataSource;
+    qPostalCodePOSTAL_CODE: TStringField;
+    qPostalCodeADDRESS: TStringField;
+    qPostalCodeNEIGHBORHOOD: TStringField;
+    qPostalCodeCITY: TStringField;
+    qPostalCodeSTATE_CODE: TStringField;
+    sbLoc: TSpeedButton;
+    pnRodape: TPanel;
+    sbClose: TSpeedButton;
+    sbOk: TSpeedButton;
+    procedure sbCloseClick(Sender: TObject);
+    procedure sbOkClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure cbSearchChange(Sender: TObject);
+    procedure sbLocClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmPostalCode: TfmPostalCode;
+
+implementation
+
+{$R *.dfm}
+
+uses uTables;
+
+procedure TfmPostalCode.cbSearchChange(Sender: TObject);
+begin
+  lbText.Caption := cbSearch.Text + ':';
+end;
+
+procedure TfmPostalCode.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    sbLocClick(Sender);
+  end;
+end;
+
+procedure TfmPostalCode.FormShow(Sender: TObject);
+begin
+  cbSearch.ItemIndex := 0;
+  lbText.Caption :=  cbSearch.Text + ':'
+end;
+
+procedure TfmPostalCode.sbCloseClick(Sender: TObject);
+begin
+  ModalResult := mrCancel;
+end;
+
+procedure TfmPostalCode.sbLocClick(Sender: TObject);
+begin
+  qPostalCode.Close;
+  qPostalCode.SQL.Clear;
+  with qPostalCode.SQL do
+  begin
+    Add(    'SELECT PC.POSTAL_CODE, ' +
+    '       PC.ADDRESS,     ' +
+    '       PC.NEIGHBORHOOD,' +
+    '       PC.CITY, ' +
+    '       PC.STATE_CODE   ' +
+    'FROM POSTALCODE PC ');
+     case cbSearch.ItemIndex of
+      0: Add(' WHERE UPPER(CITY) LIKE UPPER(:FILTER)');
+      1: Add(' WHERE UPPER(ADDRESS) LIKE UPPER(:FILTER)');
+      2: Add(' WHERE UPPER(NEIGHBORHOOD) LIKE UPPER(:FILTER)');
+     end;
+  end;
+  qPostalCode.ParamByName('FILTER').AsString := '%' + Trim(edSearch.Text) + '%';
+  qPostalCode.Open;
+end;
+
+procedure TfmPostalCode.sbOkClick(Sender: TObject);
+begin
+  if (not qPostalCode.Active) or (qPostalCode.IsEmpty) then
+  begin
+   ShowMessage('Please, choose a city');
+   Exit;
+  end;
+  ModalResult := mrOk;
+end;
+
+end.

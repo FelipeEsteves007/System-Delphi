@@ -73,9 +73,16 @@ type
     sbCancel: TSpeedButton;
     lbPostalCode: TLabel;
     sbPostalCode: TSpeedButton;
-    Label1: TLabel;
+    lbTitleP: TLabel;
     cbType: TComboBox;
     cbState: TComboBox;
+    lbActive: TLabel;
+    qEntityROLE_TYPE: TStringField;
+    qUSer: TFDQuery;
+    qUSerID: TIntegerField;
+    qUSerUSER_NAME: TStringField;
+    qUSerPASSWORD: TStringField;
+    qUSerUSER_TYPE: TStringField;
     procedure sbCloseClick(Sender: TObject);
     procedure sbLastClick(Sender: TObject);
     procedure sbRightClick(Sender: TObject);
@@ -169,6 +176,13 @@ end;
 procedure TfmCustomer.FormShow(Sender: TObject);
 begin
   if not qEntity.Active then qEntity.Open;
+  if Tables.sTypeUser = 'G' then
+  begin
+    sbPostalCode.Enabled := false;
+    sbPostalCode.Visible := false;
+    lbTitleP.Visible     := false;
+    lbPostalCode.Visible := false;
+  end;
   dbeName.SetFocus;
 end;
 
@@ -195,6 +209,12 @@ end;
 
 procedure TfmCustomer.sbDeleteClick(Sender: TObject);
 begin
+  if qEntity.IsEmpty then
+  begin
+    ShowMessage('There is no user to delete');
+    Exit;
+  end;
+
   if MessageDlg('Do you really want to delete this user?', mtConfirmation,[mbNo,mbYes], 0) = mrYes then
   begin
     qEntity.Delete;
@@ -229,6 +249,7 @@ begin
     if cbType.ItemIndex = 0 then qEntityENTITY_TYPE.AsString := 'M'
       else if cbType.ItemIndex = 1 then qEntityENTITY_TYPE.AsString := 'F';
     qEntitySTATE_CODE.AsString := cbState.Text;
+    qEntityROLE_TYPE.AsString := 'C';
     qEntity.Post;
     ShowMessage('Customer saved successfully!');
     Exit;
@@ -253,6 +274,7 @@ begin
       dbeNeight.Text    := pFormPostal.qPostalCodeNEIGHBORHOOD.AsString;
       cbState.ItemIndex := cbState.Items.IndexOf(pFormPostal.qPostalCodeSTATE_CODE.AsString);
       dbePostal.Text    := pFormPostal.qPostalCodePOSTAL_CODE.AsString;
+      cbState.Text      := pFormPostal.qPostalCodeSTATE_CODE.AsString;
     end;
   finally
     FreeAndNil(pFormPostal);
@@ -405,6 +427,7 @@ begin
   if dbeRdActive.ItemIndex = -1 then
   begin
     ShowMessage('User should be active or inactive!');
+    Required(lbActive);
     dbeRdActive.SetFocus;
     Exit;
   end;

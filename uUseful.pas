@@ -2,7 +2,7 @@ unit uUseful;
 
 interface
 
-uses SysUtils, Vcl.Graphics, System.UiTypes, Vcl.StdCtrls, Vcl.ExtCtrls;
+uses SysUtils, Vcl.Graphics, System.UiTypes, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
 
 function JustNumbers(Texto: String): String;
 function Cpf(num: String): Boolean;
@@ -87,7 +87,7 @@ begin
       begin
         TLabel(pn.Controls[I]).Font.Color := clWindowText;
       end;
-    end;
+    end
   end;
 end;
 

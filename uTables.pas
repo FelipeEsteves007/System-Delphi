@@ -1,4 +1,4 @@
-unit uTables;
+ unit uTables;
 
 interface
 { TYPES OF USER
@@ -6,6 +6,10 @@ interface
    ADM      - A
    USER     - U
    GUEST    - G }
+
+{ TYPES OF ENTITY
+   CUSTOMER  - C
+   SUPPLIER  - S }
 
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
@@ -21,6 +25,7 @@ type
     { Private declarations }
   public
     sUser: String;
+    sTypeUser: String;
   end;
 
 var
@@ -59,26 +64,34 @@ begin
   if not query.Active then exit;
   if not Assigned(AForm) then exit;
 
-  bEdit := query.State in [dsEdit,dsInsert];
+   sbNew    := AForm.FindComponent('sbNew')    as TSpeedButton;
+   sbDelete := AForm.FindComponent('sbDelete') as TSpeedButton;
+   sbLeft   := AForm.FindComponent('sbLeft')   as TSpeedButton;
+   sbRight  := AForm.FindComponent('sbRight')  as TSpeedButton;
+   sbFirst  := AForm.FindComponent('sbFirst')  as TSpeedButton;
+   sbLast   := AForm.FindComponent('sbLast')   as TSpeedButton;
+   sbRecord := AForm.FindComponent('sbRecord') as TSpeedButton;
+   sbCancel := AForm.FindComponent('sbCancel') as TSpeedButton;
 
-  sbNew    := AForm.FindComponent('sbNew')    as TSpeedButton;
-  sbDelete := AForm.FindComponent('sbDelete') as TSpeedButton;
-  sbLeft   := AForm.FindComponent('sbLeft')   as TSpeedButton;
-  sbRight  := AForm.FindComponent('sbRight')  as TSpeedButton;
-  sbFirst  := AForm.FindComponent('sbFirst')  as TSpeedButton;
-  sbLast   := AForm.FindComponent('sbLast')   as TSpeedButton;
-  sbRecord := AForm.FindComponent('sbRecord') as TSpeedButton;
-  sbCancel := AForm.FindComponent('sbCancel') as TSpeedButton;
+  if sTypeUser <> 'G' then
+  begin
+   bEdit := query.State in [dsEdit,dsInsert];
 
-  if Assigned(sbNew)    then sbNew.Enabled    := not bEdit;
-  if Assigned(sbDelete) then sbDelete.Enabled := sbNew.Enabled;
-  if Assigned(sbLeft)   then sbLeft.Enabled   := sbNew.Enabled;
-  if Assigned(sbRight)  then sbRight.Enabled  := sbNew.Enabled;
-  if Assigned(sbFirst)  then sbFirst.Enabled  := sbNew.Enabled;
-  if Assigned(sbLast)   then sbLast.Enabled   := sbNew.Enabled;
+    if Assigned(sbNew)    then sbNew.Enabled    := not bEdit;
+    if Assigned(sbDelete) then sbDelete.Enabled := sbNew.Enabled;
+    if Assigned(sbLeft)   then sbLeft.Enabled   := sbNew.Enabled;
+    if Assigned(sbRight)  then sbRight.Enabled  := sbNew.Enabled;
+    if Assigned(sbFirst)  then sbFirst.Enabled  := sbNew.Enabled;
+    if Assigned(sbLast)   then sbLast.Enabled   := sbNew.Enabled;
 
-  if Assigned(sbRecord)  then sbRecord.Enabled  := bEdit;
-  if Assigned(sbCancel)  then sbCancel.Enabled  := sbRecord.Enabled ;
+    if Assigned(sbRecord) then sbRecord.Enabled  := bEdit;
+    if Assigned(sbCancel) then sbCancel.Enabled  := sbRecord.Enabled ;
+  end else begin
+    if Assigned(sbNew)    then sbNew.Enabled     := False;
+    if Assigned(sbDelete) then sbDelete.Enabled  := False;
+    if Assigned(sbRecord) then sbRecord.Enabled  := False;
+    if Assigned(sbCancel) then sbCancel.Enabled  := False;
+  end;
 end;
 
 end.

@@ -17,7 +17,6 @@ type
     pnButton: TPanel;
     sbClose: TSpeedButton;
     sbCustomer: TSpeedButton;
-    sbSale: TSpeedButton;
     sbReport: TSpeedButton;
     sbFin: TSpeedButton;
     sbSet: TSpeedButton;
@@ -32,6 +31,7 @@ type
     lbUSer: TLabel;
     lbPositonTitle: TLabel;
     lbPositon: TLabel;
+    sbSales: TSpeedButton;
     procedure sbCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbCustomerClick(Sender: TObject);
@@ -74,7 +74,7 @@ begin
   if qUSerUSER_TYPE.AsString = 'G' then
   begin
     sbFin.Enabled := False;
-    sbSale.Enabled := False;
+    sbSales.Enabled := False;
     sbStock.Enabled := False;
   end;
 
