@@ -35,6 +35,7 @@ type
     procedure sbCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbCustomerClick(Sender: TObject);
+    procedure sbProductsClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,7 +49,7 @@ implementation
 
 {$R *.dfm}
 
-uses uTables, uLogin, uCustomer;
+uses uTables, uLogin, uCustomer, uProduct;
 
 procedure TfmMenu.FormShow(Sender: TObject);
 var sPassword: String;
@@ -92,6 +93,16 @@ begin
     fmCustomer.ShowModal;
   finally
     FreeAndNil(fmCustomer);
+  end;
+end;
+
+procedure TfmMenu.sbProductsClick(Sender: TObject);
+begin
+  Application.CreateForm(TfmProduct, fmProduct);
+  try
+    fmProduct.ShowModal;
+  finally
+    FreeAndNil(fmProduct);
   end;
 end;
 

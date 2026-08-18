@@ -168,7 +168,6 @@ begin
 end;
 
 procedure TfmCustomer.dsEntityStateChange(Sender: TObject);
-var bEdit: Boolean;
 begin
   Tables.EnableButtons(qEntity,fmCustomer);
 end;

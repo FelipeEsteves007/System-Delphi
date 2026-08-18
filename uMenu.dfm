@@ -907,6 +907,7 @@ object fmMenu: TfmMenu
         ParentFont = False
         ParentShowHint = False
         ShowHint = False
+        OnClick = sbProductsClick
         ExplicitLeft = -16
         ExplicitTop = 36
         ExplicitWidth = 169
