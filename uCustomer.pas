@@ -105,6 +105,8 @@ type
     function  Validation: Boolean;
     procedure sbPostalCodeClick(Sender: TObject);
     procedure qEntityAfterScroll(DataSet: TDataSet);
+    procedure cbTypeChange(Sender: TObject);
+    procedure cbStateChange(Sender: TObject);
   private
    { Private declarations }
   public
@@ -119,6 +121,16 @@ implementation
 {$R *.dfm}
 
 uses uTables, uUseful, uPostalCode;
+
+procedure TfmCustomer.cbStateChange(Sender: TObject);
+begin
+  inStateEdit(qEntity);
+end;
+
+procedure TfmCustomer.cbTypeChange(Sender: TObject);
+begin
+  inStateEdit(qEntity);
+end;
 
 procedure TfmCustomer.dbeCellKeyPress(Sender: TObject; var Key: Char);
 begin

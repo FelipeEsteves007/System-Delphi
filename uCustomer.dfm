@@ -52,6 +52,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 45
       Height = 49
+      Hint = 'Prior'
       Align = alRight
       Flat = True
       Font.Charset = DEFAULT_CHARSET
@@ -181,6 +182,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 45
       Height = 49
+      Hint = 'Next'
       Align = alRight
       Flat = True
       Font.Charset = DEFAULT_CHARSET
@@ -310,6 +312,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 45
       Height = 49
+      Hint = 'First'
       Align = alRight
       Flat = True
       Font.Charset = DEFAULT_CHARSET
@@ -440,6 +443,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 45
       Height = 49
+      Hint = 'Last'
       Align = alRight
       Flat = True
       Font.Charset = DEFAULT_CHARSET
@@ -570,6 +574,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 80
       Height = 49
+      Hint = 'New customer'
       Align = alLeft
       Caption = '&New'
       Flat = True
@@ -702,6 +707,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 80
       Height = 49
+      Hint = 'Delete customer'
       Align = alLeft
       Caption = '&Delete'
       Flat = True
@@ -834,6 +840,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 80
       Height = 49
+      Hint = 'Record customer'
       Align = alLeft
       Caption = '&Record'
       Flat = True
@@ -962,6 +969,7 @@ object fmCustomer: TfmCustomer
       Top = 2
       Width = 80
       Height = 49
+      Hint = 'Cancel'
       Align = alLeft
       Caption = '&Cancel'
       Flat = True
@@ -1348,6 +1356,7 @@ object fmCustomer: TfmCustomer
       Top = 260
       Width = 28
       Height = 27
+      Hint = 'Postal Code'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
@@ -1618,6 +1627,7 @@ object fmCustomer: TfmCustomer
     ItemIndex = 0
     TabOrder = 2
     Text = 'Marculine'
+    OnChange = cbTypeChange
     Items.Strings = (
       'Marculine'
       'Feminine')
@@ -1631,6 +1641,7 @@ object fmCustomer: TfmCustomer
     ItemIndex = 0
     TabOrder = 3
     Text = 'AC'
+    OnChange = cbStateChange
     Items.Strings = (
       'AC'
       'AL'

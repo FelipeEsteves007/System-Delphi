@@ -2,7 +2,7 @@ unit uUseful;
 
 interface
 
-uses SysUtils, Vcl.Graphics, System.UiTypes, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls;
+uses SysUtils, Vcl.Graphics, System.UiTypes, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls, Data.DB, Bde.DBTables,  FireDAC.Comp.Client, FireDAC.Stan.Param;
 
 function JustNumbers(Texto: String): String;
 function Cpf(num: String): Boolean;
@@ -10,6 +10,8 @@ procedure JustNumberEdit(var Key: Char);
 procedure JustCharEdit(var Key: Char);
 procedure Required(lb: TLabel);
 procedure ClearLabl(pn: TPanel);
+procedure JustDecimal(var Key: Char; text: String);
+procedure inStateEdit(qry: TFDQuery);
 
 implementation
 
@@ -61,10 +63,20 @@ begin
   if not (Key in ['0'..'9',#8]) then Key := #0;
 end;
 
-
 procedure JustCharEdit(var Key: Char);
 begin
    if (Key in ['0'..'9']) then Key := #0;
+end;
+
+procedure JustDecimal(var Key: Char; text: String);
+begin
+  if not (Key in ['0'..'9',',','.',#8]) then Key := #0;
+  if (Key = '.') then Key := ',';
+
+  if (Key = ',') then
+  begin
+    if (Pos(',', text) > 0) then Key := #0;
+  end;
 end;
 
 procedure Required(lb: TLabel);
@@ -89,6 +101,11 @@ begin
       end;
     end
   end;
+end;
+
+procedure inStateEdit(qry: TFDQuery);
+begin
+  if not (qry.State in [dsEdit, dsInsert]) then qry.Edit;
 end;
 
 end.

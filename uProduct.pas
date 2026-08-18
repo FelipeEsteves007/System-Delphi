@@ -3,9 +3,9 @@ unit uProduct;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.UITypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ComCtrls;
 
 type
   TfmProduct = class(TForm)
@@ -19,41 +19,16 @@ type
     sbDelete: TSpeedButton;
     sbRecord: TSpeedButton;
     sbCancel: TSpeedButton;
-    pnClient: TPanel;
     qProduct: TFDQuery;
     dsProduct: TDataSource;
-    lbCode: TLabel;
-    dbeCode: TDBEdit;
-    lbName: TLabel;
     dbeName: TDBEdit;
-    lbBarcode: TLabel;
     dbeBarcode: TDBEdit;
-    lbUnit: TLabel;
-    lbReference: TLabel;
     dbeReference: TDBEdit;
-    lbCost: TLabel;
     dbeCost: TDBEdit;
-    lbPrice: TLabel;
     dbePrice: TDBEdit;
-    lbQuantity: TLabel;
     dbeQuantity: TDBEdit;
-    lbMinS: TLabel;
     dbeMinS: TDBEdit;
-    lbLoc: TLabel;
     dbeLoc: TDBEdit;
-    lbActive: TLabel;
-    dbeRdActive: TDBRadioGroup;
-    lbKit: TLabel;
-    cbKit: TComboBox;
-    lbDate: TLabel;
-    dbeDate: TDBEdit;
-    cbUnit: TComboBox;
-    lbCategory: TLabel;
-    lbBrand: TLabel;
-    lbSup: TLabel;
-    sbCategory: TSpeedButton;
-    sbBrand: TSpeedButton;
-    sbSup: TSpeedButton;
     qProductID: TIntegerField;
     qProductNAME: TStringField;
     qProductBARCODE: TStringField;
@@ -67,12 +42,37 @@ type
     qProductREGISTRATION_DATE: TDateField;
     qProductCATEGORY_ID: TIntegerField;
     qProductBRAND_ID: TIntegerField;
+    qProductQUANTITY: TFMTBCDField;
+    qProductMIN_STOCK: TFMTBCDField;
+    pnClient: TPanel;
+    lbCode: TLabel;
+    lbName: TLabel;
+    lbBarcode: TLabel;
+    lbUnit: TLabel;
+    lbReference: TLabel;
+    lbCost: TLabel;
+    lbPrice: TLabel;
+    lbQuantity: TLabel;
+    lbMinS: TLabel;
+    lbLoc: TLabel;
+    lbActive: TLabel;
+    lbKit: TLabel;
+    lbDate: TLabel;
+    lbCategory: TLabel;
+    lbBrand: TLabel;
+    lbSup: TLabel;
     sbPostalCode: TSpeedButton;
+    sbCategory: TSpeedButton;
+    sbBrand: TSpeedButton;
+    sbSup: TSpeedButton;
+    dbeCode: TDBEdit;
+    dbeRdActive: TDBRadioGroup;
+    cbKit: TComboBox;
+    cbUnit: TComboBox;
     edCategory: TEdit;
     edBrand: TEdit;
     edSup: TEdit;
-    qProductQUANTITY: TFMTBCDField;
-    qProductMIN_STOCK: TFMTBCDField;
+    dt: TDateTimePicker;
     procedure sbCloseClick(Sender: TObject);
     procedure sbPostalCodeClick(Sender: TObject);
     procedure sbRightClick(Sender: TObject);
@@ -91,9 +91,18 @@ type
     procedure sbRecordClick(Sender: TObject);
     procedure dsProductDataChange(Sender: TObject; Field: TField);
     procedure qProductAfterScroll(DataSet: TDataSet);
+    procedure dtChange(Sender: TObject);
+    procedure cbUnitChange(Sender: TObject);
+    procedure cbKitChange(Sender: TObject);
+    procedure edCategoryChange(Sender: TObject);
+    procedure edBrandChange(Sender: TObject);
+    procedure edSupChange(Sender: TObject);
+    procedure dbeLocChange(Sender: TObject);
+    procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; id: Integer);
+    procedure sbCategoryClick(Sender: TObject);
   private
+    iCategoryID: Integer;
     function Validation: Boolean;
-    { Private declarations }
   public
     { Public declarations }
   end;
@@ -105,7 +114,17 @@ implementation
 
 {$R *.dfm}
 
-uses uTables, uPostalCode, uUseful;
+uses uTables, uPostalCode, uUseful, uSearch;
+
+procedure TfmProduct.cbKitChange(Sender: TObject);
+begin
+  inStateEdit(qProduct);
+end;
+
+procedure TfmProduct.cbUnitChange(Sender: TObject);
+begin
+  inStateEdit(qProduct);
+end;
 
 procedure TfmProduct.dbeBarcodeKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -114,22 +133,27 @@ end;
 
 procedure TfmProduct.dbeCostKeyPress(Sender: TObject; var Key: Char);
 begin
-  JustNumberEdit(Key);
+  JustDecimal(Key, Trim(dbeCost.Text));
+end;
+
+procedure TfmProduct.dbeLocChange(Sender: TObject);
+begin
+  inStateEdit(qProduct);
 end;
 
 procedure TfmProduct.dbeMinSKeyPress(Sender: TObject; var Key: Char);
 begin
-  JustNumberEdit(Key);
+  JustDecimal(Key, Trim(dbeMinS.Text));
 end;
 
 procedure TfmProduct.dbePriceKeyPress(Sender: TObject; var Key: Char);
 begin
-  JustNumberEdit(Key);
+  JustDecimal(Key, Trim(dbePrice.Text));
 end;
 
 procedure TfmProduct.dbeQuantityKeyPress(Sender: TObject; var Key: Char);
 begin
-  JustNumberEdit(Key);
+  JustDecimal(Key, Trim(dbeQuantity.Text));
 end;
 
 procedure TfmProduct.dsProductDataChange(Sender: TObject; Field: TField);
@@ -137,24 +161,62 @@ begin
   Tables.EnableButtons(qProduct,fmProduct);
 end;
 
+procedure TfmProduct.dtChange(Sender: TObject);
+begin
+  if (dt.Date > Date) then
+  begin
+    ShowMessage('The registration date cannot be in the future!');
+    dt.Date := Date;
+  end;
+  inStateEdit(qProduct);
+end;
+
+procedure TfmProduct.edBrandChange(Sender: TObject);
+begin
+  inStateEdit(qProduct);
+end;
+
+procedure TfmProduct.edCategoryChange(Sender: TObject);
+begin
+  inStateEdit(qProduct);
+end;
+
+procedure TfmProduct.edSupChange(Sender: TObject);
+begin
+  inStateEdit(qProduct);
+end;
+
 procedure TfmProduct.FormShow(Sender: TObject);
 begin
-  dbeDate.Text := DateToStr(Date);
+  dt.DateTime := Date;
   dbeName.SetFocus;
 end;
 
 procedure TfmProduct.qProductAfterScroll(DataSet: TDataSet);
 begin
-  if (qProductUNIT_MEASURE.AsString = 'UN') then cbKit.ItemIndex := 0
-    else if (qProductUNIT_MEASURE.AsString = 'BX') then cbKit.ItemIndex := 1
-    else if (qProductUNIT_MEASURE.AsString = 'PC') then cbKit.ItemIndex := 2
-    else if (qProductUNIT_MEASURE.AsString = 'KG') then cbKit.ItemIndex := 3
-    else cbKit.ItemIndex := 4
+  if (qProductUNIT_MEASURE.AsString = 'UN')        then cbUnit.ItemIndex := 0
+    else if (qProductUNIT_MEASURE.AsString = 'BX') then cbUnit.ItemIndex := 1
+    else if (qProductUNIT_MEASURE.AsString = 'PC') then cbUnit.ItemIndex := 2
+    else if (qProductUNIT_MEASURE.AsString = 'KG') then cbUnit.ItemIndex := 3
+    else cbUnit.ItemIndex := 4;
+
+  if qProductKIT.AsString = 'Y' then cbKit.ItemIndex := 0
+    else cbKit.ItemIndex := 1;
+
+  if not (qProductREGISTRATION_DATE.IsNull) then
+    dt.Date := qProductREGISTRATION_DATE.AsDateTime
+    else dt.Date := Date;
 end;
 
 procedure TfmProduct.sbCancelClick(Sender: TObject);
 begin
+  ClearLabl(pnClient);
   qProduct.Cancel;
+end;
+
+procedure TfmProduct.sbCategoryClick(Sender: TObject);
+begin
+  goSearch(Self,'SELECT ID, NAME FROM CATEGORY ORDER BY NAME DESC', 'CATEGORY', edCategory, iCategoryID);
 end;
 
 procedure TfmProduct.sbCloseClick(Sender: TObject);
@@ -178,12 +240,12 @@ end;
 
 procedure TfmProduct.sbFirstClick(Sender: TObject);
 begin
-  qProduct.Last;
+  qProduct.First;
 end;
 
 procedure TfmProduct.sbLastClick(Sender: TObject);
 begin
-  qProduct.First;
+  qProduct.Last;
 end;
 
 procedure TfmProduct.sbLeftClick(Sender: TObject);
@@ -200,9 +262,9 @@ end;
 procedure TfmProduct.sbPostalCodeClick(Sender: TObject);
 var pFormPostal: TfmPostalCode;
 begin
-  pFormPostal := TfmPostalCode.Create(Self);
+  pFormPostal := TfmPostalCode.Create(Nil);
   try
-    if pFormPostal.ShowModal = mrOk then dbeLoc.Text := fmPostalCode.qPostalCodeCITY.AsString;
+    if pFormPostal.ShowModal = mrOk then dbeLoc.Text := pFormPostal.qPostalCodeCITY.AsString;
   finally
     FreeAndNil(pFormPostal);
   end;
@@ -212,14 +274,21 @@ procedure TfmProduct.sbRecordClick(Sender: TObject);
 begin
   if Validation then
   begin
-      if (cbKit.ItemIndex = 0) then qProductUNIT_MEASURE.AsString := 'UN'
-    else if (cbKit.ItemIndex = 1) then qProductUNIT_MEASURE.AsString := 'BX'
-    else if (cbKit.ItemIndex = 2 ) then qProductUNIT_MEASURE.AsString := 'PC'
-    else if (cbKit.ItemIndex = 3) then qProductUNIT_MEASURE.AsString := 'KG'
-    else qProductUNIT_MEASURE.AsString := 'LT';
+    ClearLabl(pnClient);
+    qProductREGISTRATION_DATE.AsDateTime := dt.Date;
 
-    ShowMessage('Product saved successfully!');
+    if (cbUnit.ItemIndex = 0)     then qProductUNIT_MEASURE.AsString := 'UN'
+      else if (cbUnit.ItemIndex = 1)  then qProductUNIT_MEASURE.AsString := 'BX'
+      else if (cbUnit.ItemIndex = 2 ) then qProductUNIT_MEASURE.AsString := 'PC'
+      else if (cbUnit.ItemIndex = 3)  then qProductUNIT_MEASURE.AsString := 'KG'
+      else qProductUNIT_MEASURE.AsString := 'LT';
+
+    if cbKit.ItemIndex = 0 then qProductKIT.AsString := 'Y'
+      else qProductKIT.AsString := 'N';
+
+    if iCategoryID > 0 then qProductCATEGORY_ID.AsInteger := iCategoryID;
     qProduct.Post;
+    ShowMessage('Product saved successfully!');
   end;
 end;
 
@@ -343,6 +412,23 @@ begin
   end;
 
   Result := True;
+end;
+
+procedure TfmProduct.goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; id: Integer);
+var fSearch: TfmSearch;
+begin
+  fSearch := TfmSearch.Create(Self);
+  try
+    sSearch := sSQL;
+    sTitle  := sNameT;
+    if fSearch.ShowModal = mrOk then
+    begin
+      id := fSearch.qSearch.Fields[0].AsInteger;
+      ed.Text := fSearch.qSearch.Fields[1].AsString;
+    end;
+  finally
+    FreeAndNil(fSearch);
+  end;
 end;
 
 end.

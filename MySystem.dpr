@@ -10,7 +10,9 @@ uses
   uMenu in 'uMenu.pas' {fmMenu},
   uUseful in 'uUseful.pas',
   uCustomer in 'uCustomer.pas' {fmCustomer},
-  uPostalCode in 'uPostalCode.pas' {fmPostalCode};
+  uPostalCode in 'uPostalCode.pas' {fmPostalCode},
+  uProduct in 'uProduct.pas' {fmProduct},
+  uSearch in 'uSearch.pas' {fmSearch};
 
 {$R *.res}
 
