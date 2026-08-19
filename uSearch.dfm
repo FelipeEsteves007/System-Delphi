@@ -25,9 +25,6 @@ object fmSearch: TfmSearch
     Color = clGradientInactiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -368
-    ExplicitTop = 299
-    ExplicitWidth = 821
     object sbNew: TSpeedButton
       Left = 2
       Top = 2
@@ -157,6 +154,7 @@ object fmSearch: TfmSearch
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbNewClick
       ExplicitLeft = 0
       ExplicitTop = 6
     end
@@ -289,6 +287,7 @@ object fmSearch: TfmSearch
       ParentFont = False
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbDeleteClick
       ExplicitLeft = 248
       ExplicitTop = 6
     end
@@ -348,10 +347,6 @@ object fmSearch: TfmSearch
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 120
-    ExplicitTop = 176
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Grid: TDBGrid
       Left = 0
       Top = 0
@@ -368,6 +363,91 @@ object fmSearch: TfmSearch
       TitleFont.Style = []
       OnDblClick = GridDblClick
     end
+    object pnInsert: TPanel
+      Left = 112
+      Top = 96
+      Width = 257
+      Height = 89
+      TabOrder = 1
+      object lbInsert: TLabel
+        Left = 43
+        Top = 13
+        Width = 168
+        Height = 18
+        Caption = 'INSERT IN CATEGORY'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Panel1: TPanel
+        Left = 1
+        Top = 64
+        Width = 255
+        Height = 24
+        Align = alBottom
+        BevelWidth = 2
+        Color = clGradientInactiveCaption
+        ParentBackground = False
+        TabOrder = 0
+        ExplicitWidth = 248
+        object sbOkIn: TSpeedButton
+          AlignWithMargins = True
+          Left = 205
+          Top = 2
+          Width = 40
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 8
+          Margins.Bottom = 0
+          Align = alRight
+          Caption = '&Ok'
+          Flat = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clGreen
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = sbOkInClick
+          ExplicitLeft = 188
+          ExplicitHeight = 28
+        end
+        object sbCloseIn: TSpeedButton
+          AlignWithMargins = True
+          Left = 157
+          Top = 2
+          Width = 40
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 8
+          Margins.Bottom = 0
+          Align = alRight
+          Caption = '&Close'
+          Flat = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clGreen
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = sbCloseInClick
+          ExplicitLeft = 130
+          ExplicitHeight = 28
+        end
+      end
+      object edInsert: TEdit
+        Left = 24
+        Top = 37
+        Width = 209
+        Height = 21
+        TabOrder = 1
+      end
+    end
   end
   object pnTop: TPanel
     Left = 0
@@ -377,14 +457,13 @@ object fmSearch: TfmSearch
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitWidth = 509
     object lbSearch: TLabel
-      Left = 200
+      Left = 168
       Top = 5
-      Width = 279
+      Width = 311
       Height = 19
       AutoSize = False
-      Caption = 'lbSearch'
+      Caption = 'Search'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

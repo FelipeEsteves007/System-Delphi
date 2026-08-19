@@ -25,7 +25,6 @@ object fmProduct: TfmProduct
     Color = clWhite
     ParentBackground = False
     TabOrder = 9
-    ExplicitTop = -1
     object lbCode: TLabel
       Tag = 1
       Left = 17
@@ -573,6 +572,7 @@ object fmProduct: TfmProduct
         3333505050B2B2B2C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       NumGlyphs = 2
       ParentFont = False
+      OnClick = sbBrandClick
     end
     object sbSup: TSpeedButton
       Left = 554
@@ -731,6 +731,7 @@ object fmProduct: TfmProduct
       NumGlyphs = 2
       ParentShowHint = False
       ShowHint = False
+      OnClick = sbSupClick
     end
     object dbeCode: TDBEdit
       Left = 17
@@ -1992,7 +1993,6 @@ object fmProduct: TfmProduct
     DataField = 'LOCATION'
     DataSource = dsProduct
     TabOrder = 8
-    OnChange = dbeLocChange
   end
   object qProduct: TFDQuery
     Active = True
@@ -2013,7 +2013,17 @@ object fmProduct: TfmProduct
       '       P."ACTIVE",'
       '       P.REGISTRATION_DATE,'
       '       P.CATEGORY_ID,'
-      '       P.BRAND_ID'
+      '       P.BRAND_ID,'
+      '       P.SUPPLIER_ID,'
+      
+        '       (SELECT E.NAME FROM ENTITY E WHERE E.ID = P.SUPPLIER_ID) ' +
+        'AS SUPPLIER,'
+      
+        '       (SELECT B.NAME FROM BRAND B WHERE B.ID = P.BRAND_ID) AS B' +
+        'RAND,'
+      
+        '       (SELECT C.NAME FROM CATEGORY C WHERE C.ID = P.CATEGORY_ID' +
+        ') AS CATEGORY'
       'FROM PRODUCT P  ')
     Left = 608
     Top = 176
@@ -2096,6 +2106,34 @@ object fmProduct: TfmProduct
       Origin = 'MIN_STOCK'
       Precision = 18
       Size = 3
+    end
+    object qProductSUPPLIER_ID: TIntegerField
+      FieldName = 'SUPPLIER_ID'
+      Origin = 'SUPPLIER_ID'
+    end
+    object qProductSUPPLIER: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'SUPPLIER'
+      Origin = 'NAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qProductBRAND: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'BRAND'
+      Origin = 'NAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+    object qProductCATEGORY: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CATEGORY'
+      Origin = 'NAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
     end
   end
   object dsProduct: TDataSource

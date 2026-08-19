@@ -7,7 +7,9 @@ object Tables: TTables
       'User_Name=SYSDBA'
       'Password=pfglessa'
       'Port=3080'
-      'Database=C:\system\data\FF.FDB'
+      'Database=C:\system\data\FF_V5.FDB'
+      'Protocol=TCPIP'
+      'Server=127.0.0.1'
       'DriverID=FB')
     Connected = True
     LoginPrompt = False

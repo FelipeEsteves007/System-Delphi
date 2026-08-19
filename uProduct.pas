@@ -73,6 +73,10 @@ type
     edBrand: TEdit;
     edSup: TEdit;
     dt: TDateTimePicker;
+    qProductSUPPLIER_ID: TIntegerField;
+    qProductSUPPLIER: TStringField;
+    qProductBRAND: TStringField;
+    qProductCATEGORY: TStringField;
     procedure sbCloseClick(Sender: TObject);
     procedure sbPostalCodeClick(Sender: TObject);
     procedure sbRightClick(Sender: TObject);
@@ -97,11 +101,12 @@ type
     procedure edCategoryChange(Sender: TObject);
     procedure edBrandChange(Sender: TObject);
     procedure edSupChange(Sender: TObject);
-    procedure dbeLocChange(Sender: TObject);
-    procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; id: Integer);
+    procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; var id: Integer);
     procedure sbCategoryClick(Sender: TObject);
+    procedure sbBrandClick(Sender: TObject);
+    procedure sbSupClick(Sender: TObject);
   private
-    iCategoryID: Integer;
+    iCategoryID, iBrandID, iSupID: Integer;
     function Validation: Boolean;
   public
     { Public declarations }
@@ -134,11 +139,6 @@ end;
 procedure TfmProduct.dbeCostKeyPress(Sender: TObject; var Key: Char);
 begin
   JustDecimal(Key, Trim(dbeCost.Text));
-end;
-
-procedure TfmProduct.dbeLocChange(Sender: TObject);
-begin
-  inStateEdit(qProduct);
 end;
 
 procedure TfmProduct.dbeMinSKeyPress(Sender: TObject; var Key: Char);
@@ -188,24 +188,51 @@ end;
 
 procedure TfmProduct.FormShow(Sender: TObject);
 begin
-  dt.DateTime := Date;
   dbeName.SetFocus;
 end;
 
 procedure TfmProduct.qProductAfterScroll(DataSet: TDataSet);
 begin
-  if (qProductUNIT_MEASURE.AsString = 'UN')        then cbUnit.ItemIndex := 0
-    else if (qProductUNIT_MEASURE.AsString = 'BX') then cbUnit.ItemIndex := 1
-    else if (qProductUNIT_MEASURE.AsString = 'PC') then cbUnit.ItemIndex := 2
-    else if (qProductUNIT_MEASURE.AsString = 'KG') then cbUnit.ItemIndex := 3
-    else cbUnit.ItemIndex := 4;
+  cbUnit.OnChange     := nil;
+  cbKit.OnChange      := nil;
+  dt.OnChange         := nil;
+  edCategory.OnChange := nil;
+  edBrand.OnChange    := nil;
+  edSup.OnChange      := nil;
 
-  if qProductKIT.AsString = 'Y' then cbKit.ItemIndex := 0
-    else cbKit.ItemIndex := 1;
+  try
+    if (qProductUNIT_MEASURE.AsString = 'UN')        then cbUnit.ItemIndex := 0
+      else if (qProductUNIT_MEASURE.AsString = 'BX') then cbUnit.ItemIndex := 1
+      else if (qProductUNIT_MEASURE.AsString = 'PC') then cbUnit.ItemIndex := 2
+      else if (qProductUNIT_MEASURE.AsString = 'KG') then cbUnit.ItemIndex := 3
+      else cbUnit.ItemIndex := 4;
 
-  if not (qProductREGISTRATION_DATE.IsNull) then
-    dt.Date := qProductREGISTRATION_DATE.AsDateTime
-    else dt.Date := Date;
+    if qProductKIT.AsString = 'Y' then cbKit.ItemIndex := 0
+      else cbKit.ItemIndex := 1;
+
+    if not (qProductREGISTRATION_DATE.IsNull) then
+      dt.Date := qProductREGISTRATION_DATE.AsDateTime
+      else dt.Date := Date;
+
+    iCategoryID     := qProductCATEGORY_ID.AsInteger;
+    iBrandID        := qProductBRAND_ID.AsInteger;
+    iSupID          := qProductSUPPLIER_ID.AsInteger;
+    edCategory.Text := qProductCATEGORY.AsString;
+    edBrand.Text    := qProductBRAND.AsString;
+    edSup.Text      := qProductSUPPLIER.AsString;
+  finally
+    cbUnit.OnChange     := cbUnitChange;
+    cbKit.OnChange      := cbKitChange;
+    dt.OnChange         := dtChange;
+    edCategory.OnChange := edCategoryChange;
+    edBrand.OnChange    := edBrandChange;
+    edSup.OnChange      := edSupChange;
+  end;
+end;
+
+procedure TfmProduct.sbBrandClick(Sender: TObject);
+begin
+  goSearch(Self,'SELECT ID, NAME FROM BRAND ORDER BY NAME DESC', 'BRAND', edBrand, iBrandID);
 end;
 
 procedure TfmProduct.sbCancelClick(Sender: TObject);
@@ -256,6 +283,7 @@ end;
 procedure TfmProduct.sbNewClick(Sender: TObject);
 begin
   dbeName.SetFocus;
+  dt.DateTime := Date;
   qProduct.Append;
 end;
 
@@ -287,6 +315,8 @@ begin
       else qProductKIT.AsString := 'N';
 
     if iCategoryID > 0 then qProductCATEGORY_ID.AsInteger := iCategoryID;
+    if iBrandID    > 0 then qProductBRAND_ID.AsInteger    := iBrandID;
+    if iSupID      > 0 then qProductSUPPLIER_ID.AsInteger := iSupID;
     qProduct.Post;
     ShowMessage('Product saved successfully!');
   end;
@@ -295,6 +325,11 @@ end;
 procedure TfmProduct.sbRightClick(Sender: TObject);
 begin
   qProduct.Next;
+end;
+
+procedure TfmProduct.sbSupClick(Sender: TObject);
+begin
+  goSearch(Self,'SELECT ID, NAME FROM ENTITY WHERE ROLE_TYPE = ''S'' ORDER BY NAME DESC', 'SUPPLIER', edSup, iSupID);
 end;
 
 function TfmProduct.Validation: Boolean;
@@ -414,7 +449,7 @@ begin
   Result := True;
 end;
 
-procedure TfmProduct.goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; id: Integer);
+procedure TfmProduct.goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; var id: Integer);
 var fSearch: TfmSearch;
 begin
   fSearch := TfmSearch.Create(Self);
@@ -423,6 +458,7 @@ begin
     sTitle  := sNameT;
     if fSearch.ShowModal = mrOk then
     begin
+      inStateEdit(qProduct);
       id := fSearch.qSearch.Fields[0].AsInteger;
       ed.Text := fSearch.qSearch.Fields[1].AsString;
     end;
