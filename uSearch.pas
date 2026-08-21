@@ -141,7 +141,6 @@ begin
     qSearch.Close;
     qSearch.Open;
 
-    ShowMessage('Inserted successfully!');
     edInsert.Clear;
     pnInsert.Visible := False;
   except

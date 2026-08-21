@@ -14,13 +14,14 @@ interface
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet, Vcl.Forms, Vcl.Buttons;
+  FireDAC.DApt, FireDAC.Comp.DataSet, Vcl.Forms, Vcl.Buttons, System.IniFiles;
 
 type
   TTables = class(TDataModule)
     FDConnection: TFDConnection;
     procedure CheckUser(query: TFDQuery; const user, sPassword: String);
     procedure EnableButtons(query: TFDQuery; AForm: TCustomForm);
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +55,22 @@ begin
   query.ParamByName('USER').AsString := user;
   query.ParamByName('PASS').AsString := sPassword;
   query.Open;
+end;
+
+procedure TTables.DataModuleCreate(Sender: TObject);
+var vIni: TIniFile;
+begin
+  vIni := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'config.ini');
+  try
+    FDConnection.Params.Clear;
+    FDConnection.Params.Add('DriverID=FB');
+    FDConnection.Params.Add('Database=' + vIni.ReadString('Database', 'Path', ''));
+    FDConnection.Params.Add('User_name=' + vIni.ReadString('Database', 'User', ''));
+    FDConnection.Params.Add('Password=' + vIni.ReadString('Database', 'Password', ''));
+    FDConnection.Connected := True;
+  finally
+    vIni.Free;
+  end;
 end;
 
 procedure TTables.EnableButtons(query: TFDQuery; AForm: TCustomForm);

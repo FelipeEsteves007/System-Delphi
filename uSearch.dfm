@@ -392,7 +392,6 @@ object fmSearch: TfmSearch
         Color = clGradientInactiveCaption
         ParentBackground = False
         TabOrder = 0
-        ExplicitWidth = 248
         object sbOkIn: TSpeedButton
           AlignWithMargins = True
           Left = 205
