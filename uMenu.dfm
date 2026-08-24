@@ -1170,6 +1170,7 @@ object fmMenu: TfmMenu
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
+        OnClick = sbSalesClick
         ExplicitLeft = -6
         ExplicitTop = 126
       end

@@ -131,6 +131,10 @@
             <Form>fmSearch</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uSale.pas">
+            <Form>fmSale</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

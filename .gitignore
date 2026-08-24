@@ -25,3 +25,4 @@ __recovery/
 *.fdb
 *.fbk
 config.ini
+uTables.dfm

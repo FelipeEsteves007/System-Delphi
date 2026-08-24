@@ -12,7 +12,8 @@ uses
   uCustomer in 'uCustomer.pas' {fmCustomer},
   uPostalCode in 'uPostalCode.pas' {fmPostalCode},
   uProduct in 'uProduct.pas' {fmProduct},
-  uSearch in 'uSearch.pas' {fmSearch};
+  uSearch in 'uSearch.pas' {fmSearch},
+  uSale in 'uSale.pas' {fmSale};
 
 {$R *.res}
 

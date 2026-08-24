@@ -5,10 +5,14 @@ object Tables: TTables
   Width = 567
   object FDConnection: TFDConnection
     Params.Strings = (
-      'Protocol='
-      'User_Name=sysdba'
-      'Password=masterkey'
+      'Protocol=TCPIP'
+      'User_Name=SYSDBA'
+      'Password=pfglessa'
+      'Database=C:\system\data\FF_V5.FDB'
+      'Server=127.0.0.1'
+      'Port=3080'
       'DriverID=FB')
+    Connected = True
     LoginPrompt = False
     Left = 24
     Top = 8

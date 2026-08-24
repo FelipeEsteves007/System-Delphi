@@ -1,4 +1,4 @@
- unit uTables;
+unit uTables;
 
 interface
 { TYPES OF USER
@@ -9,7 +9,8 @@ interface
 
 { TYPES OF ENTITY
    CUSTOMER  - C
-   SUPPLIER  - S }
+   SUPPLIER  - S
+   SELLER    - E }
 
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
