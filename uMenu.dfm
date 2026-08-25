@@ -125,7 +125,7 @@ object fmMenu: TfmMenu
       TabOrder = 3
       object sbClose: TSpeedButton
         Left = 0
-        Top = 400
+        Top = 420
         Width = 225
         Height = 60
         Align = alTop
@@ -391,7 +391,7 @@ object fmMenu: TfmMenu
       end
       object sbReport: TSpeedButton
         Left = 0
-        Top = 220
+        Top = 240
         Width = 225
         Height = 60
         Align = alTop
@@ -520,7 +520,7 @@ object fmMenu: TfmMenu
       end
       object sbFin: TSpeedButton
         Left = 0
-        Top = 160
+        Top = 180
         Width = 225
         Height = 60
         Align = alTop
@@ -650,7 +650,7 @@ object fmMenu: TfmMenu
       end
       object sbSet: TSpeedButton
         Left = 0
-        Top = 340
+        Top = 360
         Width = 225
         Height = 60
         Align = alTop
@@ -777,6 +777,7 @@ object fmMenu: TfmMenu
         ParentShowHint = False
         ShowHint = False
         ExplicitLeft = -6
+        ExplicitTop = 340
         ExplicitWidth = 169
       end
       object sbProducts: TSpeedButton
@@ -914,7 +915,7 @@ object fmMenu: TfmMenu
       end
       object sbStock: TSpeedButton
         Left = 0
-        Top = 280
+        Top = 300
         Width = 225
         Height = 60
         Align = alTop
@@ -1046,7 +1047,7 @@ object fmMenu: TfmMenu
         Left = 0
         Top = 120
         Width = 225
-        Height = 40
+        Height = 60
         Align = alTop
         Caption = '&Sales   '
         Flat = True
@@ -1171,8 +1172,6 @@ object fmMenu: TfmMenu
         ParentShowHint = False
         ShowHint = True
         OnClick = sbSalesClick
-        ExplicitLeft = -6
-        ExplicitTop = 126
       end
     end
   end

@@ -72,6 +72,11 @@ begin
     qSearch.SQL.Text := sSearch;
     qSearch.Open;
   end;
+  if (sTitle = 'CUSTOMER') or (sTitle = 'SELLER') then
+  begin
+    sbNew.Visible := false;
+    sbDelete.Visible := false;
+  end;
 end;
 
 procedure TfmSearch.GridDblClick(Sender: TObject);

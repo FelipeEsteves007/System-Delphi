@@ -12,6 +12,22 @@ interface
    SUPPLIER  - S
    SELLER    - E }
 
+{ TYPES OF SALES
+   RETAIL    - R
+   WHOLESALE - W
+   INTERNAL  - I
+
+   NATURE OP
+   PRODUCTSALE   - PS
+   QUOTE         - Q
+   RETURN        - R
+   COMPLIMENTARY - C
+
+   CATEGORY SALE
+   IN-STORE     - S
+   DELIREVY     - D
+   ONLINEORDER  - OD
+   OUTSIDESALES - OS}
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
