@@ -12,6 +12,7 @@ object fmSale: TfmSale
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label4: TLabel
@@ -34,12 +35,12 @@ object fmSale: TfmSale
     object lcCode: TLabel
       Left = 16
       Top = 5
-      Width = 31
-      Height = 14
+      Width = 32
+      Height = 16
       Caption = 'Code'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -47,12 +48,12 @@ object fmSale: TfmSale
     object lbCustomer: TLabel
       Left = 97
       Top = 4
-      Width = 59
-      Height = 14
+      Width = 62
+      Height = 16
       Caption = 'Customer'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -186,12 +187,12 @@ object fmSale: TfmSale
     object lbSeller: TLabel
       Left = 528
       Top = 4
-      Width = 33
-      Height = 14
+      Width = 36
+      Height = 16
       Caption = 'Seller'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -325,12 +326,12 @@ object fmSale: TfmSale
     object lbSaleType: TLabel
       Left = 16
       Top = 51
-      Width = 57
-      Height = 14
+      Width = 61
+      Height = 16
       Caption = 'Sale type'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -338,12 +339,12 @@ object fmSale: TfmSale
     object lbNature: TLabel
       Left = 253
       Top = 51
-      Width = 151
-      Height = 14
+      Width = 159
+      Height = 16
       Caption = 'Nature of the transation'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -351,12 +352,25 @@ object fmSale: TfmSale
     object lbCategory: TLabel
       Left = 493
       Top = 51
-      Width = 56
-      Height = 14
+      Width = 60
+      Height = 16
       Caption = 'Category'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbDate: TLabel
+      Left = 960
+      Top = 4
+      Width = 31
+      Height = 16
+      Caption = 'Date'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -376,6 +390,7 @@ object fmSale: TfmSale
       Top = 24
       Width = 186
       Height = 21
+      Date = 46260.000000000000000000
       Time = 0.391206655091082200
       TabOrder = 1
       OnChange = dtChange
@@ -449,7 +464,6 @@ object fmSale: TfmSale
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 1345
     object pnRodape: TPanel
       Left = 0
       Top = 0
@@ -460,7 +474,6 @@ object fmSale: TfmSale
       Color = clGradientInactiveCaption
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 1345
       object sbNew: TSpeedButton
         Left = 2
         Top = 2
@@ -590,6 +603,7 @@ object fmSale: TfmSale
         ParentFont = False
         ParentShowHint = False
         ShowHint = False
+        OnClick = sbNewClick
         ExplicitLeft = -14
         ExplicitTop = -22
       end
@@ -720,6 +734,7 @@ object fmSale: TfmSale
           BBBBBBBBBBBDBDBDC7C7C7D7D7D7E2E2E2E2E2E2E2E2E2E2E2E2}
         NumGlyphs = 2
         ParentFont = False
+        OnClick = sbRecordClick
         ExplicitHeight = 49
       end
       object sbCancel: TSpeedButton
@@ -851,6 +866,7 @@ object fmSale: TfmSale
         ParentFont = False
         ParentShowHint = False
         ShowHint = False
+        OnClick = sbCancelClick
         ExplicitLeft = 182
         ExplicitTop = -14
       end
@@ -983,6 +999,7 @@ object fmSale: TfmSale
         ParentFont = False
         ParentShowHint = False
         ShowHint = False
+        OnClick = sbDeleteClick
         ExplicitLeft = 248
         ExplicitTop = 6
         ExplicitHeight = 49
@@ -1021,9 +1038,6 @@ object fmSale: TfmSale
     Color = clWhite
     ParentBackground = False
     TabOrder = 2
-    ExplicitLeft = -312
-    ExplicitWidth = 1375
-    ExplicitHeight = 594
     object dbGridItems: TDBGrid
       Left = 1
       Top = 1
@@ -1037,6 +1051,63 @@ object fmSale: TfmSale
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'PRODUCT_ID'
+          Title.Caption = 'Code product'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NameProduct'
+          ReadOnly = True
+          Title.Caption = 'Name'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QUANTITY'
+          Title.Caption = 'Quantity'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'UNIT_PRICE'
+          Title.Caption = 'Unit price'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOTAL_PRICE'
+          Title.Caption = 'Total'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end>
     end
     object Panel1: TPanel
       Left = 1
@@ -1058,9 +1129,6 @@ object fmSale: TfmSale
         BevelOuter = bvLowered
         Color = 13619151
         TabOrder = 0
-        ExplicitLeft = 798
-        ExplicitTop = 1
-        ExplicitHeight = 152
         object lbDiscount: TLabel
           Left = 9
           Top = 19
@@ -1136,7 +1204,7 @@ object fmSale: TfmSale
           Left = 112
           Top = 14
           Width = 89
-          Height = 24
+          Height = 21
           Color = 13619151
           TabOrder = 0
         end
@@ -1144,7 +1212,7 @@ object fmSale: TfmSale
           Left = 112
           Top = 46
           Width = 89
-          Height = 24
+          Height = 21
           Color = 13619151
           TabOrder = 1
         end
@@ -1165,7 +1233,6 @@ object fmSale: TfmSale
     end
   end
   object qSales: TFDQuery
-    Active = True
     Connection = Tables.FDConnection
     SQL.Strings = (
       'select S.ID,'
@@ -1185,7 +1252,6 @@ object fmSale: TfmSale
       FieldName = 'ID'
       Origin = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object qSalesCUSTOMER_ID: TIntegerField
       FieldName = 'CUSTOMER_ID'
@@ -1235,12 +1301,18 @@ object fmSale: TfmSale
   end
   object dsSales: TDataSource
     DataSet = qSales
-    Left = 976
+    Left = 944
     Top = 56
   end
   object qItem: TFDQuery
-    Active = True
+    CachedUpdates = True
+    AggregatesActive = True
+    MasterSource = dsSales
+    MasterFields = 'ID'
+    DetailFields = 'SALE_ID'
     Connection = Tables.FDConnection
+    FetchOptions.AssignedValues = [evCache]
+    FetchOptions.Cache = [fiBlobs, fiMeta]
     SQL.Strings = (
       'SELECT I.ID,'
       '       I.SALE_ID,'
@@ -1248,29 +1320,37 @@ object fmSale: TfmSale
       '       I.QUANTITY,'
       '       I.UNIT_PRICE,'
       '       I.TOTAL_PRICE'
-      'FROM ITEMS I')
-    Left = 936
+      'FROM ITEMS I'
+      'WHERE I.SALE_ID = :ID')
+    Left = 984
     Top = 57
+    ParamData = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
     object qItemID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object qItemSALE_ID: TIntegerField
       FieldName = 'SALE_ID'
       Origin = 'SALE_ID'
-      Required = True
     end
     object qItemPRODUCT_ID: TIntegerField
       FieldName = 'PRODUCT_ID'
       Origin = 'PRODUCT_ID'
       Required = True
+      OnChange = qItemPRODUCT_IDChange
     end
     object qItemQUANTITY: TFMTBCDField
       FieldName = 'QUANTITY'
       Origin = 'QUANTITY'
       Required = True
+      OnChange = qItemQUANTITYChange
       Precision = 18
       Size = 3
     end
@@ -1280,6 +1360,16 @@ object fmSale: TfmSale
       Required = True
       Precision = 18
       Size = 3
+    end
+    object qItemNameProduct: TStringField
+      FieldKind = fkLookup
+      FieldName = 'NameProduct'
+      LookupDataSet = qProduct
+      LookupKeyFields = 'ID'
+      LookupResultField = 'NAME'
+      KeyFields = 'PRODUCT_ID'
+      Size = 50
+      Lookup = True
     end
     object qItemTOTAL_PRICE: TFMTBCDField
       FieldName = 'TOTAL_PRICE'
@@ -1292,6 +1382,151 @@ object fmSale: TfmSale
   object dsItem: TDataSource
     DataSet = qItem
     Left = 1016
+    Top = 56
+  end
+  object qProduct: TFDQuery
+    Connection = Tables.FDConnection
+    SQL.Strings = (
+      'SELECT P.ID,'
+      '       P.NAME,'
+      '       P.BARCODE,'
+      '       P.REFERENCE,'
+      '       P.UNIT_MEASURE,'
+      '       P.COST_PRICE,'
+      '       P.SALE_PRICE,'
+      '       P.QUANTITY,'
+      '       P.MIN_STOCK,'
+      '       P.LOCATION,'
+      '       P.KIT,'
+      '       P."ACTIVE",'
+      '       P.REGISTRATION_DATE,'
+      '       P.CATEGORY_ID,'
+      '       P.BRAND_ID,'
+      '       P.SUPPLIER_ID,'
+      
+        '       (SELECT E.NAME FROM ENTITY E WHERE E.ID = P.SUPPLIER_ID) ' +
+        'AS SUPPLIER,'
+      
+        '       (SELECT B.NAME FROM BRAND B WHERE B.ID = P.BRAND_ID) AS B' +
+        'RAND,'
+      
+        '       (SELECT C.NAME FROM CATEGORY C WHERE C.ID = P.CATEGORY_ID' +
+        ') AS CATEGORY'
+      'FROM PRODUCT P  ')
+    Left = 808
+    Top = 56
+    object qProductID: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qProductNAME: TStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Required = True
+      Size = 100
+    end
+    object qProductBARCODE: TStringField
+      FieldName = 'BARCODE'
+      Origin = 'BARCODE'
+    end
+    object qProductREFERENCE: TStringField
+      FieldName = 'REFERENCE'
+      Origin = 'REFERENCE'
+      Size = 60
+    end
+    object qProductUNIT_MEASURE: TStringField
+      FieldName = 'UNIT_MEASURE'
+      Origin = 'UNIT_MEASURE'
+      Size = 3
+    end
+    object qProductCOST_PRICE: TFMTBCDField
+      FieldName = 'COST_PRICE'
+      Origin = 'COST_PRICE'
+      DisplayFormat = '$#,##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qProductSALE_PRICE: TFMTBCDField
+      FieldName = 'SALE_PRICE'
+      Origin = 'SALE_PRICE'
+      DisplayFormat = '$#,##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object qProductLOCATION: TStringField
+      FieldName = 'LOCATION'
+      Origin = 'LOCATION'
+      Size = 50
+    end
+    object qProductKIT: TStringField
+      FieldName = 'KIT'
+      Origin = 'KIT'
+      Size = 1
+    end
+    object qProductACTIVE: TStringField
+      FieldName = 'ACTIVE'
+      Origin = '"ACTIVE"'
+      Size = 1
+    end
+    object qProductREGISTRATION_DATE: TDateField
+      FieldName = 'REGISTRATION_DATE'
+      Origin = 'REGISTRATION_DATE'
+    end
+    object qProductCATEGORY_ID: TIntegerField
+      FieldName = 'CATEGORY_ID'
+      Origin = 'CATEGORY_ID'
+    end
+    object qProductBRAND_ID: TIntegerField
+      FieldName = 'BRAND_ID'
+      Origin = 'BRAND_ID'
+    end
+    object qProductQUANTITY: TFMTBCDField
+      FieldName = 'QUANTITY'
+      Origin = 'QUANTITY'
+      Precision = 18
+      Size = 3
+    end
+    object qProductMIN_STOCK: TFMTBCDField
+      FieldName = 'MIN_STOCK'
+      Origin = 'MIN_STOCK'
+      Precision = 18
+      Size = 3
+    end
+    object qProductSUPPLIER_ID: TIntegerField
+      FieldName = 'SUPPLIER_ID'
+      Origin = 'SUPPLIER_ID'
+    end
+    object qProductSUPPLIER: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'SUPPLIER'
+      Origin = 'NAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qProductBRAND: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'BRAND'
+      Origin = 'NAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+    object qProductCATEGORY: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'CATEGORY'
+      Origin = 'NAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+  end
+  object dsProduct: TDataSource
+    DataSet = qProduct
+    Left = 857
     Top = 56
   end
 end
