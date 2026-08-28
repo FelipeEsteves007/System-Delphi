@@ -21,18 +21,10 @@ type
     qSalesSUBTOTAL: TFMTBCDField;
     qSalesDISCOUNT: TFMTBCDField;
     qSalesTOTAL: TFMTBCDField;
-    qItem: TFDQuery;
     dsItem: TDataSource;
-    qItemID: TIntegerField;
-    qItemSALE_ID: TIntegerField;
-    qItemPRODUCT_ID: TIntegerField;
-    qItemQUANTITY: TFMTBCDField;
-    qItemUNIT_PRICE: TFMTBCDField;
-    qItemTOTAL_PRICE: TFMTBCDField;
     dbeCode: TDBEdit;
     lcCode: TLabel;
     pnRodape: TPanel;
-    dbGridItems: TDBGrid;
     sbNew: TSpeedButton;
     sbRecord: TSpeedButton;
     sbCancel: TSpeedButton;
@@ -53,10 +45,8 @@ type
     pnTotais: TPanel;
     lbDiscount: TLabel;
     lbViDiscount: TLabel;
-    dbtTOTAL: TDBText;
     dbGridInfo: TDBGrid;
     lbSubTotal: TLabel;
-    lbSub: TLabel;
     edCustomer: TEdit;
     edSeller: TEdit;
     cbSaleType: TComboBox;
@@ -86,8 +76,20 @@ type
     qProductBRAND: TStringField;
     qProductCATEGORY: TStringField;
     dsProduct: TDataSource;
-    qItemNameProduct: TStringField;
     lbDate: TLabel;
+    qItem: TFDQuery;
+    qItemID: TIntegerField;
+    qItemSALE_ID: TIntegerField;
+    qItemPRODUCT_ID: TIntegerField;
+    qItemQUANTITY: TFMTBCDField;
+    qItemUNIT_PRICE: TFMTBCDField;
+    qItemTOTAL_PRICE: TFMTBCDField;
+    dbGridItems: TDBGrid;
+    qItemNAME_PRODUCT: TStringField;
+    lbTotal: TLabel;
+    pnTotal: TPanel;
+    dbtTotal: TDBText;
+    dbtSubtotal: TDBText;
     procedure sbCloseClick(Sender: TObject);
     procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; var id: Integer);
     procedure sbSearchCClick(Sender: TObject);
@@ -95,14 +97,13 @@ type
     procedure dtChange(Sender: TObject);
     procedure sbNewClick(Sender: TObject);
     procedure sbCancelClick(Sender: TObject);
-    procedure qItemPRODUCT_IDChange(Sender: TField);
     procedure FormShow(Sender: TObject);
-    procedure qItemQUANTITYChange(Sender: TField);
     procedure sbRecordClick(Sender: TObject);
     procedure sbDeleteClick(Sender: TObject);
     function ReadOnly(bRead: Boolean): Boolean;
+    procedure qItemPRODUCT_IDChange(Sender: TField);
+    procedure qItemQUANTITYChange(Sender: TField);
   private
-
     idCustomer, idSeller: Integer;
     procedure Enabled(Sender: TObject);
   public
@@ -153,37 +154,21 @@ begin
 end;
 
 procedure TfmSale.qItemPRODUCT_IDChange(Sender: TField);
-var vPrice: variant;
 begin
-  if not Sender.IsNull then
+  if not (Sender.IsNull) then
   begin
-    qProduct.Open;
-    vPrice := qProduct.Lookup('ID', Sender.AsInteger, 'SALE_PRICE');
-    if not VarIsNull(vPrice) then
-    begin
-      qItemUNIT_PRICE.ReadOnly := False;
-      qItemUNIT_PRICE.AsFloat  := vPrice;
-      qItemUNIT_PRICE.ReadOnly := True;
-
-      if qItemQUANTITY.IsNull then qItemQUANTITY.AsFloat := 1;
-    end else begin
-      ShowMessage('Product not found!');
-      Sender.Clear;
-    end;
+    qProduct.Locate('ID', qItemPRODUCT_ID.AsInteger, []);
+    qItemUNIT_PRICE.Value      := qProductSALE_PRICE.Value;
+    qItemQUANTITY.AsFloat      := 1;
   end;
 end;
 
 procedure TfmSale.qItemQUANTITYChange(Sender: TField);
-var vTotal: variant;
 begin
-   if not Sender.IsNull then
-   begin
-     vTotal := qItemQUANTITY.AsFloat * qItemUNIT_PRICE.AsFloat;
-
-     qItemTOTAL_PRICE.ReadOnly := False;
-     qItemTOTAL_PRICE.AsFloat := vTotal;
-     qItemTOTAL_PRICE.ReadOnly := True;
-   end;
+  if not (Sender.IsNull) then
+  begin
+    qItemTOTAL_PRICE.AsFloat := qItemQUANTITY.AsFloat * qItemUNIT_PRICE.AsFloat;
+  end;
 end;
 
 function TfmSale.ReadOnly(bRead: Boolean): Boolean;
@@ -266,8 +251,16 @@ begin
   Enabled(sbNew);
   ReadOnly(False);
 
+  if qSales.State in [dsEdit, dsInsert] then qSales.Post;
+  if qItem.State in [dsEdit, dsInsert] then qItem.Post;
+
+  if qItem.ChangeCount > 0 then
+  begin
+    qItem.ApplyUpdates(0);
+    qItem.CommitUpdates;
+  end;
+
   ShowMessage('The sales have been saved!');
-  qSales.Post;
 end;
 
 procedure TfmSale.sbSearchCClick(Sender: TObject);

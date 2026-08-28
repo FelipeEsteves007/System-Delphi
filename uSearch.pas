@@ -72,7 +72,7 @@ begin
     qSearch.SQL.Text := sSearch;
     qSearch.Open;
   end;
-  if (sTitle = 'CUSTOMER') or (sTitle = 'SELLER') then
+  if (sTitle = 'CUSTOMER') then
   begin
     sbNew.Visible := false;
     sbDelete.Visible := false;
@@ -142,7 +142,8 @@ begin
     end else if (sTitle = 'BRAND') then
     begin
       qSearch.Connection.ExecSQL('INSERT INTO BRAND (NAME) VALUES (:P)',[Trim(edInsert.Text)]);
-    end else qSearch.Connection.ExecSQL('INSERT INTO ENTITY (NAME, ROLE_TYPE, ACTIVE) VALUES (:P, ''S'', ''Y'')',[Trim(edInsert.Text)]);
+    end else if (sTitle = 'SUPPLIER') then (qSearch.Connection.ExecSQL('INSERT INTO ENTITY (NAME, ROLE_TYPE, ACTIVE) VALUES (:P, ''S'', ''Y'')',[Trim(edInsert.Text)]))
+    else qSearch.Connection.ExecSQL('INSERT INTO ENTITY (NAME, ROLE_TYPE, ACTIVE) VALUES (:P, ''E'', ''Y'')',[Trim(edInsert.Text)]);
     qSearch.Close;
     qSearch.Open;
 

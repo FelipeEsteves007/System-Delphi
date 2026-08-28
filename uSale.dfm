@@ -437,6 +437,7 @@ object fmSale: TfmSale
       Top = 24
       Width = 377
       Height = 21
+      ReadOnly = True
       TabOrder = 5
     end
     object cbSaleType: TComboBox
@@ -1034,104 +1035,33 @@ object fmSale: TfmSale
     Top = 105
     Width = 1164
     Height = 570
-    Align = alClient
+    Align = alTop
     Color = clWhite
     ParentBackground = False
     TabOrder = 2
-    object dbGridItems: TDBGrid
-      Left = 1
-      Top = 1
-      Width = 1162
-      Height = 415
-      Align = alClient
-      DataSource = dsItem
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'Tahoma'
-      TitleFont.Style = []
-      Columns = <
-        item
-          Expanded = False
-          FieldName = 'PRODUCT_ID'
-          Title.Caption = 'Code product'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clNavy
-          Title.Font.Height = -12
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = [fsBold]
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'NameProduct'
-          ReadOnly = True
-          Title.Caption = 'Name'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clNavy
-          Title.Font.Height = -12
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = [fsBold]
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QUANTITY'
-          Title.Caption = 'Quantity'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clNavy
-          Title.Font.Height = -12
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = [fsBold]
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UNIT_PRICE'
-          Title.Caption = 'Unit price'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clNavy
-          Title.Font.Height = -12
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = [fsBold]
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TOTAL_PRICE'
-          Title.Caption = 'Total'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clNavy
-          Title.Font.Height = -12
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = [fsBold]
-          Visible = True
-        end>
-    end
     object Panel1: TPanel
       Left = 1
-      Top = 416
+      Top = 400
       Width = 1162
-      Height = 153
+      Height = 169
       Align = alBottom
       BevelOuter = bvNone
       BevelWidth = 2
       Color = 15132390
       ParentBackground = False
-      TabOrder = 1
+      TabOrder = 0
       object pnTotais: TPanel
-        Left = 953
+        Left = 900
         Top = 0
-        Width = 209
-        Height = 153
+        Width = 262
+        Height = 169
         Align = alRight
         BevelOuter = bvLowered
         Color = 13619151
         TabOrder = 0
         object lbDiscount: TLabel
-          Left = 9
-          Top = 19
+          Left = 17
+          Top = 11
           Width = 89
           Height = 19
           Caption = '% &Discount'
@@ -1143,7 +1073,7 @@ object fmSale: TfmSale
           ParentFont = False
         end
         object lbViDiscount: TLabel
-          Left = 9
+          Left = 17
           Top = 49
           Width = 92
           Height = 19
@@ -1155,73 +1085,89 @@ object fmSale: TfmSale
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object dbtTOTAL: TDBText
-          Left = 1
-          Top = 104
-          Width = 207
-          Height = 48
-          Align = alBottom
-          Alignment = taCenter
-          Color = clSilver
-          DataField = 'TOTAL'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clRed
-          Font.Height = -37
-          Font.Name = 'Impact'
-          Font.Style = []
-          ParentColor = False
-          ParentFont = False
-          Transparent = True
-          ExplicitTop = 103
-        end
         object lbSubTotal: TLabel
-          Left = 28
+          Left = 19
           Top = 80
-          Width = 68
-          Height = 19
+          Width = 84
+          Height = 24
           Caption = 'SubTotal'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clNavy
-          Font.Height = -16
+          Font.Height = -20
           Font.Name = 'Arial'
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object lbSub: TLabel
-          Left = 116
+        object dbtSubtotal: TDBText
+          Left = 131
           Top = 80
-          Width = 68
-          Height = 19
-          Caption = 'SubTotal'
+          Width = 123
+          Height = 24
+          Alignment = taCenter
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clNavy
-          Font.Height = -16
+          Font.Height = -20
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           ParentFont = False
         end
         object edDiscount: TEdit
-          Left = 112
-          Top = 14
-          Width = 89
+          Left = 128
+          Top = 9
+          Width = 129
           Height = 21
           Color = 13619151
           TabOrder = 0
         end
         object edViDiscount: TEdit
-          Left = 112
+          Left = 128
           Top = 46
-          Width = 89
+          Width = 129
           Height = 21
           Color = 13619151
           TabOrder = 1
+        end
+        object pnTotal: TPanel
+          Left = 1
+          Top = 110
+          Width = 260
+          Height = 58
+          Align = alBottom
+          BevelOuter = bvLowered
+          TabOrder = 2
+          object lbTotal: TLabel
+            Left = 19
+            Top = 10
+            Width = 89
+            Height = 44
+            Caption = 'TOTAL'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -36
+            Font.Name = 'Impact'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object dbtTotal: TDBText
+            Left = 136
+            Top = 11
+            Width = 123
+            Height = 43
+            Alignment = taCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -27
+            Font.Name = 'Impact'
+            Font.Style = []
+            ParentFont = False
+          end
         end
       end
       object dbGridInfo: TDBGrid
         Left = 0
         Top = 0
-        Width = 953
-        Height = 153
+        Width = 900
+        Height = 169
         Align = alClient
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
@@ -1231,8 +1177,88 @@ object fmSale: TfmSale
         TitleFont.Style = []
       end
     end
+    object dbGridItems: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 1162
+      Height = 399
+      Align = alClient
+      DataSource = dsItem
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'PRODUCT_ID'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Title.Caption = 'PRODUCT ID'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NAME_PRODUCT'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Title.Caption = 'PRODUCT NAME'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QUANTITY'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'UNIT_PRICE'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          Title.Caption = 'UNIT PRICE'
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clNavy
+          Title.Font.Height = -12
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Visible = True
+        end>
+    end
   end
   object qSales: TFDQuery
+    Active = True
+    MasterSource = dsProduct
     Connection = Tables.FDConnection
     SQL.Strings = (
       'select S.ID,'
@@ -1304,87 +1330,13 @@ object fmSale: TfmSale
     Left = 944
     Top = 56
   end
-  object qItem: TFDQuery
-    CachedUpdates = True
-    AggregatesActive = True
-    MasterSource = dsSales
-    MasterFields = 'ID'
-    DetailFields = 'SALE_ID'
-    Connection = Tables.FDConnection
-    FetchOptions.AssignedValues = [evCache]
-    FetchOptions.Cache = [fiBlobs, fiMeta]
-    SQL.Strings = (
-      'SELECT I.ID,'
-      '       I.SALE_ID,'
-      '       I.PRODUCT_ID,'
-      '       I.QUANTITY,'
-      '       I.UNIT_PRICE,'
-      '       I.TOTAL_PRICE'
-      'FROM ITEMS I'
-      'WHERE I.SALE_ID = :ID')
-    Left = 984
-    Top = 57
-    ParamData = <
-      item
-        Name = 'ID'
-        DataType = ftInteger
-        ParamType = ptInput
-        Value = Null
-      end>
-    object qItemID: TIntegerField
-      FieldName = 'ID'
-      Origin = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object qItemSALE_ID: TIntegerField
-      FieldName = 'SALE_ID'
-      Origin = 'SALE_ID'
-    end
-    object qItemPRODUCT_ID: TIntegerField
-      FieldName = 'PRODUCT_ID'
-      Origin = 'PRODUCT_ID'
-      Required = True
-      OnChange = qItemPRODUCT_IDChange
-    end
-    object qItemQUANTITY: TFMTBCDField
-      FieldName = 'QUANTITY'
-      Origin = 'QUANTITY'
-      Required = True
-      OnChange = qItemQUANTITYChange
-      Precision = 18
-      Size = 3
-    end
-    object qItemUNIT_PRICE: TFMTBCDField
-      FieldName = 'UNIT_PRICE'
-      Origin = 'UNIT_PRICE'
-      Required = True
-      Precision = 18
-      Size = 3
-    end
-    object qItemNameProduct: TStringField
-      FieldKind = fkLookup
-      FieldName = 'NameProduct'
-      LookupDataSet = qProduct
-      LookupKeyFields = 'ID'
-      LookupResultField = 'NAME'
-      KeyFields = 'PRODUCT_ID'
-      Size = 50
-      Lookup = True
-    end
-    object qItemTOTAL_PRICE: TFMTBCDField
-      FieldName = 'TOTAL_PRICE'
-      Origin = 'TOTAL_PRICE'
-      Required = True
-      Precision = 18
-      Size = 3
-    end
-  end
   object dsItem: TDataSource
     DataSet = qItem
     Left = 1016
     Top = 56
   end
   object qProduct: TFDQuery
+    Active = True
     Connection = Tables.FDConnection
     SQL.Strings = (
       'SELECT P.ID,'
@@ -1528,5 +1480,79 @@ object fmSale: TfmSale
     DataSet = qProduct
     Left = 857
     Top = 56
+  end
+  object qItem: TFDQuery
+    Active = True
+    DetailFields = 'ID'
+    Connection = Tables.FDConnection
+    FetchOptions.AssignedValues = [evCache]
+    FetchOptions.Cache = [fiBlobs, fiMeta]
+    SQL.Strings = (
+      'SELECT I.ID,'
+      '       I.SALE_ID,'
+      '       I.PRODUCT_ID,'
+      '       I.QUANTITY,'
+      '       I.UNIT_PRICE,'
+      '       I.TOTAL_PRICE'
+      'FROM ITEMS I'
+      'WHERE I.SALE_ID = :ID')
+    Left = 1072
+    Top = 57
+    ParamData = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = 1
+      end>
+    object qItemID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qItemSALE_ID: TIntegerField
+      FieldName = 'SALE_ID'
+      Origin = 'SALE_ID'
+      Required = True
+    end
+    object qItemPRODUCT_ID: TIntegerField
+      FieldName = 'PRODUCT_ID'
+      Origin = 'PRODUCT_ID'
+      Required = True
+      OnChange = qItemPRODUCT_IDChange
+    end
+    object qItemQUANTITY: TFMTBCDField
+      FieldName = 'QUANTITY'
+      Origin = 'QUANTITY'
+      Required = True
+      OnChange = qItemQUANTITYChange
+      Precision = 18
+      Size = 3
+    end
+    object qItemUNIT_PRICE: TFMTBCDField
+      FieldName = 'UNIT_PRICE'
+      Origin = 'UNIT_PRICE'
+      Required = True
+      Precision = 18
+      Size = 3
+    end
+    object qItemTOTAL_PRICE: TFMTBCDField
+      FieldName = 'TOTAL_PRICE'
+      Origin = 'TOTAL_PRICE'
+      Required = True
+      Precision = 18
+      Size = 3
+    end
+    object qItemNAME_PRODUCT: TStringField
+      FieldKind = fkLookup
+      FieldName = 'NAME_PRODUCT'
+      LookupDataSet = qProduct
+      LookupKeyFields = 'ID'
+      LookupResultField = 'NAME'
+      KeyFields = 'PRODUCT_ID'
+      Size = 60
+      Lookup = True
+    end
   end
 end
