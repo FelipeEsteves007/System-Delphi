@@ -32,6 +32,7 @@ object fmSale: TfmSale
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = -5
     object lcCode: TLabel
       Left = 16
       Top = 5
@@ -412,7 +413,7 @@ object fmSale: TfmSale
     end
     object cbCategory: TComboBox
       Left = 493
-      Top = 71
+      Top = 73
       Width = 201
       Height = 21
       Style = csDropDownList
@@ -736,7 +737,8 @@ object fmSale: TfmSale
         NumGlyphs = 2
         ParentFont = False
         OnClick = sbRecordClick
-        ExplicitHeight = 49
+        ExplicitLeft = 88
+        ExplicitTop = 5
       end
       object sbCancel: TSpeedButton
         Left = 162
@@ -868,8 +870,8 @@ object fmSale: TfmSale
         ParentShowHint = False
         ShowHint = False
         OnClick = sbCancelClick
-        ExplicitLeft = 182
-        ExplicitTop = -14
+        ExplicitLeft = 156
+        ExplicitTop = 5
       end
       object sbDelete: TSpeedButton
         Left = 242
@@ -1039,149 +1041,11 @@ object fmSale: TfmSale
     Color = clWhite
     ParentBackground = False
     TabOrder = 2
-    object Panel1: TPanel
-      Left = 1
-      Top = 400
-      Width = 1162
-      Height = 169
-      Align = alBottom
-      BevelOuter = bvNone
-      BevelWidth = 2
-      Color = 15132390
-      ParentBackground = False
-      TabOrder = 0
-      object pnTotais: TPanel
-        Left = 900
-        Top = 0
-        Width = 262
-        Height = 169
-        Align = alRight
-        BevelOuter = bvLowered
-        Color = 13619151
-        TabOrder = 0
-        object lbDiscount: TLabel
-          Left = 17
-          Top = 11
-          Width = 89
-          Height = 19
-          Caption = '% &Discount'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
-          Font.Height = -16
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object lbViDiscount: TLabel
-          Left = 17
-          Top = 49
-          Width = 92
-          Height = 19
-          Caption = 'Vl. Discount'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
-          Font.Height = -16
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object lbSubTotal: TLabel
-          Left = 19
-          Top = 80
-          Width = 84
-          Height = 24
-          Caption = 'SubTotal'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
-          Font.Height = -20
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object dbtSubtotal: TDBText
-          Left = 131
-          Top = 80
-          Width = 123
-          Height = 24
-          Alignment = taCenter
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
-          Font.Height = -20
-          Font.Name = 'Arial'
-          Font.Style = []
-          ParentFont = False
-        end
-        object edDiscount: TEdit
-          Left = 128
-          Top = 9
-          Width = 129
-          Height = 21
-          Color = 13619151
-          TabOrder = 0
-        end
-        object edViDiscount: TEdit
-          Left = 128
-          Top = 46
-          Width = 129
-          Height = 21
-          Color = 13619151
-          TabOrder = 1
-        end
-        object pnTotal: TPanel
-          Left = 1
-          Top = 110
-          Width = 260
-          Height = 58
-          Align = alBottom
-          BevelOuter = bvLowered
-          TabOrder = 2
-          object lbTotal: TLabel
-            Left = 19
-            Top = 10
-            Width = 89
-            Height = 44
-            Caption = 'TOTAL'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clRed
-            Font.Height = -36
-            Font.Name = 'Impact'
-            Font.Style = [fsBold]
-            ParentFont = False
-          end
-          object dbtTotal: TDBText
-            Left = 136
-            Top = 11
-            Width = 123
-            Height = 43
-            Alignment = taCenter
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clRed
-            Font.Height = -27
-            Font.Name = 'Impact'
-            Font.Style = []
-            ParentFont = False
-          end
-        end
-      end
-      object dbGridInfo: TDBGrid
-        Left = 0
-        Top = 0
-        Width = 900
-        Height = 169
-        Align = alClient
-        TabOrder = 1
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'Tahoma'
-        TitleFont.Style = []
-      end
-    end
     object dbGridItems: TDBGrid
       Left = 1
       Top = 1
       Width = 1162
-      Height = 399
+      Height = 380
       Align = alClient
       DataSource = dsItem
       TabOrder = 1
@@ -1190,6 +1054,7 @@ object fmSale: TfmSale
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnKeyDown = dbGridItemsKeyDown
       Columns = <
         item
           Expanded = False
@@ -1255,10 +1120,164 @@ object fmSale: TfmSale
           Visible = True
         end>
     end
+    object Panel1: TPanel
+      Left = 1
+      Top = 400
+      Width = 1162
+      Height = 169
+      Align = alBottom
+      BevelOuter = bvNone
+      BevelWidth = 2
+      Color = 15132390
+      ParentBackground = False
+      TabOrder = 0
+      object pnTotais: TPanel
+        Left = 900
+        Top = 0
+        Width = 262
+        Height = 169
+        Align = alRight
+        BevelOuter = bvLowered
+        Color = 13619151
+        TabOrder = 0
+        object lbDiscount: TLabel
+          Left = 17
+          Top = 11
+          Width = 89
+          Height = 19
+          Caption = '% &Discount'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbViDiscount: TLabel
+          Left = 17
+          Top = 49
+          Width = 92
+          Height = 19
+          Caption = 'Vl. Discount'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lbSubTotal: TLabel
+          Left = 19
+          Top = 80
+          Width = 84
+          Height = 24
+          Caption = 'SubTotal'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -20
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object dbtSubtotal: TDBText
+          Left = 131
+          Top = 80
+          Width = 123
+          Height = 24
+          Alignment = taCenter
+          DataField = 'SUBTOTAL'
+          DataSource = dsSales
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -20
+          Font.Name = 'Arial'
+          Font.Style = []
+          ParentFont = False
+        end
+        object edDiscount: TEdit
+          Left = 128
+          Top = 9
+          Width = 129
+          Height = 21
+          Color = 13619151
+          TabOrder = 0
+          OnExit = edDiscountExit
+        end
+        object edViDiscount: TEdit
+          Left = 128
+          Top = 46
+          Width = 129
+          Height = 21
+          Color = 13619151
+          TabOrder = 1
+        end
+        object pnTotal: TPanel
+          Left = 1
+          Top = 110
+          Width = 260
+          Height = 58
+          Align = alBottom
+          BevelOuter = bvLowered
+          TabOrder = 2
+          object lbTotal: TLabel
+            Left = 19
+            Top = 10
+            Width = 89
+            Height = 44
+            Caption = 'TOTAL'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -36
+            Font.Name = 'Impact'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object dbtTotal: TDBText
+            Left = 136
+            Top = 11
+            Width = 123
+            Height = 43
+            Alignment = taCenter
+            DataField = 'TOTAL'
+            DataSource = dsSales
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -27
+            Font.Name = 'Impact'
+            Font.Style = []
+            ParentFont = False
+          end
+        end
+      end
+      object dbGridInfo: TDBGrid
+        Left = 0
+        Top = 0
+        Width = 900
+        Height = 169
+        Align = alClient
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+      end
+    end
+    object stBar: TStatusBar
+      Left = 1
+      Top = 381
+      Width = 1162
+      Height = 19
+      Panels = <>
+      SimplePanel = True
+      SimpleText = 'DEL = Delete item    F9 = Search product'
+      ExplicitLeft = -2
+      ExplicitTop = 98
+    end
   end
   object qSales: TFDQuery
     Active = True
-    MasterSource = dsProduct
+    BeforePost = qSalesBeforePost
     Connection = Tables.FDConnection
     SQL.Strings = (
       'select S.ID,'
@@ -1269,9 +1288,10 @@ object fmSale: TfmSale
       '       S.TOTAL,'
       '       S.SALE_TYPE,'
       '       S.NATURE_OP,'
-      '       S.CATEGORY_SALE'
+      '       S.CATEGORY_SALE,'
+      '       S.SELLER_ID'
       'from SALES S  ')
-    Left = 904
+    Left = 1008
     Top = 57
     object qSalesID: TIntegerField
       AutoGenerateValue = arAutoInc
@@ -1282,7 +1302,6 @@ object fmSale: TfmSale
     object qSalesCUSTOMER_ID: TIntegerField
       FieldName = 'CUSTOMER_ID'
       Origin = 'CUSTOMER_ID'
-      Required = True
     end
     object qSalesSALE_DATE: TSQLTimeStampField
       FieldName = 'SALE_DATE'
@@ -1291,6 +1310,7 @@ object fmSale: TfmSale
     object qSalesSUBTOTAL: TFMTBCDField
       FieldName = 'SUBTOTAL'
       Origin = 'SUBTOTAL'
+      DisplayFormat = '$#,##0.00'
       Precision = 18
       Size = 3
     end
@@ -1303,36 +1323,38 @@ object fmSale: TfmSale
     object qSalesTOTAL: TFMTBCDField
       FieldName = 'TOTAL'
       Origin = 'TOTAL'
+      DisplayFormat = '$#,##0.00'
       Precision = 18
       Size = 3
     end
     object qSalesSALE_TYPE: TStringField
       FieldName = 'SALE_TYPE'
       Origin = 'SALE_TYPE'
-      Required = True
       Size = 1
     end
     object qSalesNATURE_OP: TStringField
       FieldName = 'NATURE_OP'
       Origin = 'NATURE_OP'
-      Required = True
       Size = 2
     end
     object qSalesCATEGORY_SALE: TStringField
       FieldName = 'CATEGORY_SALE'
       Origin = 'CATEGORY_SALE'
-      Required = True
       Size = 2
+    end
+    object qSalesSELLER_ID: TIntegerField
+      FieldName = 'SELLER_ID'
+      Origin = 'SELLER_ID'
     end
   end
   object dsSales: TDataSource
     DataSet = qSales
-    Left = 944
+    Left = 1048
     Top = 56
   end
   object dsItem: TDataSource
     DataSet = qItem
-    Left = 1016
+    Left = 1128
     Top = 56
   end
   object qProduct: TFDQuery
@@ -1365,7 +1387,7 @@ object fmSale: TfmSale
         '       (SELECT C.NAME FROM CATEGORY C WHERE C.ID = P.CATEGORY_ID' +
         ') AS CATEGORY'
       'FROM PRODUCT P  ')
-    Left = 808
+    Left = 928
     Top = 56
     object qProductID: TIntegerField
       AutoGenerateValue = arAutoInc
@@ -1478,15 +1500,18 @@ object fmSale: TfmSale
   end
   object dsProduct: TDataSource
     DataSet = qProduct
-    Left = 857
+    Left = 969
     Top = 56
   end
   object qItem: TFDQuery
     Active = True
+    AfterPost = qItemAfterPost
+    AfterDelete = qItemAfterDelete
+    OnNewRecord = qItemNewRecord
+    CachedUpdates = True
     DetailFields = 'ID'
     Connection = Tables.FDConnection
     FetchOptions.AssignedValues = [evCache]
-    FetchOptions.Cache = [fiBlobs, fiMeta]
     SQL.Strings = (
       'SELECT I.ID,'
       '       I.SALE_ID,'
@@ -1496,7 +1521,7 @@ object fmSale: TfmSale
       '       I.TOTAL_PRICE'
       'FROM ITEMS I'
       'WHERE I.SALE_ID = :ID')
-    Left = 1072
+    Left = 1088
     Top = 57
     ParamData = <
       item
@@ -1509,7 +1534,6 @@ object fmSale: TfmSale
       FieldName = 'ID'
       Origin = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
     end
     object qItemSALE_ID: TIntegerField
       FieldName = 'SALE_ID'

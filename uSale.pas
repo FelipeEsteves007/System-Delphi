@@ -90,6 +90,8 @@ type
     pnTotal: TPanel;
     dbtTotal: TDBText;
     dbtSubtotal: TDBText;
+    qSalesSELLER_ID: TIntegerField;
+    stBar: TStatusBar;
     procedure sbCloseClick(Sender: TObject);
     procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; var id: Integer);
     procedure sbSearchCClick(Sender: TObject);
@@ -103,9 +105,18 @@ type
     function ReadOnly(bRead: Boolean): Boolean;
     procedure qItemPRODUCT_IDChange(Sender: TField);
     procedure qItemQUANTITYChange(Sender: TField);
+    procedure qItemAfterPost(DataSet: TDataSet);
+    procedure qItemAfterDelete(DataSet: TDataSet);
+    procedure qItemNewRecord(DataSet: TDataSet);
+    procedure qSalesBeforePost(DataSet: TDataSet);
+    procedure dbGridItemsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Enabled(Sender: TObject);
+    procedure Total(Sender: TObject);
+    procedure edDiscountExit(Sender: TObject);
   private
     idCustomer, idSeller: Integer;
-    procedure Enabled(Sender: TObject);
+    vSubTotal, vTotal, vPercent, vDiscount: Double;
+
   public
   end;
 
@@ -117,6 +128,14 @@ implementation
 {$R *.dfm}
 
 uses uTables, uSearch, uUseful;
+
+procedure TfmSale.dbGridItemsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = VK_DELETE) then
+  begin
+    qItem.Delete;
+  end;
+end;
 
 procedure TfmSale.dtChange(Sender: TObject);
 begin
@@ -153,6 +172,21 @@ begin
   end;
 end;
 
+procedure TfmSale.qItemAfterDelete(DataSet: TDataSet);
+begin
+  Total(Self);
+end;
+
+procedure TfmSale.qItemAfterPost(DataSet: TDataSet);
+begin
+  Total(Self);
+end;
+
+procedure TfmSale.qItemNewRecord(DataSet: TDataSet);
+begin
+  qItemSALE_ID.AsInteger := qSalesID.AsInteger;
+end;
+
 procedure TfmSale.qItemPRODUCT_IDChange(Sender: TField);
 begin
   if not (Sender.IsNull) then
@@ -171,11 +205,37 @@ begin
   end;
 end;
 
+procedure TfmSale.qSalesBeforePost(DataSet: TDataSet);
+begin
+  if (cbNature.ItemIndex = 0) then qSalesNATURE_OP.AsString := 'PS'
+    else if (cbNature.ItemIndex = 1) then qSalesNATURE_OP.AsString := 'Q'
+    else if (cbNature.ItemIndex = 2) then qSalesNATURE_OP.AsString := 'R'
+    else qSalesNATURE_OP.AsString := 'C';
+
+  if (cbCategory.ItemIndex = 0) then qSalesCATEGORY_SALE.AsString := 'S'
+    else if (cbCategory.ItemIndex = 1) then qSalesCATEGORY_SALE.AsString := 'D'
+    else if (cbCategory.ItemIndex = 2) then qSalesCATEGORY_SALE.AsString := 'OD'
+    else qSalesCATEGORY_SALE.AsString := 'OS';
+
+  if (cbSaleType.ItemIndex = 0) then qSalesSALE_TYPE.AsString := 'R'
+    else if (cbSaleType.ItemIndex = 1) then qSalesSALE_TYPE.AsString := 'W'
+    else qSalesSALE_TYPE.AsString := 'I';
+
+  if (Trim(edCustomer.Text) <> '') then qSalesCUSTOMER_ID.AsInteger := idCustomer;
+  if (Trim(edSeller.Text) <> '')   then qSalesSELLER_ID.AsInteger   := idSeller;
+
+  if (Trim(qItemTOTAL_PRICE.AsString) <> '') then qSalesSUBTOTAL.AsFloat := vSubTotal;
+
+  qSalesSALE_DATE.AsDateTime := dt.Date;
+end;
+
 function TfmSale.ReadOnly(bRead: Boolean): Boolean;
 begin
   if (bRead)then
   begin
     edCustomer.Enabled   := True;
+    edDiscount.Enabled   := True;
+    edViDiscount.Enabled := True;
     edSeller.Enabled     := True;
     sbSearchC.Enabled    := True;
     sbSearchS.Enabled    := True;
@@ -186,6 +246,8 @@ begin
     cbSaleType.Enabled   := True;
   end else begin
     edCustomer.Enabled   := False;
+    edDiscount.Enabled   := False;
+    edViDiscount.Enabled := False;
     edSeller.Enabled     := False;
     sbSearchC.Enabled    := False;
     sbSearchS.Enabled    := False;
@@ -201,7 +263,14 @@ end;
 procedure TfmSale.sbCancelClick(Sender: TObject);
 begin
   qSales.Cancel;
+  qItem.CancelUpdates;
   Enabled(sbNew);
+  edCustomer.Clear;
+  edSeller.Clear;
+  cbNature.ItemIndex   := 1;
+  cbCategory.ItemIndex := 1;
+  cbSaleType.ItemIndex := 1;
+  ReadOnly(False);
 end;
 
 procedure TfmSale.sbCloseClick(Sender: TObject);
@@ -228,6 +297,7 @@ end;
 procedure TfmSale.sbNewClick(Sender: TObject);
 begin
   qSales.Append;
+  qItem.Append;
   Enabled(sbNew);
   ReadOnly(True);
 end;
@@ -282,10 +352,47 @@ begin
     sbCancel.Enabled := True;
     sbRecord.Enabled := True;
   end else begin
-    sbNew.Enabled := True;
+    sbNew.Enabled := True;        
     sbDelete.Enabled := True;
     sbCancel.Enabled := False;
     sbRecord.Enabled := False;
+  end;
+end;
+
+procedure TfmSale.Total(Sender: TObject);
+begin
+  vSubTotal := 0;
+
+  qItem.First;
+  while not qItem.Eof do
+  begin
+    vSubTotal := vSubTotal + qItemTOTAL_PRICE.AsFloat;
+    qItem.Next;
+  end;
+
+  if not (qSales.State in [dsEdit,dsInsert]) then qSales.Edit;
+
+  vTotal := vSubTotal;
+
+  if (Trim(edDiscount.Text) <> '') or (Trim(edViDiscount.Text) <> '') then
+  begin
+    vPercent  := StrToFloatDef(edDiscount.Text, 0);
+    vDiscount := vSubTotal * (vPercent / 100);
+    vTotal   :=  vTotal - vDiscount;
+  end;
+  edViDiscount.Text := FloatToStr(vDiscount);
+  qSalesTOTAL.AsFloat    := vTotal;
+  qSalesSUBTOTAL.AsFloat := vSubTotal;
+  qSalesDISCOUNT.AsFloat := vDiscount;
+end;
+
+procedure TfmSale.edDiscountExit(Sender: TObject);
+begin
+  if (vSubTotal > 0) then Total(Self)
+  else begin
+    ShowMessage('The sale is empty');
+    edDiscount.Clear;
+    Exit;
   end;
 end;
 
