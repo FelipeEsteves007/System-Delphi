@@ -3,7 +3,7 @@ unit uSearch;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.UITypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls;
 
@@ -36,6 +36,7 @@ type
     procedure sbNewClick(Sender: TObject);
     procedure sbCloseInClick(Sender: TObject);
     procedure sbOkInClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -62,6 +63,14 @@ begin
   end else qSearch.Filtered := False;
 end;
 
+procedure TfmSearch.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #13) then
+  begin
+    sbOkClick(Sender);
+  end;
+end;
+
 procedure TfmSearch.FormShow(Sender: TObject);
 begin
   pnInsert.Visible := false;
@@ -72,7 +81,7 @@ begin
     qSearch.SQL.Text := sSearch;
     qSearch.Open;
   end;
-  if (sTitle = 'CUSTOMER') then
+  if (sTitle = 'CUSTOMER') or (sTitle = 'PRODUCT') then
   begin
     sbNew.Visible := false;
     sbDelete.Visible := false;

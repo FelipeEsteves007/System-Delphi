@@ -45,7 +45,6 @@ type
     pnTotais: TPanel;
     lbDiscount: TLabel;
     lbViDiscount: TLabel;
-    dbGridInfo: TDBGrid;
     lbSubTotal: TLabel;
     edCustomer: TEdit;
     edSeller: TEdit;
@@ -92,6 +91,11 @@ type
     dbtSubtotal: TDBText;
     qSalesSELLER_ID: TIntegerField;
     stBar: TStatusBar;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
     procedure sbCloseClick(Sender: TObject);
     procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; var id: Integer);
     procedure sbSearchCClick(Sender: TObject);
@@ -113,8 +117,11 @@ type
     procedure Enabled(Sender: TObject);
     procedure Total(Sender: TObject);
     procedure edDiscountExit(Sender: TObject);
+    procedure edViDiscountExit(Sender: TObject);
+    procedure Percent(Sender: TObject);
+    procedure Discount(Sender: TObject);
   private
-    idCustomer, idSeller: Integer;
+    idCustomer, idSeller, idProduct: Integer;
     vSubTotal, vTotal, vPercent, vDiscount: Double;
 
   public
@@ -131,9 +138,19 @@ uses uTables, uSearch, uUseful;
 
 procedure TfmSale.dbGridItemsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (Key = VK_DELETE) then
+  if not dbGridItems.ReadOnly then
   begin
-    qItem.Delete;
+    if (Key = VK_DELETE) then
+    begin
+      if MessageDlg('Do you really want to delete this product?', mtConfirmation,[mbNo,mbYes], 0) = mrYes then
+      begin
+        qItem.Delete;
+      end;
+    end;
+    if (Key = VK_F9) then
+    begin
+      goSearch(Self, 'SELECT ID, NAME FROM PRODUCT', 'PRODUCT', NIl, idProduct);
+    end;
   end;
 end;
 
@@ -164,8 +181,14 @@ begin
     if fSearch.ShowModal = mrOk then
     begin
       inStateEdit(qSales);
-      id := fSearch.qSearch.Fields[0].AsInteger;
-      ed.Text := fSearch.qSearch.Fields[1].AsString;   
+      if (sTitle = 'PRODUCT') then
+      begin
+        if not (qItem.State in [dsEdit,dsInsert]) then qItem.Edit;
+        qItemPRODUCT_ID.AsInteger := fSearch.qSearch.Fields[0].AsInteger;
+      end else begin
+        id := fSearch.qSearch.Fields[0].AsInteger;
+        ed.Text := fSearch.qSearch.Fields[1].AsString;
+      end;
     end;
   finally
     FreeAndNil(fSearch);
@@ -267,6 +290,8 @@ begin
   Enabled(sbNew);
   edCustomer.Clear;
   edSeller.Clear;
+  edViDiscount.Clear;
+  edDiscount.Clear;
   cbNature.ItemIndex   := 1;
   cbCategory.ItemIndex := 1;
   cbSaleType.ItemIndex := 1;
@@ -372,15 +397,12 @@ begin
 
   if not (qSales.State in [dsEdit,dsInsert]) then qSales.Edit;
 
-  vTotal := vSubTotal;
+  Discount(Self);
+  Percent(Self);
 
-  if (Trim(edDiscount.Text) <> '') or (Trim(edViDiscount.Text) <> '') then
-  begin
-    vPercent  := StrToFloatDef(edDiscount.Text, 0);
-    vDiscount := vSubTotal * (vPercent / 100);
-    vTotal   :=  vTotal - vDiscount;
-  end;
-  edViDiscount.Text := FloatToStr(vDiscount);
+  vDiscount := StrToFloatDef(edViDiscount.Text, 0);
+  vTotal := vSubTotal;
+  vTotal   :=  vTotal - vDiscount;
   qSalesTOTAL.AsFloat    := vTotal;
   qSalesSUBTOTAL.AsFloat := vSubTotal;
   qSalesDISCOUNT.AsFloat := vDiscount;
@@ -388,12 +410,42 @@ end;
 
 procedure TfmSale.edDiscountExit(Sender: TObject);
 begin
-  if (vSubTotal > 0) then Total(Self)
-  else begin
+  if (vSubTotal > 0) then
+  begin
+    Discount(Self);
+    Total(Self);
+  end else begin
     ShowMessage('The sale is empty');
     edDiscount.Clear;
     Exit;
   end;
+end;
+
+procedure TfmSale.edViDiscountExit(Sender: TObject);
+begin
+  if (vSubTotal > 0) then
+  begin
+    Percent(Self);
+    Total(Self);
+  end else begin
+    ShowMessage('The sale is empty');
+    edViDiscount.Clear;
+    Exit;
+  end;
+end;
+
+procedure TfmSale.Percent(Sender: TObject);
+begin
+  vDiscount       := StrToFloatDef(edViDiscount.Text, 0);
+  vPercent        := (vDiscount / vSubTotal) * 100;
+  edDiscount.Text := FloatToStr(vPercent);
+end;
+
+procedure TfmSale.Discount(Sender: TObject);
+begin
+  vPercent          := StrToFloatDef(edDiscount.Text, 0);
+  vDiscount         := vSubTotal * (vPercent / 100);
+  edViDiscount.Text := FloatToStr(vDiscount);
 end;
 
 end.

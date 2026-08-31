@@ -32,7 +32,6 @@ object fmSale: TfmSale
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = -5
     object lcCode: TLabel
       Left = 16
       Top = 5
@@ -1198,18 +1197,31 @@ object fmSale: TfmSale
           Left = 128
           Top = 9
           Width = 129
-          Height = 21
+          Height = 22
           Color = 13619151
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
           TabOrder = 0
           OnExit = edDiscountExit
         end
         object edViDiscount: TEdit
           Left = 128
-          Top = 46
+          Top = 53
           Width = 129
-          Height = 21
+          Height = 22
           Color = 13619151
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
           TabOrder = 1
+          OnExit = edViDiscountExit
         end
         object pnTotal: TPanel
           Left = 1
@@ -1249,18 +1261,47 @@ object fmSale: TfmSale
           end
         end
       end
-      object dbGridInfo: TDBGrid
+      object PageControl1: TPageControl
         Left = 0
         Top = 0
         Width = 900
         Height = 169
+        ActivePage = TabSheet2
         Align = alClient
         TabOrder = 1
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'Tahoma'
-        TitleFont.Style = []
+        object TabSheet1: TTabSheet
+          Caption = 'Info'
+          object DBGrid1: TDBGrid
+            Left = 0
+            Top = 0
+            Width = 892
+            Height = 141
+            Align = alClient
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+          end
+        end
+        object TabSheet2: TTabSheet
+          Caption = 'Sales'
+          ImageIndex = 1
+          object DBGrid2: TDBGrid
+            Left = 0
+            Top = 0
+            Width = 892
+            Height = 141
+            Align = alClient
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+          end
+        end
       end
     end
     object stBar: TStatusBar
@@ -1271,8 +1312,6 @@ object fmSale: TfmSale
       Panels = <>
       SimplePanel = True
       SimpleText = 'DEL = Delete item    F9 = Search product'
-      ExplicitLeft = -2
-      ExplicitTop = 98
     end
   end
   object qSales: TFDQuery
