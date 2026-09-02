@@ -120,6 +120,7 @@ type
     procedure edViDiscountExit(Sender: TObject);
     procedure Percent(Sender: TObject);
     procedure Discount(Sender: TObject);
+    procedure qItemPRODUCT_IDValidate(Sender: TField);
   private
     idCustomer, idSeller, idProduct: Integer;
     vSubTotal, vTotal, vPercent, vDiscount: Double;
@@ -217,6 +218,21 @@ begin
     qProduct.Locate('ID', qItemPRODUCT_ID.AsInteger, []);
     qItemUNIT_PRICE.Value      := qProductSALE_PRICE.Value;
     qItemQUANTITY.AsFloat      := 1;
+  end;
+end;
+
+procedure TfmSale.qItemPRODUCT_IDValidate(Sender: TField);
+var iProduct: Integer;
+begin
+   if not (Sender.IsNull) then
+  begin
+    iProduct := qItem.Connection.ExecSQLScalar('SELECT COUNT(*) FROM PRODUCT WHERE ID = :ID', [Sender.AsInteger]); // return 1 line
+    if (iProduct = 0) then
+    begin
+      ShowMessage('Product not found! Please check the code.');
+      Sender.Clear;
+      Abort;
+    end;
   end;
 end;
 
@@ -385,14 +401,24 @@ begin
 end;
 
 procedure TfmSale.Total(Sender: TObject);
+var vBookMark: TBookmark;
 begin
   vSubTotal := 0;
 
-  qItem.First;
-  while not qItem.Eof do
-  begin
-    vSubTotal := vSubTotal + qItemTOTAL_PRICE.AsFloat;
-    qItem.Next;
+  qItem.DisableControls;
+  vBookMark := qItem.Bookmark;
+
+  try
+    qItem.First;
+    while not qItem.Eof do
+    begin
+      vSubTotal := vSubTotal + qItemTOTAL_PRICE.AsFloat;
+      qItem.Next;
+    end;
+  finally
+    if qItem.BookmarkValid(vBookMark) then qItem.GotoBookmark(vBookMark);
+    qItem.FreeBookmark(vBookMark);
+    qItem.EnableControls;
   end;
 
   if not (qSales.State in [dsEdit,dsInsert]) then qSales.Edit;

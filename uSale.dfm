@@ -1110,6 +1110,7 @@ object fmSale: TfmSale
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
+          ReadOnly = True
           Title.Caption = 'UNIT PRICE'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clNavy
@@ -1179,9 +1180,9 @@ object fmSale: TfmSale
           ParentFont = False
         end
         object dbtSubtotal: TDBText
-          Left = 131
+          Left = 128
           Top = 80
-          Width = 123
+          Width = 129
           Height = 24
           Alignment = taCenter
           DataField = 'SUBTOTAL'
@@ -1245,10 +1246,10 @@ object fmSale: TfmSale
             ParentFont = False
           end
           object dbtTotal: TDBText
-            Left = 136
-            Top = 11
-            Width = 123
-            Height = 43
+            Left = 127
+            Top = 14
+            Width = 131
+            Height = 40
             Alignment = taCenter
             DataField = 'TOTAL'
             DataSource = dsSales
@@ -1266,7 +1267,7 @@ object fmSale: TfmSale
         Top = 0
         Width = 900
         Height = 169
-        ActivePage = TabSheet2
+        ActivePage = TabSheet1
         Align = alClient
         TabOrder = 1
         object TabSheet1: TTabSheet
@@ -1584,6 +1585,7 @@ object fmSale: TfmSale
       Origin = 'PRODUCT_ID'
       Required = True
       OnChange = qItemPRODUCT_IDChange
+      OnValidate = qItemPRODUCT_IDValidate
     end
     object qItemQUANTITY: TFMTBCDField
       FieldName = 'QUANTITY'
