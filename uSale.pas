@@ -91,10 +91,10 @@ type
     dbtSubtotal: TDBText;
     qSalesSELLER_ID: TIntegerField;
     stBar: TStatusBar;
-    PageControl1: TPageControl;
+    PageControl: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
-    DBGrid1: TDBGrid;
+    dbGridInstallment: TDBGrid;
     DBGrid2: TDBGrid;
     procedure sbCloseClick(Sender: TObject);
     procedure goSearch(Sender: TObject; sSQL, sNameT: String; ed: TEdit; var id: Integer);
@@ -162,7 +162,6 @@ begin
     ShowMessage('The registration date cannot be in the future!');   
     dt.Date := Date;
   end;
-  inStateEdit(qSales);
 end;
 
 procedure TfmSale.FormShow(Sender: TObject);
@@ -341,6 +340,11 @@ begin
   qItem.Append;
   Enabled(sbNew);
   ReadOnly(True);
+
+  vSubTotal := 0;
+  vTotal    := 0;
+  vPercent  := 0;
+  vDiscount := 0;
 end;
 
 procedure TfmSale.sbRecordClick(Sender: TObject);
@@ -423,12 +427,14 @@ begin
 
   if not (qSales.State in [dsEdit,dsInsert]) then qSales.Edit;
 
-  Discount(Self);
-  Percent(Self);
+  if vSubTotal > 0 then vPercent := (vDiscount / vSubTotal) * 100
+    else vPercent := 0;
 
-  vDiscount := StrToFloatDef(edViDiscount.Text, 0);
-  vTotal := vSubTotal;
-  vTotal   :=  vTotal - vDiscount;
+  edViDiscount.Text := FormatFloat('0.00', vDiscount);
+  edDiscount.Text   := FormatFloat('0.00', vPercent);
+
+  vTotal                 := vSubTotal;
+  vTotal                 := vTotal - vDiscount;
   qSalesTOTAL.AsFloat    := vTotal;
   qSalesSUBTOTAL.AsFloat := vSubTotal;
   qSalesDISCOUNT.AsFloat := vDiscount;
@@ -464,14 +470,14 @@ procedure TfmSale.Percent(Sender: TObject);
 begin
   vDiscount       := StrToFloatDef(edViDiscount.Text, 0);
   vPercent        := (vDiscount / vSubTotal) * 100;
-  edDiscount.Text := FloatToStr(vPercent);
+  edDiscount.Text := FormatFloat('0.00', vPercent);
 end;
 
 procedure TfmSale.Discount(Sender: TObject);
 begin
   vPercent          := StrToFloatDef(edDiscount.Text, 0);
   vDiscount         := vSubTotal * (vPercent / 100);
-  edViDiscount.Text := FloatToStr(vDiscount);
+  edViDiscount.Text := FormatFloat('0.00', vDiscount);
 end;
 
 end.

@@ -21,7 +21,6 @@ interface
    PRODUCTSALE   - PS
    QUOTE         - Q
    RETURN        - R
-   COMPLIMENTARY - C
 
    CATEGORY SALE
    IN-STORE     - S

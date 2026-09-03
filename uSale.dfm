@@ -407,12 +407,11 @@ object fmSale: TfmSale
       Items.Strings = (
         'Product Sale'
         'Quote'
-        'Return'
-        'Complimentary')
+        'Return')
     end
     object cbCategory: TComboBox
       Left = 493
-      Top = 73
+      Top = 71
       Width = 201
       Height = 21
       Style = csDropDownList
@@ -1155,7 +1154,7 @@ object fmSale: TfmSale
         end
         object lbViDiscount: TLabel
           Left = 17
-          Top = 49
+          Top = 45
           Width = 92
           Height = 19
           Caption = 'Vl. Discount'
@@ -1167,8 +1166,8 @@ object fmSale: TfmSale
           ParentFont = False
         end
         object lbSubTotal: TLabel
-          Left = 19
-          Top = 80
+          Left = 20
+          Top = 78
           Width = 84
           Height = 24
           Caption = 'SubTotal'
@@ -1181,7 +1180,7 @@ object fmSale: TfmSale
         end
         object dbtSubtotal: TDBText
           Left = 128
-          Top = 80
+          Top = 76
           Width = 129
           Height = 24
           Alignment = taCenter
@@ -1196,30 +1195,32 @@ object fmSale: TfmSale
         end
         object edDiscount: TEdit
           Left = 128
-          Top = 9
+          Top = 6
           Width = 129
           Height = 22
+          Alignment = taRightJustify
           Color = 13619151
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
+          Font.Style = []
           ParentFont = False
           TabOrder = 0
           OnExit = edDiscountExit
         end
         object edViDiscount: TEdit
           Left = 128
-          Top = 53
+          Top = 45
           Width = 129
           Height = 22
+          Alignment = taRightJustify
           Color = 13619151
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -12
           Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
+          Font.Style = []
           ParentFont = False
           TabOrder = 1
           OnExit = edViDiscountExit
@@ -1262,7 +1263,7 @@ object fmSale: TfmSale
           end
         end
       end
-      object PageControl1: TPageControl
+      object PageControl: TPageControl
         Left = 0
         Top = 0
         Width = 900
@@ -1271,8 +1272,8 @@ object fmSale: TfmSale
         Align = alClient
         TabOrder = 1
         object TabSheet1: TTabSheet
-          Caption = 'Info'
-          object DBGrid1: TDBGrid
+          Caption = 'Installment'
+          object dbGridInstallment: TDBGrid
             Left = 0
             Top = 0
             Width = 892
